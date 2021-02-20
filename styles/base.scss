@@ -1,0 +1,33 @@
+// Colors
+$color-scheme-1: #3c91e6;
+$color-scheme-2: #342e37;
+$color-scheme-3: #a2d729;
+$color-scheme-4: #fafffd;
+$color-scheme-5: #fa824c;
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+html {
+  box-sizing: border-box;
+  font-size: 62.5%;
+  scroll-behavior: smooth;
+}
+
+html,
+body {
+  overflow-x: hidden;
+}
+
+body {
+  font-family: 'Helvetica';
+  font-weight: 200 !important;
+  font-style: normal;
+  color: black;
+  line-height: 1.6;
+}

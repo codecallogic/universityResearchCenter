@@ -1,0 +1,29 @@
+.nav-menu-dropdown {
+  list-style: none;
+  position: absolute;
+  margin-top: 1rem;
+  padding: 0.5rem 0;
+  left: 0;
+  min-width: max-content;
+  height: max-content;
+  background-color: $color-scheme-1;
+  visibility: hidden;
+  opacity: 0;
+  transition: all 0.8s cubic-bezier(0.81, 0.13, 0.93, 1.21);
+
+  li {
+    padding: 0 1rem;
+  }
+
+  li:hover {
+    background-color: $color-scheme-3;
+  }
+}
+
+.nav-sticky {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 8rem;
+  background-image: linear-gradient(90deg, $color-scheme-1, $color-scheme-2);
+}
