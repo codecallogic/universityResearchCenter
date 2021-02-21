@@ -74,6 +74,8 @@ const withAdmin = Page => {
       }
     }
 
+    console.log(message)
+
     return {
       ...(Page.getInitialProps ? await Page.getInitialProps(context) : {}),
       authorization,

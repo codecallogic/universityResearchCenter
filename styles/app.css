@@ -36,6 +36,14 @@ body {
     -webkit-transform: translateY(-12px);
     transform: translateY(-12px); } }
 
+@keyframes slide {
+  0% {
+    transform: translateY(100%);
+    opacity: 0; }
+  100% {
+    transform: translateY(0);
+    opacity: 1; } }
+
 .form-group {
   display: flex;
   align-items: center; }
@@ -159,3 +167,132 @@ body {
     .activate-button img {
       width: 3rem;
       height: 3rem; }
+
+.admin {
+  background-image: linear-gradient(40deg, #3c91e6, #342e37);
+  height: 100vh;
+  display: grid;
+  grid-template-columns: [full-start] minmax(min-content, 1fr) [center-start] repeat(8, [col-start] minmax(min-content, 1fr) [col-end]) [center-end] minmax(min-content, 1fr) [full-end];
+  grid-template-rows: 1fr; }
+  .admin-side {
+    grid-column: full-start / col-start 6;
+    position: relative;
+    background-image: radial-gradient(ellipse at top, var(--color-secondary), transparent), radial-gradient(ellipse at bottom, var(--color-primary), transparent); }
+    .admin-side-background {
+      position: absolute;
+      box-sizing: content-box;
+      background-position: 40% 0%;
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      object-fit: fill; }
+  .admin-form {
+    grid-column: col-start 6 / full-end;
+    height: 100%;
+    padding: 5rem 8rem 8rem 5rem;
+    background-color: white;
+    color: var(--color-dark-contrast); }
+    .admin-form-heading {
+      font-size: 5rem;
+      padding: 1rem 0;
+      font-weight: 900;
+      color: var(--color-primary); }
+    .admin-form-subheading {
+      width: 70%;
+      font-size: 1.6rem;
+      padding: 1rem 0;
+      font-weight: 500;
+      position: relative; }
+      .admin-form-subheading:before {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        width: 25%;
+        border-bottom: 0.1rem solid black; }
+      .admin-form-subheading:after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: 15%;
+        width: 25%;
+        border-bottom: 0.1rem solid black; }
+    .admin-form-container {
+      display: grid;
+      grid-template-columns: 100%; }
+    .admin-form-group label {
+      display: block;
+      background-color: transparent;
+      font-size: 2rem;
+      font-weight: 300;
+      padding: 1.5rem 0 0.5rem 0;
+      margin: 1rem 0; }
+    .admin-form-group input {
+      width: 100%;
+      padding: 1rem 0.5rem;
+      transition: all 0.2s ease-in-out;
+      font-size: 1.8rem;
+      text-indent: 1rem;
+      border: 0.1rem solid #dfdfdf;
+      outline: none; }
+      .admin-form-group input:focus {
+        outline: none;
+        border: 0.1rem solid #3c91e6;
+        text-indent: 1rem; }
+    .admin-form-group-password {
+      display: flex;
+      justify-content: space-between;
+      align-items: center; }
+      .admin-form-group-password label {
+        display: block;
+        background-color: transparent;
+        font-size: 2rem;
+        font-weight: 300;
+        padding: 0.5rem 0;
+        margin: 1rem 0; }
+      .admin-form-group-password span {
+        display: flex;
+        align-items: center;
+        margin-right: 1rem;
+        font-size: 1.6rem;
+        cursor: pointer;
+        animation-name: slide;
+        animation-duration: 0.5s; }
+        .admin-form-group-password span svg {
+          width: 2rem;
+          height: 2rem;
+          fill: #3c91e6;
+          margin-right: 2rem; }
+    .admin-form-group-validation-username ul {
+      list-style: none;
+      font-size: 1.6rem;
+      padding: 0.5rem 0 0 0; }
+    .admin-form-group-validation-username ul li::before {
+      content: '\2022';
+      color: #3c91e6;
+      font-weight: bold;
+      display: inline-block;
+      width: 1rem;
+      margin-left: 0.5rem; }
+    .admin-form-group-validation-password ul {
+      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      font-size: 1.6rem;
+      padding: 1rem 0; }
+    .admin-form-group-validation-password ul li::before {
+      content: '\2022';
+      color: #3c91e6;
+      font-weight: bold;
+      display: inline-block;
+      width: 1rem;
+      margin-left: 0.5rem; }
+    .admin-form-button {
+      background-color: #342e37;
+      padding: 1rem 4rem;
+      font-size: 1.8rem;
+      margin-top: 2rem;
+      color: white;
+      border: none; }
+      .admin-form-button:hover {
+        cursor: pointer;
+        background-color: #342e37; }

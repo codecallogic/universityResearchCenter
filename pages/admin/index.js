@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react'
 import withAdmin from '../withAdmin'
 import {useRouter} from 'next/router'
 
-// TODO: Create front end protected url routes using SSR
+// TODO: Create front end protected url routes using SSR for Admin
 
 const Dashboard = ({loggedIn, message}) => {
   
