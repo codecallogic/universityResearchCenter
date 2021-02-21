@@ -28,8 +28,7 @@ const Activate = ({router}) => {
     try {
       const response = await axios.post(`${API}/register/activate`, {token}, {withCredentials: true})
       console.log(response)
-      // console.log(loggedIn)
-      // router.push('/admin')
+      router.push('/admin')
     } catch (error) {
       console.log(error.response.data)
     }

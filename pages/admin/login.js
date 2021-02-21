@@ -3,7 +3,7 @@ const adminLogin = ({}) => {
   
   return (
     <div>
-      Hello
+      Admin Login
     </div>
   )
 }
