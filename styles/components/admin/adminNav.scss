@@ -1,0 +1,22 @@
+.adminNav {
+  grid-column: 1/-1;
+  padding: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  &-container {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    background-image: linear-gradient(90deg, $color-scheme-1, $color-scheme-2);
+    color: white;
+
+    &:hover {
+      background-image: linear-gradient(
+        90deg,
+        $color-scheme-1,
+        $color-scheme-2
+      );
+    }
+  }
+}

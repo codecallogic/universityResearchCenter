@@ -1,0 +1,13 @@
+.form {
+  &-errorMessage {
+    font-size: 1.6rem;
+    padding: 2rem 0;
+    color: $color-scheme-5;
+  }
+
+  &-successMessage {
+    font-size: 1.6rem;
+    padding: 2rem 0;
+    color: $color-scheme-2;
+  }
+}

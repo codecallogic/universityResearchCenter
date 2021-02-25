@@ -1,16 +1,18 @@
 // Base
 @import './base.scss';
 
-// Animations
-@import './helpers/animations.scss';
-
 // Helpers
+@import './helpers/animations.scss';
 @import './helpers/search.scss';
 @import './helpers/nav.scss';
+@import './helpers/buttons.scss';
+@import './helpers/form.scss';
 
 // Components
 @import './components/nav.scss';
 @import './components/auth/activate.scss';
+@import './components/admin/adminNav.scss';
 
 // Pages
 @import './admin/login.scss';
+@import './admin/dashboard.scss';

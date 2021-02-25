@@ -84,7 +84,9 @@ body {
   .nav-menu-dropdown li {
     padding: 0 1rem; }
   .nav-menu-dropdown li:hover {
-    background-color: #a2d729; }
+    cursor: pointer;
+    background-color: #a2d729;
+    pointer-events: auto; }
 
 .nav-sticky {
   position: fixed;
@@ -92,6 +94,39 @@ body {
   right: 0;
   height: 8rem;
   background-image: linear-gradient(90deg, #3c91e6, #342e37); }
+
+.active-control {
+  background-color: white !important;
+  border: 0.1rem solid #342e37 !important;
+  color: #342e37 !important; }
+  .active-control:hover {
+    cursor: auto !important;
+    box-shadow: none !important; }
+
+.submit-announcement {
+  padding: 1rem 2rem;
+  background-color: #a2d729;
+  outline: none;
+  border: 0.1rem solid #a2d729;
+  margin: 1rem 0;
+  color: white;
+  font-size: 1.6rem;
+  transition: all 0.2s ease-in; }
+  .submit-announcement:hover {
+    cursor: pointer;
+    border: 0.1rem solid #342e37;
+    background-color: white !important;
+    color: #342e37; }
+
+.form-errorMessage {
+  font-size: 1.6rem;
+  padding: 2rem 0;
+  color: #fa824c; }
+
+.form-successMessage {
+  font-size: 1.6rem;
+  padding: 2rem 0;
+  color: #342e37; }
 
 .nav {
   grid-column: 1/-1;
@@ -167,6 +202,20 @@ body {
     .activate-button img {
       width: 3rem;
       height: 3rem; }
+
+.adminNav {
+  grid-column: 1/-1;
+  padding: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between; }
+  .adminNav-container {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    background-image: linear-gradient(90deg, #3c91e6, #342e37);
+    color: white; }
+    .adminNav-container:hover {
+      background-image: linear-gradient(90deg, #3c91e6, #342e37); }
 
 .admin {
   background-image: linear-gradient(40deg, #3c91e6, #342e37);
@@ -287,12 +336,99 @@ body {
       width: 1rem;
       margin-left: 0.5rem; }
     .admin-form-button {
-      background-color: #342e37;
+      background-image: linear-gradient(90deg, #3c91e6, #342e37);
       padding: 1rem 4rem;
       font-size: 1.8rem;
       margin-top: 2rem;
       color: white;
-      border: none; }
+      border: none;
+      transition: all 1s; }
       .admin-form-button:hover {
         cursor: pointer;
-        background-color: #342e37; }
+        box-shadow: 0rem 0rem 3rem 0.2rem rgba(0, 0, 0, 0.3);
+        outline: none; }
+
+.dashboard {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  padding: 1rem 0;
+  height: 100vh; }
+  .dashboard-control {
+    padding: 1rem 3rem;
+    background-color: #342e37;
+    font-size: 1.6rem;
+    color: #fafffd;
+    border-radius: 1rem;
+    transition: all 0.5s ease-in; }
+    .dashboard-control:hover {
+      cursor: pointer;
+      box-shadow: 0.3rem 0.8rem 2rem 0.4rem rgba(7, 7, 7, 0.2); }
+  .dashboard-left-panel {
+    grid-column: 1/6;
+    border-right: 0.1rem solid #fa824c;
+    padding: 0 5rem 3rem 5rem;
+    width: 100%; }
+    .dashboard-left-panel-title {
+      padding: 2rem 0;
+      font-size: 2.5rem; }
+    .dashboard-left-panel-group {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-gap: 3rem;
+      border: 0.1rem solid #fa824c;
+      padding: 2rem;
+      border-radius: 1rem; }
+  .dashboard-right-panel {
+    grid-column: 6/-1;
+    padding: 2rem 5rem 3rem 5rem;
+    width: 100%; }
+    .dashboard-right-panel-toggle {
+      padding: 1rem 3rem;
+      background-color: #342e37;
+      color: #fafffd;
+      width: max-content;
+      font-size: 1.8rem;
+      transition: all 0.5s ease-in; }
+      .dashboard-right-panel-toggle:hover {
+        cursor: pointer;
+        box-shadow: 0.3rem 0.8rem 2rem 0.4rem rgba(7, 7, 7, 0.2); }
+  .dashboard-form {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); }
+    .dashboard-form-group-double {
+      padding: 1.5rem 0 0 0;
+      margin-right: 2rem; }
+      .dashboard-form-group-double label {
+        display: block;
+        font-size: 1.8rem;
+        padding: 0.5rem 0; }
+      .dashboard-form-group-double input {
+        padding: 0.8rem 0;
+        width: 100%;
+        font-size: 1.4rem;
+        text-indent: 1rem;
+        border: 0.1rem solid #a1a1a1;
+        transition: all 0.5s; }
+        .dashboard-form-group-double input:focus {
+          outline: none;
+          border: 0.1rem solid #fa824c; }
+    .dashboard-form-group-single {
+      padding: 1.5rem 0 0 0;
+      margin-right: 2rem;
+      grid-column: 1/-1; }
+      .dashboard-form-group-single label {
+        display: block;
+        font-size: 1.8rem;
+        padding: 0.5rem 0; }
+      .dashboard-form-group-single input {
+        padding: 0.8rem 0;
+        width: 100%;
+        font-size: 1.4rem;
+        text-indent: 1rem;
+        border: 0.1rem solid #a1a1a1;
+        transition: all 0.5s; }
+        .dashboard-form-group-single input:focus {
+          outline: none;
+          border: 0.1rem solid #fa824c; }
+      .dashboard-form-group-single-quill {
+        color: black !important; }

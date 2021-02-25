@@ -20,37 +20,6 @@ const withAdmin = Page => {
       accessToken = token.split('=')[1]
     }
 
-    // if(accessToken){
-    //     try {
-    //       const response = await axios.get(`${API}/admin`, {
-    //           headers: {
-    //               Authorization: `Bearer ${accessToken}`,
-    //               contentType: `application/json`
-    //           }
-    //       })
-          
-    //       account = user.split('=')[1]
-    //       loggedIn = true
-    //       authorization = accessToken
-
-    //     } catch(err){
-    //       console.log(err)
-    //       if(err.response.status == 401){
-    //         account = null
-    //         loggedIn = false
-    //         authorization = null
-    //       }
-
-    //     }
-    // }
-    
-    // return {
-    //   ...(Page.getInitialProps ? await Page.getInitialProps(context) : {}),
-    //   authorization,
-    //   account,
-    //   loggedIn
-    // }
-
     try {
       const response = await axios.get(`${API}/admin`, {
           headers: {

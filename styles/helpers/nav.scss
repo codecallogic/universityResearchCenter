@@ -16,7 +16,9 @@
   }
 
   li:hover {
+    cursor: pointer;
     background-color: $color-scheme-3;
+    pointer-events: auto;
   }
 }
 
