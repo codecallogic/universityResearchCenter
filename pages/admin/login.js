@@ -4,7 +4,7 @@ import axios from 'axios'
 import {API} from '../../config'
 import {useRouter} from 'next/router'
 
-const adminLogin = ({loggedIn}) => {
+const adminLogin = () => {
 
   const router = useRouter();
 
@@ -18,10 +18,6 @@ const adminLogin = ({loggedIn}) => {
     error: null,
     success: null
   })
-
-  useEffect( () => {
-    if(loggedIn) router.push('/')
-  }, [loggedIn])
 
   const {loginCred, password, code} = user
   const [toggle, setToggle] = useState({showToggle: false})
@@ -45,13 +41,14 @@ const adminLogin = ({loggedIn}) => {
       const response = await axios.post(`${API}/admin/login`, {loginCred, password, code})
       window.location.href = '/admin'
     } catch (error) {
+      console.log(error)
       if(error.response.data) setMessage({...messages, error: error.response.data})
     }
   }
   
   return (
     <div>
-    {!loggedIn && <div className="admin">
+    <div className="admin">
       <div className="admin-side">
         <div className="admin-side-background" style={{backgroundImage: "url(" + `https://images.unsplash.com/photo-1519452635265-7b1fbfd1e4e0?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1234&q=80` + ")"}}></div>
       </div>
@@ -102,12 +99,11 @@ const adminLogin = ({loggedIn}) => {
               <button type="submit" className="admin-form-button">Login</button>
           </div>
         </form>
-        {error !== null && <div className="form-errorhandling">{error}</div>}
+        {error !== null && <div className="form-errorMessage">{error}</div>}
       </div>
     </div>
-    }
     </div>
   )
 }
 
-export default withAdmin(adminLogin)
+export default adminLogin

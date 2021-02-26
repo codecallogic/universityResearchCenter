@@ -26,10 +26,6 @@ const Dashboard = ({loggedIn, account, authorization}) => {
   const {title, subtitle, imageURL, imageDescr, message} = announcement
   const [errorMessage, setErrorMessage] = useState(null)
   const [successMessage, setSuccessMessage] = useState(null)
-  
-  useEffect( () => {
-    if(!loggedIn) router.push('/admin/login')
-  }, [loggedIn])
 
   // Handle announcement form
   const handleChange = (e) => {
@@ -49,7 +45,7 @@ const Dashboard = ({loggedIn, account, authorization}) => {
   const createAnnouncement = async (e) => {
     e.preventDefault()
     try {
-      const response = await axios.post(`${API}/admin/announcement/create`, {announcement}, {
+      const response = await axios.post(`${API}/announcement/create`, {announcement}, {
         headers: {
           Authorization: `Bearer ${authorization}`,
           contentType: `application/json`
@@ -61,6 +57,10 @@ const Dashboard = ({loggedIn, account, authorization}) => {
     } catch (error) {
       setErrorMessage(error.response.error)
     } 
+  }
+
+  const viewAll = () => {
+    if(form == 'announcements') window.location.href = `/admin/view/${form}`
   }
   
   return (
@@ -81,7 +81,7 @@ const Dashboard = ({loggedIn, account, authorization}) => {
           </div>
           {form === 'announcements' &&
           <div className="dashboard-right-panel">
-            <div className="dashboard-right-panel-toggle">View All</div>
+            <div className="dashboard-right-panel-toggle" onClick={viewAll}>View All</div>
             <form className="dashboard-form" action="POST" onSubmit={createAnnouncement}>
               <div className="dashboard-form-group-single">
                 <label htmlFor="title">Title</label>

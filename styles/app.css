@@ -128,6 +128,59 @@ body {
   padding: 2rem 0;
   color: #342e37; }
 
+.checkbox {
+  display: grid;
+  grid-template-columns: min-content auto;
+  grid-gap: 0.5em;
+  align-items: center;
+  font-size: 2rem;
+  color: var(--color-primary);
+  padding: 1rem 1rem;
+  position: relative; }
+  .checkbox:before {
+    content: '';
+    position: absolute;
+    width: 24px;
+    top: 80%;
+    left: 50%;
+    transition: all 0.25s; }
+  .checkbox:hover:before {
+    width: 95%;
+    top: 100%;
+    left: 5%;
+    color: red; }
+
+.checkbox-control {
+  display: inline-grid;
+  width: 2.2rem;
+  height: 2.2rem;
+  border: 0.15rem solid currentColor; }
+  .checkbox-control svg {
+    transition: transform 0.1s ease-in 25ms;
+    transform: scale(0);
+    transform-origin: bottom left; }
+
+.checkbox-input {
+  display: grid;
+  grid-template-areas: 'checkbox'; }
+  .checkbox-input > * {
+    grid-area: checkbox; }
+  .checkbox-input input {
+    opacity: 0;
+    width: 1rem;
+    height: 1rem; }
+    .checkbox-input input:hover {
+      cursor: pointer; }
+    .checkbox-input input:focus + .checkbox-control {
+      box-shadow: 0 0 0 0.05em #fff, 0 0 0.15em 0.1em currentColor; }
+    .checkbox-input input:checked + .checkbox-control svg {
+      transform: scale(1); }
+    .checkbox-input input:disabled + .checkbox-control {
+      color: var(--disabled); }
+
+.editing {
+  animation: flip-with-rotate 1s; }
+
 .nav {
   grid-column: 1/-1;
   padding: 3rem;
@@ -432,3 +485,9 @@ body {
           border: 0.1rem solid #fa824c; }
       .dashboard-form-group-single-quill {
         color: black !important; }
+
+.announcements {
+  padding: 5rem 10rem; }
+  .announcements-header {
+    font-size: 1.8rem;
+    font-weight: 200; }

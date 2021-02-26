@@ -42,15 +42,20 @@ const withAdmin = Page => {
         authorization = null
       }
     }
-
-    console.log(message)
-
-    return {
-      ...(Page.getInitialProps ? await Page.getInitialProps(context) : {}),
-      authorization,
-      account,
-      loggedIn,
-      message
+  
+    if(account === null){
+      context.res.writeHead(302, {
+        Location: '/admin/login'
+      });
+      context.res.end();
+    }else{
+      return {
+        ...(Page.getInitialProps ? await Page.getInitialProps(context) : {}),
+        authorization,
+        account,
+        loggedIn,
+        message
+      }
     }
   }
 
