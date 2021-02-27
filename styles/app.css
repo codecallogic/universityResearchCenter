@@ -489,5 +489,80 @@ body {
 .announcements {
   padding: 5rem 10rem; }
   .announcements-header {
-    font-size: 1.8rem;
+    font-size: 2.2rem;
     font-weight: 200; }
+  .announcements-table-headers {
+    display: grid;
+    grid-template-columns: max-content repeat(8, minmax(10rem, 1fr));
+    align-items: center;
+    padding: 2rem 0; }
+    .announcements-table-headers-heading {
+      display: flex;
+      align-items: center;
+      font-size: 1.8rem;
+      text-transform: capitalize; }
+      .announcements-table-headers-heading svg {
+        height: 2rem;
+        width: 2rem;
+        fill: #3c91e6;
+        margin-left: 1.5rem; }
+        .announcements-table-headers-heading svg:hover {
+          cursor: pointer; }
+  .announcements-table-group label {
+    display: grid;
+    font-size: 1.6rem;
+    margin-right: 2rem;
+    position: relative; }
+    .announcements-table-group label input[type='checkbox'] {
+      height: 2.5rem;
+      width: 2.5rem;
+      border-radius: 0.5rem;
+      border: 0.1rem solid #3c91e6;
+      cursor: pointer;
+      opacity: 0;
+      z-index: 10; }
+      .announcements-table-group label input[type='checkbox']:checked ~ div > svg {
+        display: block; }
+    .announcements-table-group label span {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 2.5rem;
+      width: 2.5rem;
+      border-radius: 0.5rem;
+      border: 0.1rem solid #3c91e6; }
+    .announcements-table-group label div {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 2.5rem;
+      width: 2.5rem;
+      display: flex;
+      justify-content: center;
+      align-items: center; }
+      .announcements-table-group label div svg {
+        height: 2rem;
+        width: 2rem;
+        fill: #3c91e6;
+        display: none; }
+  .announcements-table-rows {
+    display: grid;
+    grid-template-columns: min-content repeat(8, minmax(10rem, 1fr));
+    align-items: center;
+    padding: 1rem 0; }
+    .announcements-table-rows-content {
+      display: flex;
+      align-items: center;
+      font-size: 1.8rem; }
+      .announcements-table-rows-content span {
+        width: 100%;
+        padding: 0 1rem 0 0;
+        text-transform: capitalize;
+        word-wrap: break-word; }
+      .announcements-table-rows-content svg {
+        height: 2rem;
+        width: 2rem;
+        fill: #3c91e6;
+        margin-left: 1.5rem; }
+        .announcements-table-rows-content svg:hover {
+          cursor: pointer; }

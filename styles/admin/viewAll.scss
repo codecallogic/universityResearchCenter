@@ -2,7 +2,116 @@
   padding: 5rem 10rem;
 
   &-header {
-    font-size: 1.8rem;
+    font-size: 2.2rem;
     font-weight: 200;
+  }
+
+  &-table {
+    &-headers {
+      display: grid;
+      grid-template-columns: max-content repeat(8, minmax(10rem, 1fr));
+      align-items: center;
+      padding: 2rem 0;
+
+      &-heading {
+        display: flex;
+        align-items: center;
+        font-size: 1.8rem;
+        text-transform: capitalize;
+
+        svg {
+          height: 2rem;
+          width: 2rem;
+          fill: $color-scheme-1;
+          margin-left: 1.5rem;
+
+          &:hover {
+            cursor: pointer;
+          }
+        }
+      }
+    }
+
+    &-group {
+      label {
+        display: grid;
+        font-size: 1.6rem;
+        margin-right: 2rem;
+        position: relative;
+
+        input[type='checkbox'] {
+          height: 2.5rem;
+          width: 2.5rem;
+          border-radius: 0.5rem;
+          border: 0.1rem solid $color-scheme-1;
+          cursor: pointer;
+          opacity: 0;
+          z-index: 10;
+
+          &:checked ~ div > svg {
+            display: block;
+          }
+        }
+
+        span {
+          position: absolute;
+          top: 0;
+          left: 0;
+          height: 2.5rem;
+          width: 2.5rem;
+          border-radius: 0.5rem;
+          border: 0.1rem solid $color-scheme-1;
+        }
+
+        div {
+          position: absolute;
+          top: 0;
+          left: 0;
+          height: 2.5rem;
+          width: 2.5rem;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+
+          svg {
+            height: 2rem;
+            width: 2rem;
+            fill: $color-scheme-1;
+            display: none;
+          }
+        }
+      }
+    }
+
+    &-rows {
+      display: grid;
+      grid-template-columns: min-content repeat(8, minmax(10rem, 1fr));
+      align-items: center;
+      padding: 1rem 0;
+
+      &-content {
+        display: flex;
+        align-items: center;
+        font-size: 1.8rem;
+
+        span {
+          width: 100%;
+          padding: 0 1rem 0 0;
+          text-transform: capitalize;
+          word-wrap: break-word;
+        }
+
+        svg {
+          height: 2rem;
+          width: 2rem;
+          fill: $color-scheme-1;
+          margin-left: 1.5rem;
+
+          &:hover {
+            cursor: pointer;
+          }
+        }
+      }
+    }
   }
 }
