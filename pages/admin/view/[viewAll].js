@@ -14,6 +14,7 @@ const ViewAll = ({loggedIn, account, allAnnouncements}) => {
   const [user, setUser] = useState(JSON.parse(decodeURIComponent(account)))
   const [announcements, setAnnouncements] = useState(allAnnouncements)
   const [headers, setHeaders] = useState(Object.keys(allAnnouncements[0]))
+  const [selected, setSelected] = useState([])
   const [asc, setAsc] = useState(-1)
   const [desc, setDesc] = useState(1)
 
@@ -23,9 +24,6 @@ const ViewAll = ({loggedIn, account, allAnnouncements}) => {
 
     // GET SVG BY ELEMENT ID
     let elGetElement = document.getElementById(`${header}${key}`)
-
-    
-
     let newArray = []
     
     switch (header) {
@@ -35,7 +33,7 @@ const ViewAll = ({loggedIn, account, allAnnouncements}) => {
         let filterTitles = allAnnouncements.sort( (a, b) => {
           let textA = a.title.toLowerCase();
           let textB = b.title.toLowerCase();
-          return textA > textB ? asc : desc
+          return textA < textB ? asc : desc
         })
 
         // CHECK IF LIST IS CURENTLY IN DESCENDING OR ASCENDING AND MAKE CHANGES RESPECTIVELY
@@ -61,7 +59,7 @@ const ViewAll = ({loggedIn, account, allAnnouncements}) => {
         let filterSubTitles = allAnnouncements.sort( (a, b) => {
           let textA = a.subtitle.toLowerCase();
           let textB = b.subtitle.toLowerCase();
-          return textA > textB ? asc : desc
+          return textA < textB ? asc : desc
         })
 
         elGetAttribute.indexOf('desc') > -1 
@@ -109,6 +107,41 @@ const ViewAll = ({loggedIn, account, allAnnouncements}) => {
         break;
     }
   }
+
+  const selectAll = () => {
+    const selectAll = document.querySelectorAll('input[name="selectAll"]')
+    const allCheckBoxes = document.querySelectorAll('input[type="checkbox"]')
+    if(selectAll[0].checked == true){
+      let allSelected = []
+
+      for(let i = 0; i < allCheckBoxes.length; i++){
+        if(allCheckBoxes[i].type == 'checkbox'){
+          allCheckBoxes[i].value !== 'on' ? allSelected.push(allCheckBoxes[i].value) : null
+          allCheckBoxes[i].checked = true
+        }
+      }
+
+      setSelected(allSelected)
+
+    }else{
+
+      if(selectAll[0].checked == false){
+        let allSelected = []
+        for(let i = 0; i < allCheckBoxes.length; i++){
+          if(allCheckBoxes[i].type == 'checkbox'){
+            allCheckBoxes[i].checked = false
+          }
+        }
+
+        setSelected(allSelected)
+        
+      }
+    }
+  }
+
+  useEffect( () => {
+    console.log(selected)
+  }, [selected])
   
   return (
     <>
@@ -118,7 +151,7 @@ const ViewAll = ({loggedIn, account, allAnnouncements}) => {
       <div className="announcements-table">
         <div className="announcements-table-headers">
           <div className="announcements-table-group">
-            <label htmlFor="selectAll">
+            <label htmlFor="selectAll" onClick={selectAll}>
               <input type="checkbox" name="selectAll"/>
               <span></span>
               <div>
@@ -149,7 +182,7 @@ const ViewAll = ({loggedIn, account, allAnnouncements}) => {
         <div key={i} className="announcements-table-rows">
           <div className="announcements-table-group">
             <label htmlFor="selectAll">
-              <input type="checkbox" name="selectAll"/>
+              <input type="checkbox" value={announcement._id}/>
               <span></span>
               <div>
                 <svg>
