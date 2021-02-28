@@ -7,12 +7,13 @@ const adminNav = ({data}) => {
   
   const handleNav = (e) => {
     e.target.textContent.toLowerCase() == 'admin' ? window.location.href = '/admin/login' : null
+    e.target.textContent.toLowerCase() == 'admin panel' ? window.location.href = '/admin' : null
   } 
   
   return (
     <div className="adminNav-container">
       <nav className="adminNav">
-        <div className="nav-logo">Admin Panel</div>
+        <div className="nav-logo" onClick={handleNav}>Admin Panel</div>
         <div className="nav-menu">
           <a className="nav-menu-item">{data !== undefined ? 
           <span>Hello, {data.username}</span>
