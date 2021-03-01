@@ -7,6 +7,20 @@
   }
 
   &-table {
+    &-buttons {
+      display: flex;
+      padding: 2rem 0;
+
+      button {
+        font-size: 1.6rem;
+        padding: 1rem 2rem;
+        margin-right: 2rem;
+        outline: none;
+        border: none;
+        transition: all 0.5s;
+      }
+    }
+
     &-headers {
       display: grid;
       grid-template-columns: max-content repeat(8, minmax(10rem, 1fr));

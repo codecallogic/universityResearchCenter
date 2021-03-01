@@ -82,28 +82,28 @@ const Dashboard = ({loggedIn, account, authorization}) => {
           {form === 'announcements' &&
           <div className="dashboard-right-panel">
             <div className="dashboard-right-panel-toggle" onClick={viewAll}>View All</div>
-            <form className="dashboard-form" action="POST" onSubmit={createAnnouncement}>
-              <div className="dashboard-form-group-single">
+            <form className="form" action="POST" onSubmit={createAnnouncement}>
+              <div className="form-group-single">
                 <label htmlFor="title">Title</label>
                 <input type="text" name="title" value={title} onChange={handleChange} required/>
               </div>
-              <div className="dashboard-form-group-single">
+              <div className="form-group-single">
                 <label htmlFor="subtitle">Sub-title (optional)</label>
                 <input type="text" name="subtitle" value={subtitle} onChange={handleChange}/>
               </div>
-              <div className="dashboard-form-group-double">
+              <div className="form-group-double">
                 <label htmlFor="image">Image URL</label>
                 <input type="text" name="imageURL" value={imageURL} onChange={handleChange} required/>
               </div>
-              <div className="dashboard-form-group-double">
+              <div className="form-group-double">
                 <label htmlFor="title">Image Short Description</label>
                 <input type="text" name="imageDescr" value={imageDescr} onChange={handleChange} required/>
               </div>
-              <div className="dashboard-form-group-single">
+              <div className="form-group-single">
                   <label htmlFor="message">Message</label>
                   <ReactQuill 
                       placeholder="Write something..."
-                      className="dashboard-form-group-quill"
+                      className="form-group-quill"
                       theme="snow"
                       name="message"
                       onChange={handleAnnouncementMessage}

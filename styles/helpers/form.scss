@@ -1,4 +1,62 @@
 .form {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+
+  &-group-double {
+    padding: 1.5rem 0 0 0;
+    margin-right: 2rem;
+
+    label {
+      display: block;
+      font-size: 1.8rem;
+      padding: 0.5rem 0;
+    }
+
+    input {
+      padding: 0.8rem 0;
+      width: 100%;
+      font-size: 1.4rem;
+      text-indent: 1rem;
+      border: 0.1rem solid $color-shade-gray;
+      transition: all 0.5s;
+
+      &:focus {
+        outline: none;
+        border: 0.1rem solid $color-scheme-5;
+      }
+    }
+  }
+
+  &-group-single {
+    padding: 1.5rem 0 0 0;
+    margin-right: 2rem;
+    grid-column: 1/-1;
+
+    label {
+      display: block;
+      font-size: 1.8rem;
+      padding: 0.5rem 0;
+    }
+
+    input {
+      padding: 0.8rem 0;
+      width: 100%;
+      font-size: 1.4rem;
+      text-indent: 1rem;
+      border: 0.1rem solid $color-shade-gray;
+      transition: all 0.5s;
+
+      &:focus {
+        outline: none;
+        border: 0.1rem solid $color-scheme-5;
+      }
+    }
+
+    &-quill {
+      color: black !important;
+    }
+  }
+
   &-errorMessage {
     font-size: 1.6rem;
     padding: 2rem 0;
@@ -9,5 +67,15 @@
     font-size: 1.6rem;
     padding: 2rem 0;
     color: $color-scheme-2;
+  }
+}
+
+.enabled {
+  background-color: $color-scheme-1;
+  color: white;
+
+  &:hover {
+    cursor: pointer;
+    box-shadow: 0 0.3rem 0.5rem 0.2rem rgba(0, 0, 0, 0.3);
   }
 }

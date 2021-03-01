@@ -5,9 +5,12 @@ import withAdmin from '../../withAdmin'
 import {useRouter} from 'next/router'
 import AdminNav from '../../../components/admin/adminNav'
 import {getToken} from '../../../helpers/auth'
+import dynamic from 'next/dynamic'
+const ReactQuill = dynamic(() => import('react-quill'), {ssr: false, loading: () => <p>Loading ...</p>})
+import 'react-quill/dist/quill.snow.css'
 axios.defaults.withCredentials = true
 
-const ViewAll = ({loggedIn, account, allAnnouncements}) => {
+const ViewAll = ({account, allAnnouncements, authorization}) => {
 
   const router = useRouter()
 
@@ -17,6 +20,16 @@ const ViewAll = ({loggedIn, account, allAnnouncements}) => {
   const [selected, setSelected] = useState([])
   const [asc, setAsc] = useState(-1)
   const [desc, setDesc] = useState(1)
+  const [editRowForm, setEditRowForm] = useState(false)
+  const [updatedRow, setUpdatedRow] = useState({
+    title: '',
+    subtitle: '',
+    imageURL: '',
+    imageDescr: '',
+    message: ''
+  })
+
+  const {title, subtitle, imageURL, imageDescr, message} = updatedRow
 
   const handleFilter = (header, key) => {
     // GET SVG XLINK:HREF ATTRITUTE BY ELEMENT BY ID 
@@ -108,6 +121,7 @@ const ViewAll = ({loggedIn, account, allAnnouncements}) => {
     }
   }
 
+  // IF TOP ROW IS CLICKED UPDATE STATE WITH ALL ITEMS
   const selectAll = () => {
     const selectAll = document.querySelectorAll('input[name="selectAll"]')
     const allCheckBoxes = document.querySelectorAll('input[type="checkbox"]')
@@ -134,14 +148,73 @@ const ViewAll = ({loggedIn, account, allAnnouncements}) => {
         }
 
         setSelected(allSelected)
-        
+
       }
     }
   }
 
-  useEffect( () => {
-    console.log(selected)
-  }, [selected])
+  // IF ONE ROW IS CLICKED ADD TO ARRAY OF SELECTED ROWS
+  const rowClicked = (e) => {
+    const getRow = document.getElementById(e.target.value)
+    const allCheckBoxes = document.querySelectorAll('input[type="checkbox"]')
+    let allSelected = []
+
+    if(getRow.checked == true){
+
+      for(let i = 0; i < allCheckBoxes.length; i++){
+        if(allCheckBoxes[i].checked == true){
+          allSelected.push(allCheckBoxes[i].value)
+        }
+      }
+
+      setSelected(allSelected)
+
+    }
+
+    if(getRow.checked == false){
+      const array = [...selected]
+      let index = array.indexOf(e.target.value)
+
+      if(index !== -1){
+
+        array.splice(index, 1)
+        setSelected(array)
+
+      }
+    }
+    
+  }
+
+  // SET UP VIEW FOR EDITING AND UPDATING ROW DATA
+  const editRow = () => {
+    for(let i = 0; i < allAnnouncements.length; i++){
+      if(allAnnouncements[i]._id == selected[0]){
+        setEditRowForm(true)
+        setUpdatedRow({...editRowForm, title: allAnnouncements[i].title,  subtitle: allAnnouncements[i].subtitle, imageURL: allAnnouncements[i].imageURL, imageDescr: allAnnouncements[i].imageDescr, message: allAnnouncements[i].message})
+      }
+    }
+  }
+
+  // UPDATE STATE OF CURRENT ROW BEING EDITING
+  const handleChange = (e) => {
+    setUpdatedRow({...updatedRow, [e.target.name]: e.target.value})
+  }
+
+  // SUBMIT UPDATED ROW CONTENT
+  const submitUpdate = async (e) => {
+    e.preventDefault()
+    try {
+      const response = await axios.post(`${API}/announcement/update`, updatedRow, {
+        headers: {
+          Authorization: `Bearer ${authorization}`,
+          contentType: `application/json`
+        }
+      })
+      console.log(response)
+    } catch (error) {
+      console.log(error)
+    }
+  }
   
   return (
     <>
@@ -149,7 +222,21 @@ const ViewAll = ({loggedIn, account, allAnnouncements}) => {
     <div className="announcements">
       <h1 className="announcements-header">All Announcements</h1>
       <div className="announcements-table">
+        {editRowForm == false && 
+          <div className="announcements-table-buttons">
+            <button className={ selected.length >= 1 ? 'enabled ' : null} disabled={selected.length >= 1 ? false: true}>Delete</button>
+            <button className={ selected.length == 1 ? 'enabled ' : null} disabled={selected.length == 1 ? false: true} onClick={editRow}>Edit</button>
+          </div>
+        }
+
+        {editRowForm == true && 
+          <div className="announcements-table-buttons">
+            <button className="enabled" onClick={ () => setEditRowForm(false)}>View All</button>
+          </div>
+        }
+        
         <div className="announcements-table-headers">
+          {editRowForm == false && 
           <div className="announcements-table-group">
             <label htmlFor="selectAll" onClick={selectAll}>
               <input type="checkbox" name="selectAll"/>
@@ -161,7 +248,9 @@ const ViewAll = ({loggedIn, account, allAnnouncements}) => {
               </div>
             </label>
           </div>
-          {headers !== null && headers.map( (header, i) => (
+          }
+
+          {headers !== null && editRowForm == false && headers.map( (header, i) => (
           <div key={i} className="announcements-table-headers-heading">
             {header !== '__v' ? header : null}
             {/* 
@@ -178,11 +267,12 @@ const ViewAll = ({loggedIn, account, allAnnouncements}) => {
           ))
           }
         </div>
-        {announcements !== null && announcements.map( (announcement, i) => (
+
+        {announcements !== null && editRowForm == false && announcements.map( (announcement, i) => (
         <div key={i} className="announcements-table-rows">
           <div className="announcements-table-group">
             <label htmlFor="selectAll">
-              <input type="checkbox" value={announcement._id}/>
+              <input type="checkbox" id={announcement._id} value={announcement._id} onClick={rowClicked}/>
               <span></span>
               <div>
                 <svg>
@@ -206,6 +296,40 @@ const ViewAll = ({loggedIn, account, allAnnouncements}) => {
           ))}
         </div>
         ))}
+
+        {editRowForm == true && 
+          <form className="form" action="POST" onSubmit={submitUpdate}>
+            <div className="form-group-single">
+              <label htmlFor="title">Title</label>
+              <input type="text" name="title" value={title} required onChange={handleChange}/>
+            </div>
+            <div className="form-group-single">
+              <label htmlFor="subtitle">Sub-title (optional)</label>
+              <input type="text" name="subtitle" value={subtitle} onChange={handleChange}/>
+            </div>
+            <div className="form-group-double">
+              <label htmlFor="image">Image URL</label>
+              <input type="text" name="imageURL" value={imageURL} required onChange={handleChange}/>
+            </div>
+            <div className="form-group-double">
+              <label htmlFor="title">Image Short Description</label>
+              <input type="text" name="imageDescr" value={imageDescr} required onChange={handleChange}/>
+            </div>
+            <div className="form-group-single">
+                <label htmlFor="message">Message</label>
+                <ReactQuill 
+                    placeholder="Write something..."
+                    className="form-group-quill"
+                    theme="snow"
+                    name="message"
+                    value={message}
+                    onChange={handleChange}
+                />
+            </div>
+            <button type="submit" className="submit-announcement">Update Anouncement</button>
+          </form>
+        }
+        
       </div>
     </div>
     </>
