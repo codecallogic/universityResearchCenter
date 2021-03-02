@@ -586,3 +586,27 @@ body {
         margin-left: 1.5rem; }
         .announcements-table-rows-content svg:hover {
           cursor: pointer; }
+
+.home-container {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr); }
+
+.home-announcements {
+  grid-column: 3/11; }
+  .home-announcements-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem 0;
+    margin: 1rem 0;
+    background-color: #342e37;
+    border-top-right-radius: 2rem;
+    border-top-left-radius: 2rem;
+    color: white; }
+    .home-announcements-header svg {
+      width: 3rem;
+      height: 3rem;
+      margin-right: 2rem; }
+    .home-announcements-header span {
+      font-size: 3.2rem;
+      font-weight: 600; }
