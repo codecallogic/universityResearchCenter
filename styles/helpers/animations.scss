@@ -28,3 +28,13 @@
     opacity: 1;
   }
 }
+
+@keyframes slide-from-bottom {
+  0% {
+    transform: perspective(400px) translateY(100%);
+  }
+
+  100% {
+    transform: perspective(400px) translateY(0);
+  }
+}

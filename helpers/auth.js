@@ -1,4 +1,5 @@
 import cookie from 'js-cookie'
+import Router from 'next/router';
 
 // Get token
 export const getToken = (key, req) => {

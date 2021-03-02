@@ -1,14 +1,24 @@
 import React, {useState, useEffect, useRef} from 'react'
 import {useRouter} from 'next/router'
+import {API} from '../../config'
+import axios from 'axios'
 
 const adminNav = ({data}) => {
 
   const router = useRouter()
   
   const handleNav = (e) => {
-    e.target.textContent.toLowerCase() == 'admin' ? window.location.href = '/admin/login' : null
     e.target.textContent.toLowerCase() == 'admin panel' ? window.location.href = '/admin' : null
   } 
+
+  const logout = async (e) => {
+    try {
+      const response = await axios.post(`${API}/admin/logout`)
+      window.location.href = '/admin/login'
+    } catch (error) {
+      console.log(error)
+    }
+  }
   
   return (
     <div className="adminNav-container">
@@ -21,7 +31,7 @@ const adminNav = ({data}) => {
           <span>Login first</span>
           }
             <ul className="nav-menu-dropdown">
-              <li onClick={handleNav}>Logout</li>
+              <li onClick={logout}>Logout</li>
             </ul>
           </a>
         </div>

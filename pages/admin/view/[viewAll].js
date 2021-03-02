@@ -22,13 +22,19 @@ const ViewAll = ({account, allAnnouncements, authorization}) => {
   const [desc, setDesc] = useState(1)
   const [editRowForm, setEditRowForm] = useState(false)
   const [updatedRow, setUpdatedRow] = useState({
+    id: '',
     title: '',
     subtitle: '',
     imageURL: '',
     imageDescr: '',
     message: ''
   })
+  const [messages, setMessage] = useState({
+    error: null,
+    success: null
+  })
 
+  const {error, success} = messages
   const {title, subtitle, imageURL, imageDescr, message} = updatedRow
 
   const handleFilter = (header, key) => {
@@ -187,10 +193,10 @@ const ViewAll = ({account, allAnnouncements, authorization}) => {
 
   // SET UP VIEW FOR EDITING AND UPDATING ROW DATA
   const editRow = () => {
-    for(let i = 0; i < allAnnouncements.length; i++){
-      if(allAnnouncements[i]._id == selected[0]){
+    for(let i = 0; i < announcements.length; i++){
+      if(announcements[i]._id == selected[0]){
         setEditRowForm(true)
-        setUpdatedRow({...editRowForm, title: allAnnouncements[i].title,  subtitle: allAnnouncements[i].subtitle, imageURL: allAnnouncements[i].imageURL, imageDescr: allAnnouncements[i].imageDescr, message: allAnnouncements[i].message})
+        setUpdatedRow({...updatedRow, id: announcements[i]._id, title: announcements[i].title,  subtitle: announcements[i].subtitle, imageURL: announcements[i].imageURL, imageDescr: announcements[i].imageDescr, message: announcements[i].message})
       }
     }
   }
@@ -198,6 +204,13 @@ const ViewAll = ({account, allAnnouncements, authorization}) => {
   // UPDATE STATE OF CURRENT ROW BEING EDITING
   const handleChange = (e) => {
     setUpdatedRow({...updatedRow, [e.target.name]: e.target.value})
+    setMessage({...messages, success: null, error: null})
+  }
+
+  // HANDLE REACT QUILL CONTENT CHANGE
+  const handleQuill = (e) => {
+    setUpdatedRow({...updatedRow, message: e})
+    setMessage({...messages, success: null, error: null})
   }
 
   // SUBMIT UPDATED ROW CONTENT
@@ -210,9 +223,10 @@ const ViewAll = ({account, allAnnouncements, authorization}) => {
           contentType: `application/json`
         }
       })
-      console.log(response)
+      setAnnouncements(response.data)
+      setMessage({...messages, success: 'Update was made successfully'})
     } catch (error) {
-      console.log(error)
+      setMessage({...messages, error: response.data.error})
     }
   }
   
@@ -297,8 +311,8 @@ const ViewAll = ({account, allAnnouncements, authorization}) => {
         </div>
         ))}
 
-        {editRowForm == true && 
-          <form className="form" action="POST" onSubmit={submitUpdate}>
+        {editRowForm == true &&
+          <form className="form editing" action="POST" onSubmit={submitUpdate}>
             <div className="form-group-single">
               <label htmlFor="title">Title</label>
               <input type="text" name="title" value={title} required onChange={handleChange}/>
@@ -323,12 +337,15 @@ const ViewAll = ({account, allAnnouncements, authorization}) => {
                     theme="snow"
                     name="message"
                     value={message}
-                    onChange={handleChange}
+                    onChange={handleQuill}
                 />
             </div>
             <button type="submit" className="submit-announcement">Update Anouncement</button>
           </form>
         }
+
+        {success !== null && editRowForm == true && <div className="form-successMessage">{success}</div>}
+        {error !== null && editRowForm == true && <div className="form-errorMessage">{error}</div>}
         
       </div>
     </div>

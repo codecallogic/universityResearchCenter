@@ -44,6 +44,12 @@ body {
     transform: translateY(0);
     opacity: 1; } }
 
+@keyframes slide-from-bottom {
+  0% {
+    transform: perspective(400px) translateY(100%); }
+  100% {
+    transform: perspective(400px) translateY(0); } }
+
 .form-group {
   display: flex;
   align-items: center; }
@@ -173,6 +179,9 @@ body {
   .enabled:hover {
     cursor: pointer;
     box-shadow: 0 0.3rem 0.5rem 0.2rem rgba(0, 0, 0, 0.3); }
+
+.editing {
+  animation: slide-from-bottom 0.5s; }
 
 .nav {
   grid-column: 1/-1;
