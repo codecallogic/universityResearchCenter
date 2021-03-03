@@ -589,16 +589,24 @@ body {
 
 .home-container {
   display: grid;
-  grid-template-columns: repeat(12, 1fr); }
+  grid-template-columns: repeat(12, 1fr);
+  background-image: linear-gradient(90deg, #342e37, #fafffd); }
 
 .home-announcements {
-  grid-column: 3/11; }
+  grid-column: 3/11;
+  color: #4b4f4d;
+  background-color: white;
+  border-top-right-radius: 2rem;
+  border-top-left-radius: 2rem;
+  margin: 2rem 0; }
+  .home-announcements-container {
+    padding: 1rem 0 5rem 0; }
   .home-announcements-header {
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 2rem 0;
-    margin: 1rem 0;
+    margin: 0 0 1rem 0;
     background-color: #342e37;
     border-top-right-radius: 2rem;
     border-top-left-radius: 2rem;
@@ -609,4 +617,53 @@ body {
       margin-right: 2rem; }
     .home-announcements-header span {
       font-size: 3.2rem;
-      font-weight: 600; }
+      font-weight: 400; }
+  .home-announcements-title {
+    display: flex;
+    align-items: center;
+    padding: 1rem 2rem; }
+    .home-announcements-title svg {
+      width: 1.5rem;
+      height: 1.5rem;
+      margin-right: 2rem; }
+    .home-announcements-title span {
+      font-size: 3.2rem;
+      font-weight: 300; }
+  .home-announcements-post-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    padding: 0 5rem; }
+  .home-announcements-post-left-column {
+    grid-column: 1/2;
+    grid-row: 1/-1; }
+    .home-announcements-post-left-column-date {
+      font-size: 1.8rem;
+      color: inherit;
+      padding: 2rem 0; }
+      .home-announcements-post-left-column-date span {
+        font-weight: 800;
+        color: inherit; }
+    .home-announcements-post-left-column h6 {
+      font-size: 2rem;
+      padding: 2rem 0; }
+    .home-announcements-post-left-column img {
+      width: 100%;
+      object-fit: cover; }
+    .home-announcements-post-left-column-imageSubtitle {
+      display: block;
+      font-size: 1.5rem;
+      margin-top: 0.2rem; }
+    .home-announcements-post-left-column-description {
+      grid-column: 1/2;
+      font-size: 1.8rem; }
+      .home-announcements-post-left-column-description p {
+        margin: 1rem 0; }
+  .home-announcements-post-right-column {
+    grid-column: 2/-1; }
+    .home-announcements-post-right-column-description {
+      grid-column: 2/-1;
+      grid-row: 1/-1;
+      font-size: 1.8rem;
+      padding: 0 2rem; }
+      .home-announcements-post-right-column-description p {
+        margin: 1rem 0; }

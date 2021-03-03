@@ -5,7 +5,7 @@ const Nav = ({}) => {
   const router = useRouter()
   
   const handleNav = (e) => {
-    e.target.textContent.toLowerCase() == 'admin' ? window.location.href = '/admin' : null
+    e.target.textContent.toLowerCase() == 'admin' ? window.open('/admin', '_blank', 'noopener,noreferrer') : null
   } 
   
   return (
