@@ -21,6 +21,7 @@ const Dashboard = ({loggedIn, account, authorization}) => {
     subtitle: '',
     imageURL: '',
     imageDescr: '',
+    primary: false,
     message: ''
   })
   const {title, subtitle, imageURL, imageDescr, message} = announcement
@@ -29,7 +30,8 @@ const Dashboard = ({loggedIn, account, authorization}) => {
 
   // Handle announcement form
   const handleChange = (e) => {
-    setAnnouncements({...announcement, [e.target.name]: e.target.value})
+    e.target.name == 'primary' ? setAnnouncements({...announcement, [e.target.name]: e.target.checked}) : null
+    e.target.name !== 'primary' ? setAnnouncements({...announcement, [e.target.name]: e.target.value}) : null
     setSuccessMessage(null)
     setErrorMessage(null)
   }
@@ -90,6 +92,20 @@ const Dashboard = ({loggedIn, account, authorization}) => {
               <div className="form-group-single">
                 <label htmlFor="subtitle">Sub-title (optional)</label>
                 <input type="text" name="subtitle" value={subtitle} onChange={handleChange}/>
+              </div>
+              <div className="form-group-single">
+                <div className="form-group-checkbox">
+                  <label htmlFor="primary">
+                    <input type="checkbox" name="primary" onChange={handleChange}/>
+                    <span></span>
+                    <div>
+                      <svg>
+                        <use xlinkHref="/sprite.svg#icon-checkmark"></use>
+                      </svg>
+                    </div>
+                  </label>
+                  Display as Primary Announcement
+                </div>
               </div>
               <div className="form-group-double">
                 <label htmlFor="image">Image URL</label>

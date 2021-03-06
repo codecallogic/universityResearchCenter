@@ -172,6 +172,49 @@ body {
     font-size: 1.6rem;
     padding: 2rem 0;
     color: #342e37; }
+  .form-group-checkbox {
+    display: flex;
+    padding: 1rem 0;
+    font-size: 1.8rem; }
+    .form-group-checkbox label {
+      display: grid;
+      font-size: 1.6rem;
+      margin-right: 2rem;
+      position: relative;
+      background-color: white;
+      border-radius: 0.5rem; }
+      .form-group-checkbox label input[type='checkbox'] {
+        height: 2.5rem;
+        width: 2.5rem;
+        border-radius: 0.5rem;
+        border: 0.1rem solid #3c91e6;
+        cursor: pointer;
+        opacity: 0;
+        z-index: 10; }
+        .form-group-checkbox label input[type='checkbox']:checked ~ div > svg {
+          display: block; }
+      .form-group-checkbox label span {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 2.5rem;
+        width: 2.5rem;
+        border-radius: 0.5rem;
+        border: 0.1rem solid #3c91e6; }
+      .form-group-checkbox label div {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 2.5rem;
+        width: 2.5rem;
+        display: flex;
+        justify-content: center;
+        align-items: center; }
+        .form-group-checkbox label div svg {
+          height: 2rem;
+          width: 2rem;
+          fill: #3c91e6;
+          display: none; }
 
 .enabled {
   background-color: #3c91e6;
