@@ -5,12 +5,14 @@
   height: 100vh;
 
   &-control {
-    padding: 1rem 3rem;
+    padding: 1rem 5rem;
     background-color: $color-scheme-2;
     font-size: 1.6rem;
     color: $color-scheme-4;
     border-radius: 1rem;
     transition: all 0.5s ease-in;
+    width: max-content;
+    outline: none;
 
     &:hover {
       cursor: pointer;
@@ -36,6 +38,7 @@
       border: 0.1rem solid $color-scheme-5;
       padding: 2rem;
       border-radius: 1rem;
+      width: min-content;
     }
   }
 

@@ -244,18 +244,27 @@ const ViewAll = ({account, allAnnouncements, authorization}) => {
           contentType: `application/json`
         }
       })
-      setAnnouncements(response.data)
       setSelected([])
+      setAnnouncements(response.data)
+      const allCheckBoxes = document.querySelectorAll('input[type="checkbox"]')
+      for(let i = 0; i < allCheckBoxes.length; i++){
+        if(allCheckBoxes[i].checked == true){
+          for(let i = 0; i < allCheckBoxes.length; i++){
+              allCheckBoxes[i].checked = false
+          }
+        }
+      }
       setMessage({...messages, success: 'Announcement was deleted successfully'})
     } catch (error) {
-      setMessage({...messages, error: response.data.error})
+      setMessage({...messages, error: error.response.error})
     }
   }
   
   const viewAllButton = (e) => {
     e.preventDefault()
-    setEditRowForm(false)
     setSelected([])
+    console.log(announcements)
+    setEditRowForm(false)
   }
   
   return (

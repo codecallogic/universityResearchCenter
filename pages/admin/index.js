@@ -72,13 +72,12 @@ const Dashboard = ({loggedIn, account, authorization}) => {
         <div className="dashboard">
           <div className="dashboard-left-panel">
             <div className="dashboard-left-panel-title">Homepage Modals</div>
-            <div className="dashboard-left-panel-group">              
-              <div className="dashboard-control active-control">Announcements</div>
-              <div className="dashboard-control">Announcements</div>
-              <div className="dashboard-control">Announcements</div>
-              <div className="dashboard-control">Announcements</div>
-              <div className="dashboard-control">Announcements</div>
-              <div className="dashboard-control">Announcements</div>
+            <div className="dashboard-left-panel-group">
+              <select className="dashboard-control">
+                <option value="">Announcements</option>
+                <option value="">Meetings and Activities</option>
+                <option value="">Opportunity for Faculty</option>
+              </select>             
             </div>
           </div>
           {form === 'announcements' &&

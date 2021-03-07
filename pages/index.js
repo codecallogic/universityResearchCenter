@@ -49,9 +49,9 @@ const Home = ({announcements}) => {
                     <h6>Message from the director:</h6>
                     <img src={`${item.imageURL}`} alt={`${item.imageDescr}`}/>
                     <span className="home-announcements-post-left-column-imageSubtitle">{item.imageDescr}</span>
-                    <div className="home-announcements-post-left-column-description" dangerouslySetInnerHTML={ { __html: item.message.substring(0, 550) } }></div>
+                    <div className="home-announcements-post-left-column-description" dangerouslySetInnerHTML={ { __html: item.message.substring(0, 700) } }></div>
                   </div>
-                  <div className="home-announcements-post-right-column-description" dangerouslySetInnerHTML={ { __html: item.message.substring(550) } }></div>
+                  <div className="home-announcements-post-right-column-description" dangerouslySetInnerHTML={ { __html: item.message.substring(700) } }></div>
                 </div>              
                 </div>
                 :
@@ -67,6 +67,62 @@ const Home = ({announcements}) => {
                     <use xlinkHref="/sprite.svg#icon-message"></use>
                   </svg>
                   <div className="home-announcements-item-title-group">
+                    <h6>{item.title}</h6>
+                    <span>Posted: <strong>{item.createdAt}</strong></span>
+                    </div>
+                  </div>
+              </div>
+            :
+            null
+            )
+          }
+        </div>
+      </div>
+      <div className="home-meetings">
+        <div className="home-meetings-header">
+          <svg>
+            <use xlinkHref="/sprite.svg#icon-calendar"></use>
+          </svg>
+          <span>Meetings and Activities</span>
+        </div>
+        <div className="home-meetings-container">
+          {announcementsList !== null && 
+            announcementsList.map( (item, i) =>
+              item.primary === false && item.enabled === true ? 
+              <div key={i} className="home-meetings-item" onClick={() => createModal(item)}>
+                <div className="home-meetings-item-title">
+                  <svg>
+                    <use xlinkHref="/sprite.svg#icon-calendar"></use>
+                  </svg>
+                  <div className="home-meetings-item-title-group">
+                    <h6>{item.title}</h6>
+                    <span>Posted: <strong>{item.createdAt}</strong></span>
+                    </div>
+                  </div>
+              </div>
+            :
+            null
+            )
+          }
+        </div>
+      </div>
+      <div className="home-opportunities">
+        <div className="home-opportunities-header">
+          <svg>
+            <use xlinkHref="/sprite.svg#icon-briefcase"></use>
+          </svg>
+          <span>Opportunities for Faculty</span>
+        </div>
+        <div className="home-opportunities-container">
+          {announcementsList !== null && 
+            announcementsList.map( (item, i) =>
+              item.primary === false && item.enabled === true ? 
+              <div key={i} className="home-opportunities-item" onClick={() => createModal(item)}>
+                <div className="home-opportunities-item-title">
+                  <svg>
+                    <use xlinkHref="/sprite.svg#icon-message"></use>
+                  </svg>
+                  <div className="home-opportunities-item-title-group">
                     <h6>{item.title}</h6>
                     <span>Posted: <strong>{item.createdAt}</strong></span>
                     </div>
@@ -115,8 +171,15 @@ Home.getInitialProps = async () => {
     return date
   })
 
+  // SORT ANNOUNCEMENTS BY DATE POSTED
+  let newArray = []
+  let filterDates = announcements.data.sort( (a, b) => {
+    return (new Date(b.createdAt) - new Date(a.createdAt)) > -1 ? 1 : -1;
+  })
+  newArray = [...filterDates]
+
   return {
-    announcements: announcements.data
+    announcements: newArray
   }
 }
 
