@@ -226,6 +226,76 @@ body {
 .editing {
   animation: slide-from-bottom 0.5s; }
 
+.bg-modal {
+  grid-column: 1/-1;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  overflow-y: auto;
+  z-index: 10; }
+  .bg-modal-icon {
+    margin-left: 1rem;
+    margin-top: 2rem;
+    padding: 2rem;
+    background-color: #e5e5e5;
+    height: 6rem;
+    width: 6rem;
+    border-radius: 3rem;
+    fill: #342e37; }
+    .bg-modal-icon:hover {
+      cursor: pointer; }
+
+.modal-content {
+  width: 50%;
+  height: auto;
+  background-color: white;
+  border-radius: 2rem; }
+  .modal-content-heading {
+    background-color: #3c91e6;
+    border-top-right-radius: 2rem;
+    border-top-left-radius: 2rem; }
+    .modal-content-heading-breadcrumb {
+      padding: 2rem 10rem;
+      display: flex;
+      align-items: center;
+      color: white; }
+      .modal-content-heading-breadcrumb svg {
+        height: 2rem;
+        width: 2rem; }
+      .modal-content-heading-breadcrumb span {
+        display: block;
+        font-size: 2rem;
+        margin-left: 1rem; }
+    .modal-content-heading h2 {
+      font-weight: 300;
+      padding: 0rem 10rem;
+      color: white;
+      font-size: 2rem; }
+    .modal-content-heading h1 {
+      font-weight: 600;
+      padding: 0rem 10rem;
+      color: white;
+      font-size: 2.5rem; }
+    .modal-content-heading-date {
+      padding: 1rem 10rem 2rem 10rem;
+      color: white;
+      font-size: 1.6rem; }
+      .modal-content-heading-date span {
+        font-weight: 800; }
+  .modal-content-constant {
+    padding: 2rem 10rem;
+    font-size: 1.8rem;
+    font-weight: 600; }
+  .modal-content-message {
+    padding: 2rem 10rem 8rem 10rem;
+    font-size: 1.6rem; }
+
 .nav {
   grid-column: 1/-1;
   padding: 3rem;
@@ -607,7 +677,7 @@ body {
         display: none; }
   .announcements-table-rows {
     display: grid;
-    grid-template-columns: min-content repeat(8, minmax(10rem, 1fr));
+    grid-template-columns: max-content repeat(8, minmax(10rem, 1fr));
     align-items: center;
     padding: 1.5rem 1rem;
     transition: all 1s; }
@@ -641,9 +711,11 @@ body {
   background-color: white;
   border-top-right-radius: 2rem;
   border-top-left-radius: 2rem;
+  border-bottom-right-radius: 2rem;
+  border-bottom-left-radius: 2rem;
   margin: 2rem 0; }
   .home-announcements-container {
-    padding: 1rem 0 5rem 0; }
+    padding: 1rem 0 0 0; }
   .home-announcements-header {
     display: flex;
     justify-content: center;
@@ -710,3 +782,24 @@ body {
       padding: 0 2rem; }
       .home-announcements-post-right-column-description p {
         margin: 1rem 0; }
+  .home-announcements-item-title {
+    display: flex;
+    align-items: center;
+    padding: 3rem 2rem;
+    border-top: 0.5px solid #e5e5e5; }
+    .home-announcements-item-title svg {
+      width: 1.5rem;
+      height: 1.5rem;
+      margin-right: 2rem;
+      fill: #342e37 !important; }
+    .home-announcements-item-title-group {
+      display: grid; }
+      .home-announcements-item-title-group h6 {
+        font-size: 2rem;
+        font-weight: 500;
+        color: #3c91e6; }
+      .home-announcements-item-title-group span {
+        font-size: 1.8rem; }
+  .home-announcements-item:hover {
+    background-color: #e5e5e5;
+    cursor: pointer; }

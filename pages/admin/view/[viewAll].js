@@ -27,6 +27,8 @@ const ViewAll = ({account, allAnnouncements, authorization}) => {
     subtitle: '',
     imageURL: '',
     imageDescr: '',
+    primary: false,
+    enabled: true,
     message: ''
   })
   const [messages, setMessage] = useState({
@@ -35,7 +37,7 @@ const ViewAll = ({account, allAnnouncements, authorization}) => {
   })
 
   const {error, success} = messages
-  const {title, subtitle, imageURL, imageDescr, message} = updatedRow
+  const {title, subtitle, imageURL, imageDescr, primary, enabled, message} = updatedRow
 
   const handleFilter = (header, key) => {
     // GET SVG XLINK:HREF ATTRITUTE BY ELEMENT BY ID 
@@ -193,17 +195,20 @@ const ViewAll = ({account, allAnnouncements, authorization}) => {
 
   // SET UP VIEW FOR EDITING AND UPDATING ROW DATA
   const editRow = () => {
+    setMessage({...messages, error: '', success: ''})
     for(let i = 0; i < announcements.length; i++){
       if(announcements[i]._id == selected[0]){
         setEditRowForm(true)
-        setUpdatedRow({...updatedRow, id: announcements[i]._id, title: announcements[i].title,  subtitle: announcements[i].subtitle, imageURL: announcements[i].imageURL, imageDescr: announcements[i].imageDescr, message: announcements[i].message})
+        setUpdatedRow({...updatedRow, id: announcements[i]._id, title: announcements[i].title,  subtitle: announcements[i].subtitle, imageURL: announcements[i].imageURL, imageDescr: announcements[i].imageDescr, primary: announcements[i].primary, enabled: announcements[i].enabled, message: announcements[i].message})
       }
     }
   }
 
   // UPDATE STATE OF CURRENT ROW BEING EDITING
   const handleChange = (e) => {
-    setUpdatedRow({...updatedRow, [e.target.name]: e.target.value})
+    e.target.name == 'primary' ? setUpdatedRow({...updatedRow, [e.target.name]: e.target.checked}) : null
+    e.target.name == 'enabled' ? setUpdatedRow({...updatedRow, [e.target.name]: !e.target.checked}) : null
+    e.target.name !== 'primary' && e.target.name !== 'enabled' ? setUpdatedRow({...updatedRow, [e.target.name]: e.target.value}) : null
     setMessage({...messages, success: null, error: null})
   }
 
@@ -229,6 +234,29 @@ const ViewAll = ({account, allAnnouncements, authorization}) => {
       setMessage({...messages, error: response.data.error})
     }
   }
+
+  const deleteRow = async (e) => {
+    e.preventDefault()
+    try {
+      const response = await axios.post(`${API}/announcement/delete`, selected, {
+        headers: {
+          Authorization: `Bearer ${authorization}`,
+          contentType: `application/json`
+        }
+      })
+      setAnnouncements(response.data)
+      setSelected([])
+      setMessage({...messages, success: 'Announcement was deleted successfully'})
+    } catch (error) {
+      setMessage({...messages, error: response.data.error})
+    }
+  }
+  
+  const viewAllButton = (e) => {
+    e.preventDefault()
+    setEditRowForm(false)
+    setSelected([])
+  }
   
   return (
     <>
@@ -238,14 +266,14 @@ const ViewAll = ({account, allAnnouncements, authorization}) => {
       <div className="announcements-table">
         {editRowForm == false && 
           <div className="announcements-table-buttons">
-            <button className={ selected.length >= 1 ? 'enabled ' : null} disabled={selected.length >= 1 ? false: true}>Delete</button>
+            <button className={ selected.length >= 1 ? 'enabled ' : null} disabled={selected.length >= 1 ? false: true}onClick={deleteRow}>Delete</button>
             <button className={ selected.length == 1 ? 'enabled ' : null} disabled={selected.length == 1 ? false: true} onClick={editRow}>Edit</button>
           </div>
         }
 
         {editRowForm == true && 
           <div className="announcements-table-buttons">
-            <button className="enabled" onClick={ () => setEditRowForm(false)}>View All</button>
+            <button className="enabled" onClick={viewAllButton}>View All</button>
           </div>
         }
         
@@ -263,21 +291,22 @@ const ViewAll = ({account, allAnnouncements, authorization}) => {
             </label>
           </div>
           }
-
           {headers !== null && editRowForm == false && headers.map( (header, i) => (
-          <div key={i} className="announcements-table-headers-heading">
-            {header !== '__v' ? header : null}
-            {/* 
-            TODO: Add filtering if client needs its 
-            FIXME: Change which column can be filtered in ternary operator
-            */}
-            {header == 'title' || header == 'subtitle' || header == 'createdAt'?
-            <svg onClick={ () => handleFilter(header, i)}>
-              <use id={header + i} xlinkHref={`/sprite.svg#icon-chevron-thin-desc`}></use>
-            </svg>
-            : null
-            }
-          </div>
+          header !== 'primary' && header !== 'enabled' && header !== '__v' ? 
+            <div key={i} className="announcements-table-headers-heading">
+              {header}
+              {/* 
+              TODO: Add filtering if client needs its 
+              FIXME: Change which column can be filtered in ternary operator
+              */}
+              {header == 'title' || header == 'subtitle' || header == 'createdAt'?
+              <svg onClick={ () => handleFilter(header, i)}>
+                <use id={header + i} xlinkHref={`/sprite.svg#icon-chevron-thin-desc`}></use>
+              </svg>
+              : null
+              }
+            </div>
+          : null
           ))
           }
         </div>
@@ -296,17 +325,19 @@ const ViewAll = ({account, allAnnouncements, authorization}) => {
             </label>
           </div>
           {Object.keys(announcement).map( (keyName, keyIndex) => (
-          <div key={keyIndex} className="announcements-table-rows-content">
-            <span>{keyName !== '__v' ? 
-            announcement[keyName].toString().length > 50 ?  
-            announcement[keyName].toString().substring(0, 50): 
-            announcement[keyName].toString() 
-            : null}
-            </span>
-            {/* <svg>
-              <use xlinkHref={`/sprite.svg#icon-chevron-thin-desc`}></use>
-            </svg> */}
-          </div>
+          keyName !== '__v' && keyName !== 'primary' && keyName !== 'enabled'  ?  
+            <div key={keyIndex} className="announcements-table-rows-content">
+              <span>
+              {announcement[keyName].toString().length > 50 ?  
+              announcement[keyName].toString().substring(0, 50): 
+              announcement[keyName].toString()
+              } 
+              </span>
+              {/* <svg>
+                <use xlinkHref={`/sprite.svg#icon-chevron-thin-desc`}></use>
+              </svg> */}
+            </div>
+          : null
           ))}
         </div>
         ))}
@@ -320,6 +351,35 @@ const ViewAll = ({account, allAnnouncements, authorization}) => {
             <div className="form-group-single">
               <label htmlFor="subtitle">Sub-title (optional)</label>
               <input type="text" name="subtitle" value={subtitle} onChange={handleChange}/>
+            </div>
+            <div className="form-group-double">
+              <div className="form-group-checkbox">
+                <label htmlFor="primary">
+                  <input type="checkbox" name="primary" checked={primary} onChange={handleChange}/>
+                  <span></span>
+                  <div>
+                    <svg>
+                      <use xlinkHref="/sprite.svg#icon-checkmark"></use>
+                    </svg>
+                  </div>
+                </label>
+                Display as Primary Announcement
+              </div>
+              
+            </div>
+            <div className="form-group-double">
+              <div className="form-group-checkbox">
+                  <label htmlFor="enabled">
+                    <input type="checkbox" name="enabled" checked={!enabled} onChange={handleChange}/>
+                    <span></span>
+                    <div>
+                      <svg>
+                        <use xlinkHref="/sprite.svg#icon-checkmark"></use>
+                      </svg>
+                    </div>
+                  </label>
+                  Disable
+              </div>
             </div>
             <div className="form-group-double">
               <label htmlFor="image">Image URL</label>
@@ -367,7 +427,7 @@ ViewAll.getInitialProps = async ({query, req}) => {
     }
   })
 
-
+  console.log(response.data)
   // CHANGE CREATEDAT DATE FORMAT TO YYYY-MM-DD
   let newResults = response.data.map( date => {
     let now = new Date(date.createdAt)

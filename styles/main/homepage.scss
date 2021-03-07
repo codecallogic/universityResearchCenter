@@ -11,10 +11,12 @@
     background-color: white;
     border-top-right-radius: 2rem;
     border-top-left-radius: 2rem;
+    border-bottom-right-radius: 2rem;
+    border-bottom-left-radius: 2rem;
     margin: 2rem 0;
 
     &-container {
-      padding: 1rem 0 5rem 0;
+      padding: 1rem 0 0 0;
     }
 
     &-header {
@@ -117,6 +119,41 @@
             margin: 1rem 0;
           }
         }
+      }
+    }
+
+    &-item {
+      &-title {
+        display: flex;
+        align-items: center;
+        padding: 3rem 2rem;
+        border-top: 0.5px solid $color-shade-light-gray;
+
+        svg {
+          width: 1.5rem;
+          height: 1.5rem;
+          margin-right: 2rem;
+          fill: $color-scheme-2 !important;
+        }
+
+        &-group {
+          display: grid;
+
+          h6 {
+            font-size: 2rem;
+            font-weight: 500;
+            color: $color-scheme-1;
+          }
+
+          span {
+            font-size: 1.8rem;
+          }
+        }
+      }
+
+      &:hover {
+        background-color: $color-shade-light-gray;
+        cursor: pointer;
       }
     }
   }

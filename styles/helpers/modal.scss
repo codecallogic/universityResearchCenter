@@ -1,0 +1,96 @@
+.bg-modal {
+  grid-column: 1/-1;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  overflow-y: auto;
+  z-index: 10;
+
+  &-icon {
+    margin-left: 1rem;
+    margin-top: 2rem;
+    padding: 2rem;
+    background-color: $color-shade-light-gray;
+    height: 6rem;
+    width: 6rem;
+    border-radius: 3rem;
+    fill: $color-scheme-2;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
+
+.modal-content {
+  width: 50%;
+  height: auto;
+  background-color: white;
+  border-radius: 2rem;
+  // animation: fadeIn 1.5s cubic-bezier(0.58, 0.03, 0, 1.66);
+
+  &-heading {
+    background-color: $color-scheme-1;
+    border-top-right-radius: 2rem;
+    border-top-left-radius: 2rem;
+
+    &-breadcrumb {
+      padding: 2rem 10rem;
+      display: flex;
+      align-items: center;
+      color: white;
+
+      svg {
+        height: 2rem;
+        width: 2rem;
+      }
+
+      span {
+        display: block;
+        font-size: 2rem;
+        margin-left: 1rem;
+      }
+    }
+
+    h2 {
+      font-weight: 300;
+      padding: 0rem 10rem;
+      color: white;
+      font-size: 2rem;
+    }
+
+    h1 {
+      font-weight: 600;
+      padding: 0rem 10rem;
+      color: white;
+      font-size: 2.5rem;
+    }
+
+    &-date {
+      padding: 1rem 10rem 2rem 10rem;
+      color: white;
+      font-size: 1.6rem;
+
+      span {
+        font-weight: 800;
+      }
+    }
+  }
+
+  &-constant {
+    padding: 2rem 10rem;
+    font-size: 1.8rem;
+    font-weight: 600;
+  }
+
+  &-message {
+    padding: 2rem 10rem 8rem 10rem;
+    font-size: 1.6rem;
+  }
+}
