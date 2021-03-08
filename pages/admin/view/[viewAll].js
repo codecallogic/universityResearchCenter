@@ -5,7 +5,7 @@ import withAdmin from '../../withAdmin'
 import {useRouter} from 'next/router'
 import AdminNav from '../../../components/admin/adminNav'
 import {getToken} from '../../../helpers/auth'
-import {sortCreatedAtDates, sortExpirationDates} from '../../../helpers/sort'
+import {parseCreatedAtDates, parseExpirationDates} from '../../../helpers/sort'
 import dynamic from 'next/dynamic'
 const ReactQuill = dynamic(() => import('react-quill'), {ssr: false, loading: () => <p>Loading ...</p>})
 import 'react-quill/dist/quill.snow.css'
@@ -282,14 +282,34 @@ const ViewAll = ({account, allContent, authorization, current}) => {
   const deleteRow = async (e) => {
     e.preventDefault()
     try {
-      const response = await axios.post(`${API}/announcement/delete`, selected, {
-        headers: {
-          Authorization: `Bearer ${authorization}`,
-          contentType: `application/json`
-        }
-      })
+      switch (current) {
+        case 'announcements':
+          const responseAnnouncements = await axios.post(`${API}/announcement/delete`, selected, {
+            headers: {
+              Authorization: `Bearer ${authorization}`,
+              contentType: `application/json`
+            }
+          })
+          setContent(responseAnnouncements.data)
+          break;
+        
+        case 'meetings and activities':
+          const responseMeetings = await axios.post(`${API}/meeting/delete`, selected, {
+            headers: {
+              Authorization: `Bearer ${authorization}`,
+              contentType: `application/json`
+            }
+          })
+          parseExpirationDates(responseMeetings.data)
+          parseCreatedAtDates(responseMeetings.data)
+          setContent(responseMeetings.data)
+          break;
+      
+        default:
+          break;
+      }
+      
       setSelected([])
-      setContent(response.data)
       const allCheckBoxes = document.querySelectorAll('input[type="checkbox"]')
       for(let i = 0; i < allCheckBoxes.length; i++){
         if(allCheckBoxes[i].checked == true){
@@ -307,8 +327,8 @@ const ViewAll = ({account, allContent, authorization, current}) => {
   const viewAllButton = (e) => {
     e.preventDefault()
     setSelected([])
-    sortCreatedAtDates(content)
-    sortExpirationDates(content)
+    parseCreatedAtDates(content)
+    parseExpirationDates(content)
     setEditRowForm(false)
   }
   
@@ -532,7 +552,7 @@ ViewAll.getInitialProps = async ({query, req}) => {
       })
 
       // CHANGE CREATEDAT DATE FORMAT TO YYYY-MM-DD
-      sortCreatedAtDates(announcementsResponse.data)
+      parseCreatedAtDates(announcementsResponse.data)
 
       return {
         allContent: announcementsResponse.data,
@@ -549,8 +569,8 @@ ViewAll.getInitialProps = async ({query, req}) => {
       })
 
       // CHANGE CREATEDAT DATE FORMAT TO YYYY-MM-DD
-      sortExpirationDates(meetingsResponse.data)
-      sortCreatedAtDates(meetingsResponse.data)
+      parseExpirationDates(meetingsResponse.data)
+      parseCreatedAtDates(meetingsResponse.data)
 
       return {
         allContent: meetingsResponse.data,

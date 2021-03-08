@@ -49,12 +49,14 @@
       svg {
         height: 2rem;
         width: 2rem;
+        fill: white;
       }
 
       span {
         display: block;
         font-size: 2rem;
         margin-left: 1rem;
+        text-transform: capitalize;
       }
     }
 
@@ -93,4 +95,24 @@
     padding: 2rem 10rem 8rem 10rem;
     font-size: 1.6rem;
   }
+
+  &-source {
+    padding: 2rem 10rem 4rem 10rem;
+    font-size: 1.8rem;
+    font-weight: 800;
+
+    a {
+      color: $color-scheme-1;
+      font-size: 1.6rem;
+      font-weight: 400;
+    }
+  }
+}
+
+.small-padding {
+  padding: 2rem 10rem 2rem 10rem !important;
+}
+
+.meetings {
+  background-color: $color-scheme-5;
 }

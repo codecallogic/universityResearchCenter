@@ -3,22 +3,36 @@ import Head from 'next/head'
 import Nav from '../components/nav'
 import axios from 'axios'
 import {API} from '../config'
+import {parseCreatedAtDates, parseExpirationDates, sortByCreationDate, sortByExpirationDate} from '../helpers/sort'
 
-const Home = ({announcements}) => {
+const Home = ({announcements, meetings}) => {
   
   const [announcementsList, setAnnouncementsList] = useState(announcements)
-  const [modal, setModal] = useState(null)
+  const [meetingsList, setList] = useState(meetings)
+  const [announcementModal, setAnnouncementModal] = useState(null)
+  const [generalModal, setGeneralModal] = useState(null)
+  const [modalType, setModalType] = useState(null)
 
   const ref = useRef()
 
-  const createModal = (e) => {
-    setModal(e)
+  const createAnnouncementModal = (e) => {
+    setAnnouncementModal(e)
+  }
+
+  const createGeneralModal = (e) => {
+    setGeneralModal(e)
   }
 
   const handleClickOutside = (e) => {
+    console.log(ref.current)
     if(ref.current && !ref.current.contains(e.target)){
-      setModal(null)
+      setAnnouncementModal(null)
+      setGeneralModal(null)
     }
+  }
+
+  const modal = (e) => {
+    setModalType(e)
   }
 
   return (
@@ -61,7 +75,7 @@ const Home = ({announcements}) => {
           {announcementsList !== null && 
             announcementsList.map( (item, i) =>
               item.primary === false && item.enabled === true ? 
-              <div key={i} className="home-announcements-item" onClick={() => createModal(item)}>
+              <div key={i} className="home-announcements-item" onClick={() => createAnnouncementModal(item)}>
                 <div className="home-announcements-item-title">
                   <svg>
                     <use xlinkHref="/sprite.svg#icon-message"></use>
@@ -86,17 +100,17 @@ const Home = ({announcements}) => {
           <span>Meetings and Activities</span>
         </div>
         <div className="home-meetings-container">
-          {announcementsList !== null && 
-            announcementsList.map( (item, i) =>
-              item.primary === false && item.enabled === true ? 
-              <div key={i} className="home-meetings-item" onClick={() => createModal(item)}>
+          {meetingsList !== null && 
+            meetingsList.map( (item, i) =>
+              item.enabled === true ? 
+              <div key={i} className="home-meetings-item" onClick={() => { createGeneralModal(item); modal('meetings and activities');}}>
                 <div className="home-meetings-item-title">
                   <svg>
                     <use xlinkHref="/sprite.svg#icon-calendar"></use>
                   </svg>
                   <div className="home-meetings-item-title-group">
                     <h6>{item.title}</h6>
-                    <span>Posted: <strong>{item.createdAt}</strong></span>
+                    {item.expiration !== 'no expiration' ? <span>Expires: <strong>{item.expiration}</strong></span> : <span>Posted: <strong>{item.createdAt}</strong></span>}
                     </div>
                   </div>
               </div>
@@ -106,6 +120,7 @@ const Home = ({announcements}) => {
           }
         </div>
       </div>
+
       <div className="home-opportunities">
         <div className="home-opportunities-header">
           <svg>
@@ -117,7 +132,7 @@ const Home = ({announcements}) => {
           {announcementsList !== null && 
             announcementsList.map( (item, i) =>
               item.primary === false && item.enabled === true ? 
-              <div key={i} className="home-opportunities-item" onClick={() => createModal(item)}>
+              <div key={i} className="home-opportunities-item" onClick={() => { createGeneralModal(item); modal('opportunities for faculty');}}>
                 <div className="home-opportunities-item-title">
                   <svg>
                     <use xlinkHref="/sprite.svg#icon-message"></use>
@@ -134,7 +149,8 @@ const Home = ({announcements}) => {
           }
         </div>
       </div>
-      {modal !== null && 
+
+      {announcementModal !== null && 
       <div className="bg-modal" onClick={handleClickOutside}>
         <div className="modal-content" ref={ref}>
           <div className="modal-content-heading">
@@ -144,12 +160,36 @@ const Home = ({announcements}) => {
               </svg>
               <span>Announcements</span>
             </div>
-            <h2 className="modal-content-heading-subtitle">{modal.subtitle}</h2>
-            <h1 className="modal-content-heading-title">{modal.title}</h1>
-            <div className="modal-content-heading-date">Posted: <span>{modal.createdAt}</span></div>
+            <h2 className="modal-content-heading-subtitle">{announcementModal.subtitle}</h2>
+            <h1 className="modal-content-heading-title">{announcementModal.title}</h1>
+            <div className="modal-content-heading-date">Posted: <span>{announcementModal.createdAt}</span></div>
           </div>
           <div className="modal-content-constant">Message from the Director:</div>
-          <div className="modal-content-message" dangerouslySetInnerHTML={ { __html: modal.message} }></div>
+          <div className="modal-content-message" dangerouslySetInnerHTML={ { __html: announcementModal.message} }></div>
+        </div>
+        <svg className="bg-modal-icon" onClick={handleClickOutside}>
+          <use xlinkHref="sprite.svg#icon-cross"></use>
+        </svg>
+      </div>
+      }
+
+      {generalModal !== null && 
+      <div className="bg-modal" onClick={handleClickOutside}>
+        <div className="modal-content" ref={ref}>
+          <div className={`modal-content-heading ${modalType}`}>
+            <div className="modal-content-heading-breadcrumb">
+              <svg>
+                <use xlinkHref={`/sprite.svg#icon-${modalType}`}></use>
+              </svg>
+              <span>{modalType}</span>
+            </div>
+            <h2 className="modal-content-heading-subtitle">{generalModal.subtitle}</h2>
+            <h1 className="modal-content-heading-title">{generalModal.title}</h1>
+            <div className="modal-content-heading-date">Posted: <span>{generalModal.createdAt}</span></div>
+          </div>
+          <div className="modal-content-constant">Message from the Director:</div>
+          <div className="modal-content-message small-padding" dangerouslySetInnerHTML={ { __html: generalModal.message} }></div>
+          <div className="modal-content-source">Source: <a href={generalModal.source}>{generalModal.source}</a></div>
         </div>
         <svg className="bg-modal-icon" onClick={handleClickOutside}>
           <use xlinkHref="sprite.svg#icon-cross"></use>
@@ -163,23 +203,20 @@ const Home = ({announcements}) => {
 
 Home.getInitialProps = async () => {
   const announcements = await axios.get(`${API}/announcement/public/list`)
+  const meetings = await axios.get(`${API}/meetings/public/list`)
 
   // CHANGE CREATEDAT DATE FORMAT TO YYYY-MM-DD
-  let newResults = announcements.data.map( date => {
-    let now = new Date(date.createdAt)
-    date.createdAt = now.toISOString().slice(0,10)
-    return date
-  })
+  parseCreatedAtDates(announcements.data)
+  parseCreatedAtDates(meetings.data)
+  parseExpirationDates(meetings.data)
 
   // SORT ANNOUNCEMENTS BY DATE POSTED
-  let newArray = []
-  let filterDates = announcements.data.sort( (a, b) => {
-    return (new Date(b.createdAt) - new Date(a.createdAt)) > -1 ? 1 : -1;
-  })
-  newArray = [...filterDates]
+  let newAnnouncements = sortByCreationDate(announcements.data)
+  let newMeetings = sortByExpirationDate(meetings.data)
 
   return {
-    announcements: newArray
+    announcements: newAnnouncements,
+    meetings: newMeetings
   }
 }
 

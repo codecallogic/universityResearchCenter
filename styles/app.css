@@ -267,11 +267,13 @@ body {
       color: white; }
       .modal-content-heading-breadcrumb svg {
         height: 2rem;
-        width: 2rem; }
+        width: 2rem;
+        fill: white; }
       .modal-content-heading-breadcrumb span {
         display: block;
         font-size: 2rem;
-        margin-left: 1rem; }
+        margin-left: 1rem;
+        text-transform: capitalize; }
     .modal-content-heading h2 {
       font-weight: 300;
       padding: 0rem 10rem;
@@ -295,6 +297,20 @@ body {
   .modal-content-message {
     padding: 2rem 10rem 8rem 10rem;
     font-size: 1.6rem; }
+  .modal-content-source {
+    padding: 2rem 10rem 4rem 10rem;
+    font-size: 1.8rem;
+    font-weight: 800; }
+    .modal-content-source a {
+      color: #4056a1;
+      font-size: 1.6rem;
+      font-weight: 400; }
+
+.small-padding {
+  padding: 2rem 10rem 2rem 10rem !important; }
+
+.meetings {
+  background-color: #d79922; }
 
 .nav {
   grid-column: 1/-1;
@@ -817,7 +833,8 @@ body {
   border-top-left-radius: 2rem;
   border-bottom-right-radius: 2rem;
   border-bottom-left-radius: 2rem;
-  margin: 2rem 1rem 0 0; }
+  margin: 2rem 1rem 0 0;
+  height: min-content; }
   .home-meetings-header {
     display: flex;
     justify-content: center;
@@ -866,7 +883,8 @@ body {
   border-top-left-radius: 2rem;
   border-bottom-right-radius: 2rem;
   border-bottom-left-radius: 2rem;
-  margin: 2rem 0 0 0; }
+  margin: 2rem 0 0 0;
+  height: min-content; }
   .home-opportunities-header {
     display: flex;
     justify-content: center;

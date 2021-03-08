@@ -174,8 +174,8 @@ const Dashboard = ({loggedIn, account, authorization}) => {
                 <input type="text" name="source" value={source} onChange={handleChange} required/>
               </div>
               <div className="form-group-double">
-                <label htmlFor="expiration">Expiration Date</label>
-                <input type="date" name="expiration" value={expiration} placeholder="mm / dd / yyyy" onChange={handleChange} required/>
+                <label htmlFor="expiration">Expiration Date (Optional)</label>
+                <input type="date" name="expiration" value={expiration} placeholder="mm / dd / yyyy" onChange={handleChange}/>
               </div>
               <div className="form-group-single">
                   <label htmlFor="message">Message</label>
