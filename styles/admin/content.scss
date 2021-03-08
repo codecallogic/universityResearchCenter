@@ -1,9 +1,10 @@
-.announcements {
+.content {
   padding: 5rem 10rem;
 
   &-header {
     font-size: 2.2rem;
     font-weight: 200;
+    text-transform: capitalize;
   }
 
   &-table {

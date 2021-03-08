@@ -5,18 +5,19 @@ import withAdmin from '../../withAdmin'
 import {useRouter} from 'next/router'
 import AdminNav from '../../../components/admin/adminNav'
 import {getToken} from '../../../helpers/auth'
+import {sortCreatedAtDates, sortExpirationDates} from '../../../helpers/sort'
 import dynamic from 'next/dynamic'
 const ReactQuill = dynamic(() => import('react-quill'), {ssr: false, loading: () => <p>Loading ...</p>})
 import 'react-quill/dist/quill.snow.css'
 axios.defaults.withCredentials = true
 
-const ViewAll = ({account, allAnnouncements, authorization}) => {
+const ViewAll = ({account, allContent, authorization, current}) => {
 
   const router = useRouter()
 
   const [user, setUser] = useState(JSON.parse(decodeURIComponent(account)))
-  const [announcements, setAnnouncements] = useState(allAnnouncements)
-  const [headers, setHeaders] = useState(Object.keys(allAnnouncements[0]))
+  const [content, setContent] = useState(allContent)
+  const [headers, setHeaders] = useState(Object.keys(allContent[0]))
   const [selected, setSelected] = useState([])
   const [asc, setAsc] = useState(-1)
   const [desc, setDesc] = useState(1)
@@ -27,6 +28,8 @@ const ViewAll = ({account, allAnnouncements, authorization}) => {
     subtitle: '',
     imageURL: '',
     imageDescr: '',
+    source: '',
+    expiration: '',
     primary: false,
     enabled: true,
     message: ''
@@ -37,7 +40,7 @@ const ViewAll = ({account, allAnnouncements, authorization}) => {
   })
 
   const {error, success} = messages
-  const {title, subtitle, imageURL, imageDescr, primary, enabled, message} = updatedRow
+  const {title, subtitle, imageURL, imageDescr, source, expiration, primary, enabled, message} = updatedRow
 
   const handleFilter = (header, key) => {
     // GET SVG XLINK:HREF ATTRITUTE BY ELEMENT BY ID 
@@ -51,7 +54,7 @@ const ViewAll = ({account, allAnnouncements, authorization}) => {
       case 'title':
         // SORT ANNOUNCEMENTS IN ASCENDING ORDER OR DESCENDING
         // STATE ASC AND DESC VALUES ARE CHANGED SETSTATE BELOW
-        let filterTitles = allAnnouncements.sort( (a, b) => {
+        let filterTitles = content.sort( (a, b) => {
           let textA = a.title.toLowerCase();
           let textB = b.title.toLowerCase();
           return textA < textB ? asc : desc
@@ -62,14 +65,14 @@ const ViewAll = ({account, allAnnouncements, authorization}) => {
         ? 
         (elGetElement.setAttribute('xlink:href', '/sprite.svg#icon-chevron-thin-asc'),
         newArray = [...filterTitles],
-        setAnnouncements(newArray),
+        setContent(newArray),
         setAsc(1),
         setDesc(-1)
         )
         : 
         (elGetElement.setAttribute('xlink:href', '/sprite.svg#icon-chevron-thin-desc'),
         newArray = [...filterTitles],
-        setAnnouncements(newArray),
+        setContent(newArray),
         setAsc(-1),
         setDesc(1)
         )
@@ -77,7 +80,7 @@ const ViewAll = ({account, allAnnouncements, authorization}) => {
         break;
 
       case 'subtitle':
-        let filterSubTitles = allAnnouncements.sort( (a, b) => {
+        let filterSubTitles = content.sort( (a, b) => {
           let textA = a.subtitle.toLowerCase();
           let textB = b.subtitle.toLowerCase();
           return textA < textB ? asc : desc
@@ -87,14 +90,14 @@ const ViewAll = ({account, allAnnouncements, authorization}) => {
         ? 
         (elGetElement.setAttribute('xlink:href', '/sprite.svg#icon-chevron-thin-asc'),
         newArray = [...filterSubTitles],
-        setAnnouncements(newArray),
+        setContent(newArray),
         setAsc(1),
         setDesc(-1)
         )
         : 
         (elGetElement.setAttribute('xlink:href', '/sprite.svg#icon-chevron-thin-desc'),
         newArray = [...filterSubTitles],
-        setAnnouncements(newArray),
+        setContent(newArray),
         setAsc(-1),
         setDesc(1)
         )
@@ -102,7 +105,7 @@ const ViewAll = ({account, allAnnouncements, authorization}) => {
         break;
 
       case 'createdAt':
-        let filterDates = allAnnouncements.sort( (a, b) => {
+        let filterDates = content.sort( (a, b) => {
           return (new Date(b.createdAt) - new Date(a.createdAt)) > -1 ? asc : desc;
         })
 
@@ -110,14 +113,37 @@ const ViewAll = ({account, allAnnouncements, authorization}) => {
         ? 
         (elGetElement.setAttribute('xlink:href', '/sprite.svg#icon-chevron-thin-asc'),
         newArray = [...filterDates],
-        setAnnouncements(newArray),
+        setContent(newArray),
         setAsc(1),
         setDesc(-1)
         )
         : 
         (elGetElement.setAttribute('xlink:href', '/sprite.svg#icon-chevron-thin-desc'),
         newArray = [...filterDates],
-        setAnnouncements(newArray),
+        setContent(newArray),
+        setAsc(-1),
+        setDesc(1)
+        )
+          
+        break;
+
+      case 'expiration':
+        let filterExpirationDates = content.sort( (a, b) => {
+          return (new Date(b.expiration) - new Date(a.expiration)) > -1 ? asc : desc;
+        })
+
+        elGetAttribute.indexOf('desc') > -1 
+        ? 
+        (elGetElement.setAttribute('xlink:href', '/sprite.svg#icon-chevron-thin-asc'),
+        newArray = [...filterExpirationDates],
+        setContent(newArray),
+        setAsc(1),
+        setDesc(-1)
+        )
+        : 
+        (elGetElement.setAttribute('xlink:href', '/sprite.svg#icon-chevron-thin-desc'),
+        newArray = [...filterExpirationDates],
+        setContent(newArray),
         setAsc(-1),
         setDesc(1)
         )
@@ -196,10 +222,10 @@ const ViewAll = ({account, allAnnouncements, authorization}) => {
   // SET UP VIEW FOR EDITING AND UPDATING ROW DATA
   const editRow = () => {
     setMessage({...messages, error: '', success: ''})
-    for(let i = 0; i < announcements.length; i++){
-      if(announcements[i]._id == selected[0]){
+    for(let i = 0; i < content.length; i++){
+      if(content[i]._id == selected[0]){
         setEditRowForm(true)
-        setUpdatedRow({...updatedRow, id: announcements[i]._id, title: announcements[i].title,  subtitle: announcements[i].subtitle, imageURL: announcements[i].imageURL, imageDescr: announcements[i].imageDescr, primary: announcements[i].primary, enabled: announcements[i].enabled, message: announcements[i].message})
+        setUpdatedRow({...updatedRow, id: content[i]._id, title: content[i].title,  subtitle: content[i].subtitle, imageURL: content[i].imageURL, imageDescr: content[i].imageDescr, source: content[i].source, expiration: content[i].expiration, primary: content[i].primary, enabled: content[i].enabled, message: content[i].message})
       }
     }
   }
@@ -218,8 +244,8 @@ const ViewAll = ({account, allAnnouncements, authorization}) => {
     setMessage({...messages, success: null, error: null})
   }
 
-  // SUBMIT UPDATED ROW CONTENT
-  const submitUpdate = async (e) => {
+  // SUBMIT UPDATED FOR ANNOUNCEMENT ROW CONTENT
+  const submitUpdateAnnouncement = async (e) => {
     e.preventDefault()
     try {
       const response = await axios.post(`${API}/announcement/update`, updatedRow, {
@@ -228,10 +254,28 @@ const ViewAll = ({account, allAnnouncements, authorization}) => {
           contentType: `application/json`
         }
       })
-      setAnnouncements(response.data)
+      setContent(response.data)
       setMessage({...messages, success: 'Update was made successfully'})
     } catch (error) {
-      setMessage({...messages, error: response.data.error})
+      setMessage({...messages, error: error.response.data})
+    }
+  }
+
+  // SUBMIT UPDATED FOR MEETING ROW CONTENT
+  const submitUpdateMeeting = async (e) => {
+    e.preventDefault()
+    try {
+      const response = await axios.post(`${API}/meeting/update`, updatedRow, {
+        headers: {
+          Authorization: `Bearer ${authorization}`,
+          contentType: `application/json`
+        }
+      })
+      setMessage({...messages, success: 'Update was made successfully'})
+      setContent(response.data)
+    } catch (error) {
+      console.log(error.response)
+      setMessage({...messages, error: error.response})
     }
   }
 
@@ -245,7 +289,7 @@ const ViewAll = ({account, allAnnouncements, authorization}) => {
         }
       })
       setSelected([])
-      setAnnouncements(response.data)
+      setContent(response.data)
       const allCheckBoxes = document.querySelectorAll('input[type="checkbox"]')
       for(let i = 0; i < allCheckBoxes.length; i++){
         if(allCheckBoxes[i].checked == true){
@@ -263,32 +307,33 @@ const ViewAll = ({account, allAnnouncements, authorization}) => {
   const viewAllButton = (e) => {
     e.preventDefault()
     setSelected([])
-    console.log(announcements)
+    sortCreatedAtDates(content)
+    sortExpirationDates(content)
     setEditRowForm(false)
   }
   
   return (
     <>
     <AdminNav data={user}></AdminNav>
-    <div className="announcements">
-      <h1 className="announcements-header">All Announcements</h1>
-      <div className="announcements-table">
+    <div className="content">
+      <h1 className="content-header">All {current}</h1>
+      <div className="content-table">
         {editRowForm == false && 
-          <div className="announcements-table-buttons">
+          <div className="content-table-buttons">
             <button className={ selected.length >= 1 ? 'enabled ' : null} disabled={selected.length >= 1 ? false: true}onClick={deleteRow}>Delete</button>
             <button className={ selected.length == 1 ? 'enabled ' : null} disabled={selected.length == 1 ? false: true} onClick={editRow}>Edit</button>
           </div>
         }
 
         {editRowForm == true && 
-          <div className="announcements-table-buttons">
+          <div className="content-table-buttons">
             <button className="enabled" onClick={viewAllButton}>View All</button>
           </div>
         }
         
-        <div className="announcements-table-headers">
+        <div className="content-table-headers">
           {editRowForm == false && 
-          <div className="announcements-table-group">
+          <div className="content-table-group">
             <label htmlFor="selectAll" onClick={selectAll}>
               <input type="checkbox" name="selectAll"/>
               <span></span>
@@ -302,13 +347,13 @@ const ViewAll = ({account, allAnnouncements, authorization}) => {
           }
           {headers !== null && editRowForm == false && headers.map( (header, i) => (
           header !== 'primary' && header !== 'enabled' && header !== '__v' ? 
-            <div key={i} className="announcements-table-headers-heading">
+            <div key={i} className="content-table-headers-heading">
               {header}
               {/* 
               TODO: Add filtering if client needs its 
               FIXME: Change which column can be filtered in ternary operator
               */}
-              {header == 'title' || header == 'subtitle' || header == 'createdAt'?
+              {header == 'title' || header == 'subtitle' || header == 'createdAt' || header == 'expiration'?
               <svg onClick={ () => handleFilter(header, i)}>
                 <use id={header + i} xlinkHref={`/sprite.svg#icon-chevron-thin-desc`}></use>
               </svg>
@@ -320,11 +365,11 @@ const ViewAll = ({account, allAnnouncements, authorization}) => {
           }
         </div>
 
-        {announcements !== null && editRowForm == false && announcements.map( (announcement, i) => (
-        <div key={i} className="announcements-table-rows">
-          <div className="announcements-table-group">
+        {content !== null && editRowForm == false && content.map( (item, i) => (
+        <div key={i} className="content-table-rows">
+          <div className="content-table-group">
             <label htmlFor="selectAll">
-              <input type="checkbox" id={announcement._id} value={announcement._id} onClick={rowClicked}/>
+              <input type="checkbox" id={item._id} value={item._id} onClick={rowClicked}/>
               <span></span>
               <div>
                 <svg>
@@ -333,13 +378,13 @@ const ViewAll = ({account, allAnnouncements, authorization}) => {
               </div>
             </label>
           </div>
-          {Object.keys(announcement).map( (keyName, keyIndex) => (
+          {Object.keys(item).map( (keyName, keyIndex) => (
           keyName !== '__v' && keyName !== 'primary' && keyName !== 'enabled'  ?  
-            <div key={keyIndex} className="announcements-table-rows-content">
+            <div key={keyIndex} className="content-table-rows-content">
               <span>
-              {announcement[keyName].toString().length > 50 ?  
-              announcement[keyName].toString().substring(0, 50): 
-              announcement[keyName].toString()
+              {item[keyName].toString().length > 50 ?  
+              item[keyName].toString().substring(0, 50): 
+              item[keyName].toString()
               } 
               </span>
               {/* <svg>
@@ -351,8 +396,8 @@ const ViewAll = ({account, allAnnouncements, authorization}) => {
         </div>
         ))}
 
-        {editRowForm == true &&
-          <form className="form editing" action="POST" onSubmit={submitUpdate}>
+        {editRowForm == true && current == 'announcements' && 
+          <form className="form editing" action="POST" onSubmit={submitUpdateAnnouncement}>
             <div className="form-group-single">
               <label htmlFor="title">Title</label>
               <input type="text" name="title" value={title} required onChange={handleChange}/>
@@ -409,7 +454,54 @@ const ViewAll = ({account, allAnnouncements, authorization}) => {
                     onChange={handleQuill}
                 />
             </div>
-            <button type="submit" className="submit-announcement">Update Anouncement</button>
+            <button type="submit" className="submit-item">Update Anouncement</button>
+          </form>
+        }
+
+        {editRowForm == true && current == 'meetings and activities' && 
+          <form className="form editing" action="POST" onSubmit={submitUpdateMeeting}>
+            <div className="form-group-single">
+              <label htmlFor="title">Title</label>
+              <input type="text" name="title" value={title} required onChange={handleChange}/>
+            </div>
+            <div className="form-group-single">
+              <label htmlFor="subtitle">Sub-title (optional)</label>
+              <input type="text" name="subtitle" value={subtitle} onChange={handleChange}/>
+            </div>
+            <div className="form-group-single">
+              <label htmlFor="source">Source</label>
+              <input type="text" name="source" value={source} onChange={handleChange} required/>
+            </div>
+            <div className="form-group-double">
+              <div className="form-group-checkbox">
+                  <label htmlFor="enabled">
+                    <input type="checkbox" name="enabled" checked={!enabled} onChange={handleChange}/>
+                    <span></span>
+                    <div>
+                      <svg>
+                        <use xlinkHref="/sprite.svg#icon-checkmark"></use>
+                      </svg>
+                    </div>
+                  </label>
+                  Disable
+              </div>
+            </div>
+            <div className="form-group-single">
+              <label htmlFor="expiration">Expiration Date</label>
+              <input type="date" name="expiration" value={expiration} placeholder="mm / dd / yyyy" onChange={handleChange} required/>
+            </div>
+            <div className="form-group-single">
+                <label htmlFor="message">Message</label>
+                <ReactQuill 
+                    placeholder="Write something..."
+                    className="form-group-quill"
+                    theme="snow"
+                    name="message"
+                    value={message}
+                    onChange={handleQuill}
+                />
+            </div>
+            <button type="submit" className="submit-item">Update Meeting or Activity</button>
           </form>
         }
 
@@ -423,29 +515,50 @@ const ViewAll = ({account, allAnnouncements, authorization}) => {
 }
 
 ViewAll.getInitialProps = async ({query, req}) => {
+  console.log(query.viewAll)
   const token = getToken('accessToken', req)
   let accessToken = null
   if(token){
     accessToken = token.split('=')[1]
   }
 
-  const response = await axios.get(`${API}/announcement/list`, {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-      contentType: `application/json`
-    }
-  })
+  switch (query.viewAll) {
+    case 'announcements':
+      const announcementsResponse = await axios.get(`${API}/announcement/list`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          contentType: `application/json`
+        }
+      })
 
-  console.log(response.data)
-  // CHANGE CREATEDAT DATE FORMAT TO YYYY-MM-DD
-  let newResults = response.data.map( date => {
-    let now = new Date(date.createdAt)
-    date.createdAt = now.toISOString().slice(0,10)
-    return date
-  })
+      // CHANGE CREATEDAT DATE FORMAT TO YYYY-MM-DD
+      sortCreatedAtDates(announcementsResponse.data)
 
-  return {
-    allAnnouncements: response.data
+      return {
+        allContent: announcementsResponse.data,
+        current: query.viewAll
+      }
+      
+      break;
+    case 'meetings and activities':
+      const meetingsResponse = await axios.get(`${API}/meetings/list`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          contentType: `application/json`
+        }
+      })
+
+      // CHANGE CREATEDAT DATE FORMAT TO YYYY-MM-DD
+      sortExpirationDates(meetingsResponse.data)
+      sortCreatedAtDates(meetingsResponse.data)
+
+      return {
+        allContent: meetingsResponse.data,
+        current: query.viewAll
+      }
+
+    default:
+      break;
   }
 }
 

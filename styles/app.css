@@ -109,7 +109,7 @@ body {
     cursor: auto !important;
     box-shadow: none !important; }
 
-.submit-announcement {
+.submit-item {
   padding: 1rem 2rem;
   background-color: #f13c20;
   outline: none;
@@ -118,7 +118,7 @@ body {
   color: white;
   font-size: 1.6rem;
   transition: all 0.2s ease-in; }
-  .submit-announcement:hover {
+  .submit-item:hover {
     cursor: pointer;
     border: 0.1rem solid #c5cbe3;
     background-color: white !important;
@@ -606,47 +606,48 @@ body {
       .dashboard-form-group-single-quill {
         color: black !important; }
 
-.announcements {
+.content {
   padding: 5rem 10rem; }
-  .announcements-header {
+  .content-header {
     font-size: 2.2rem;
-    font-weight: 200; }
-  .announcements-table-buttons {
+    font-weight: 200;
+    text-transform: capitalize; }
+  .content-table-buttons {
     display: flex;
     padding: 2rem 0; }
-    .announcements-table-buttons button {
+    .content-table-buttons button {
       font-size: 1.6rem;
       padding: 1rem 2rem;
       margin-right: 2rem;
       outline: none;
       border: none;
       transition: all 0.5s; }
-  .announcements-table-headers {
+  .content-table-headers {
     display: grid;
     grid-template-columns: max-content repeat(8, minmax(10rem, 1fr));
     align-items: center;
     padding: 2rem 0;
     border-bottom: 0.1rem solid #4056a1; }
-    .announcements-table-headers-heading {
+    .content-table-headers-heading {
       display: flex;
       align-items: center;
       font-size: 1.8rem;
       text-transform: capitalize; }
-      .announcements-table-headers-heading svg {
+      .content-table-headers-heading svg {
         height: 2rem;
         width: 2rem;
         fill: #4056a1;
         margin-left: 1.5rem; }
-        .announcements-table-headers-heading svg:hover {
+        .content-table-headers-heading svg:hover {
           cursor: pointer; }
-  .announcements-table-group label {
+  .content-table-group label {
     display: grid;
     font-size: 1.6rem;
     margin-right: 2rem;
     position: relative;
     background-color: white;
     border-radius: 0.5rem; }
-    .announcements-table-group label input[type='checkbox'] {
+    .content-table-group label input[type='checkbox'] {
       height: 2.5rem;
       width: 2.5rem;
       border-radius: 0.5rem;
@@ -654,9 +655,9 @@ body {
       cursor: pointer;
       opacity: 0;
       z-index: 10; }
-      .announcements-table-group label input[type='checkbox']:checked ~ div > svg {
+      .content-table-group label input[type='checkbox']:checked ~ div > svg {
         display: block; }
-    .announcements-table-group label span {
+    .content-table-group label span {
       position: absolute;
       top: 0;
       left: 0;
@@ -664,7 +665,7 @@ body {
       width: 2.5rem;
       border-radius: 0.5rem;
       border: 0.1rem solid #4056a1; }
-    .announcements-table-group label div {
+    .content-table-group label div {
       position: absolute;
       top: 0;
       left: 0;
@@ -673,34 +674,34 @@ body {
       display: flex;
       justify-content: center;
       align-items: center; }
-      .announcements-table-group label div svg {
+      .content-table-group label div svg {
         height: 2rem;
         width: 2rem;
         fill: #4056a1;
         display: none; }
-  .announcements-table-rows {
+  .content-table-rows {
     display: grid;
     grid-template-columns: max-content repeat(8, minmax(10rem, 1fr));
     align-items: center;
     padding: 1.5rem 1rem;
     transition: all 1s; }
-    .announcements-table-rows:hover {
+    .content-table-rows:hover {
       background-color: rgba(60, 145, 230, 0.3); }
-    .announcements-table-rows-content {
+    .content-table-rows-content {
       display: flex;
       align-items: center;
       font-size: 1.8rem; }
-      .announcements-table-rows-content span {
+      .content-table-rows-content span {
         width: 100%;
         padding: 0 1rem 0 0;
         text-transform: capitalize;
         word-wrap: break-word; }
-      .announcements-table-rows-content svg {
+      .content-table-rows-content svg {
         height: 2rem;
         width: 2rem;
         fill: #4056a1;
         margin-left: 1.5rem; }
-        .announcements-table-rows-content svg:hover {
+        .content-table-rows-content svg:hover {
           cursor: pointer; }
 
 .home-container {
