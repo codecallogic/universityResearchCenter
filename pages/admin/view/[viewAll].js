@@ -358,7 +358,7 @@ const ViewAll = ({account, allContent, authorization, current}) => {
     e.preventDefault()
     setSelected([])
     parseCreatedAtDates(content)
-    parseExpirationDates(content)
+    current !== 'announcements' ? parseExpirationDates(content) : null
     setEditRowForm(false)
   }
   

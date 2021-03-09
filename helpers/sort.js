@@ -9,6 +9,7 @@ export const parseCreatedAtDates = (data) => {
 export const parseExpirationDates = (data) => {
   let newResultsExpirationDates = data.map( item => {
     if(item.expiration !== null){
+      console.log(item)
       let now = new Date(item.expiration)
       item.expiration = now.toISOString().slice(0,10)
       return item

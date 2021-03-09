@@ -121,7 +121,7 @@ const Home = ({announcements, meetings, opportunities}) => {
             null
             )
           }
-        </div>
+        </div> 
       </div>
 
       <div className="home-opportunities">
