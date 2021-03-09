@@ -5,10 +5,11 @@ import axios from 'axios'
 import {API} from '../config'
 import {parseCreatedAtDates, parseExpirationDates, sortByCreationDate, sortByExpirationDate} from '../helpers/sort'
 
-const Home = ({announcements, meetings}) => {
+const Home = ({announcements, meetings, opportunities}) => {
   
   const [announcementsList, setAnnouncementsList] = useState(announcements)
   const [meetingsList, setList] = useState(meetings)
+  const [opportunitiesList, setOpportunities] = useState(opportunities)
   const [announcementModal, setAnnouncementModal] = useState(null)
   const [generalModal, setGeneralModal] = useState(null)
   const [modalType, setModalType] = useState(null)
@@ -105,9 +106,11 @@ const Home = ({announcements, meetings}) => {
               item.enabled === true ? 
               <div key={i} className="home-meetings-item" onClick={() => { createGeneralModal(item); modal('meetings and activities');}}>
                 <div className="home-meetings-item-title">
+                  <div>
                   <svg>
                     <use xlinkHref="/sprite.svg#icon-calendar"></use>
                   </svg>
+                  </div>
                   <div className="home-meetings-item-title-group">
                     <h6>{item.title}</h6>
                     {item.expiration !== 'no expiration' ? <span>Expires: <strong>{item.expiration}</strong></span> : <span>Posted: <strong>{item.createdAt}</strong></span>}
@@ -129,19 +132,21 @@ const Home = ({announcements, meetings}) => {
           <span>Opportunities for Faculty</span>
         </div>
         <div className="home-opportunities-container">
-          {announcementsList !== null && 
-            announcementsList.map( (item, i) =>
-              item.primary === false && item.enabled === true ? 
+          {opportunitiesList !== null && 
+            opportunitiesList.map( (item, i) =>
+              item.enabled === true ? 
               <div key={i} className="home-opportunities-item" onClick={() => { createGeneralModal(item); modal('opportunities for faculty');}}>
                 <div className="home-opportunities-item-title">
+                  <div>
                   <svg>
-                    <use xlinkHref="/sprite.svg#icon-message"></use>
+                    <use xlinkHref="/sprite.svg#icon-briefcase"></use>
                   </svg>
+                  </div>
                   <div className="home-opportunities-item-title-group">
                     <h6>{item.title}</h6>
-                    <span>Posted: <strong>{item.createdAt}</strong></span>
-                    </div>
+                    {item.expiration !== 'no expiration' ? <span>Expires: <strong>{item.expiration}</strong></span> : <span>Posted: <strong>{item.createdAt}</strong></span>}
                   </div>
+                </div>
               </div>
             :
             null
@@ -204,19 +209,24 @@ const Home = ({announcements, meetings}) => {
 Home.getInitialProps = async () => {
   const announcements = await axios.get(`${API}/announcement/public/list`)
   const meetings = await axios.get(`${API}/meetings/public/list`)
+  const opportunities = await axios.get(`${API}/opportunities/public/list`)
 
   // CHANGE CREATEDAT DATE FORMAT TO YYYY-MM-DD
   parseCreatedAtDates(announcements.data)
   parseCreatedAtDates(meetings.data)
   parseExpirationDates(meetings.data)
+  parseCreatedAtDates(opportunities.data)
+  parseExpirationDates(opportunities.data)
 
   // SORT ANNOUNCEMENTS BY DATE POSTED
   let newAnnouncements = sortByCreationDate(announcements.data)
   let newMeetings = sortByExpirationDate(meetings.data)
+  let newOpportunties = sortByExpirationDate(opportunities.data)
 
   return {
     announcements: newAnnouncements,
-    meetings: newMeetings
+    meetings: newMeetings,
+    opportunities: newOpportunties
   }
 }
 

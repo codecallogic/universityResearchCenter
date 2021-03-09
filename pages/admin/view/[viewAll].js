@@ -17,7 +17,7 @@ const ViewAll = ({account, allContent, authorization, current}) => {
 
   const [user, setUser] = useState(JSON.parse(decodeURIComponent(account)))
   const [content, setContent] = useState(allContent)
-  const [headers, setHeaders] = useState(Object.keys(allContent[0]))
+  const [headers, setHeaders] = useState(allContent.length > 0 ? Object.keys(allContent[0]) : null)
   const [selected, setSelected] = useState([])
   const [asc, setAsc] = useState(-1)
   const [desc, setDesc] = useState(1)
@@ -279,6 +279,24 @@ const ViewAll = ({account, allContent, authorization, current}) => {
     }
   }
 
+  // SUBMIT UPDATED FOR OPPORTUNITY ROW CONTENT
+  const submitUpdateOpportunity = async (e) => {
+    e.preventDefault()
+    try {
+      const response = await axios.post(`${API}/opportunity/update`, updatedRow, {
+        headers: {
+          Authorization: `Bearer ${authorization}`,
+          contentType: `application/json`
+        }
+      })
+      setMessage({...messages, success: 'Update was made successfully'})
+      setContent(response.data)
+    } catch (error) {
+      console.log(error.response)
+      setMessage({...messages, error: error.response})
+    }
+  }
+
   const deleteRow = async (e) => {
     e.preventDefault()
     try {
@@ -304,6 +322,18 @@ const ViewAll = ({account, allContent, authorization, current}) => {
           parseCreatedAtDates(responseMeetings.data)
           setContent(responseMeetings.data)
           break;
+        
+      case 'opportunities for faculty':
+        const responseOpportunities = await axios.post(`${API}/opportunity/delete`, selected, {
+          headers: {
+            Authorization: `Bearer ${authorization}`,
+            contentType: `application/json`
+          }
+        })
+        parseExpirationDates(responseOpportunities.data)
+        parseCreatedAtDates(responseOpportunities.data)
+        setContent(responseOpportunities.data)
+        break;
       
         default:
           break;
@@ -525,6 +555,53 @@ const ViewAll = ({account, allContent, authorization, current}) => {
           </form>
         }
 
+        {editRowForm == true && current == 'opportunities for faculty' && 
+          <form className="form editing" action="POST" onSubmit={submitUpdateOpportunity}>
+            <div className="form-group-single">
+              <label htmlFor="title">Title</label>
+              <input type="text" name="title" value={title} required onChange={handleChange}/>
+            </div>
+            <div className="form-group-single">
+              <label htmlFor="subtitle">Sub-title (optional)</label>
+              <input type="text" name="subtitle" value={subtitle} onChange={handleChange}/>
+            </div>
+            <div className="form-group-single">
+              <label htmlFor="source">Source</label>
+              <input type="text" name="source" value={source} onChange={handleChange} required/>
+            </div>
+            <div className="form-group-double">
+              <div className="form-group-checkbox">
+                  <label htmlFor="enabled">
+                    <input type="checkbox" name="enabled" checked={!enabled} onChange={handleChange}/>
+                    <span></span>
+                    <div>
+                      <svg>
+                        <use xlinkHref="/sprite.svg#icon-checkmark"></use>
+                      </svg>
+                    </div>
+                  </label>
+                  Disable
+              </div>
+            </div>
+            <div className="form-group-single">
+              <label htmlFor="expiration">Expiration Date</label>
+              <input type="date" name="expiration" value={expiration} placeholder="mm / dd / yyyy" onChange={handleChange} required/>
+            </div>
+            <div className="form-group-single">
+                <label htmlFor="message">Message</label>
+                <ReactQuill 
+                    placeholder="Write something..."
+                    className="form-group-quill"
+                    theme="snow"
+                    name="message"
+                    value={message}
+                    onChange={handleQuill}
+                />
+            </div>
+            <button type="submit" className="submit-item">Update Meeting or Activity</button>
+          </form>
+        }
+
         {success !== null && editRowForm == true && <div className="form-successMessage">{success}</div>}
         {error !== null && editRowForm == true && <div className="form-errorMessage">{error}</div>}
         
@@ -576,6 +653,25 @@ ViewAll.getInitialProps = async ({query, req}) => {
         allContent: meetingsResponse.data,
         current: query.viewAll
       }
+      break;
+
+    case 'opportunities for faculty':
+      const opportunitiesResponse = await axios.get(`${API}/opportunities/list`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          contentType: `application/json`
+        }
+      })
+
+      // CHANGE CREATEDAT DATE FORMAT TO YYYY-MM-DD
+      parseExpirationDates(opportunitiesResponse.data)
+      parseCreatedAtDates(opportunitiesResponse.data)
+
+      return {
+        allContent: opportunitiesResponse.data,
+        current: query.viewAll
+      }
+      break;
 
     default:
       break;

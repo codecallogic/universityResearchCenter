@@ -15,6 +15,7 @@ const Dashboard = ({loggedIn, account, authorization}) => {
   const router = useRouter()
 
   const [form, setForm] = useState('announcements')
+  const [selectedIndex, setSelectedIndex] = useState(0)
   const [user, setUser] = useState(JSON.parse(decodeURIComponent(account)))
   const [content, setContent] = useState({
     title: '',
@@ -66,9 +67,11 @@ const Dashboard = ({loggedIn, account, authorization}) => {
   const viewAll = () => {
     if(form == 'announcements') window.location.href = `/admin/view/${form}`
     if(form == 'meetings and activities') window.location.href = `/admin/view/${form}`
+    if(form == 'opportunities for faculty') window.location.href = `/admin/view/${form}`
   }
   
   const handleForms = (e) => {
+    setSelectedIndex(e.target.options.selectedIndex)
     setForm(e.target.value.toLowerCase())
     setContent({...content, title: '', subtitle: '', imageURL: '', imageDescr: '', primary: false, source: '', message: ''})
   }
@@ -90,6 +93,28 @@ const Dashboard = ({loggedIn, account, authorization}) => {
     }
   }
   
+  const createOpportunity = async (e) => {
+    e.preventDefault()
+    try {
+      const response = await axios.post(`${API}/opportunity/create`, {content}, {
+        headers: {
+          Authorization: `Bearer ${authorization}`,
+          contentType: `application/json`
+        }
+      })
+      setContent({...content, title: '', subtitle: '', expiration: '', source: ''})
+      setContent({...content, message:""})
+      setSuccessMessage(response.data)
+    } catch (error) {
+      setErrorMessage(error.response.data)
+    }
+  }
+
+  useEffect( () => {
+    const el = document.querySelectorAll('.form-selection')
+    el[0].selectedIndex = selectedIndex
+  })
+  
   return (
     <>
     {loggedIn && <div>
@@ -98,10 +123,10 @@ const Dashboard = ({loggedIn, account, authorization}) => {
           <div className="dashboard-left-panel">
             <div className="dashboard-left-panel-title">Homepage Boxes</div>
             <div className="dashboard-left-panel-group">
-              <select className="dashboard-control" onChange={handleForms}>
-                <option>Announcements</option>
-                <option>Meetings and Activities</option>
-                <option>Opportunity for Faculty</option>
+              <select className="dashboard-control form-selection" onChange={handleForms}>
+                <option value="announcements">Announcements</option>
+                <option value="meetings and activities">Meetings and Activities</option>
+                <option value="opportunities for faculty">Opportunities for Faculty</option>
               </select>             
             </div>
           </div>
@@ -190,6 +215,44 @@ const Dashboard = ({loggedIn, account, authorization}) => {
                   />
               </div>
               <button type="submit" className="submit-item">Create Meeting or Activity</button>
+            </form>
+            {errorMessage !== null && <div className="form-errorMessage">{errorMessage}</div>}
+            {successMessage !== null && <div className="form-successMessage">{successMessage}</div>}
+          </div>
+          }
+          {form === 'opportunities for faculty' &&
+          <div className="dashboard-right-panel">
+            <div className="dashboard-right-panel-toggle" onClick={viewAll}>View All Opportunities for Faculty</div>
+            <form className="form" action="POST" onSubmit={createOpportunity}>
+              <div className="form-group-single">
+                <label htmlFor="title">Title</label>
+                <input type="text" name="title" value={title} onChange={handleChange} required/>
+              </div>
+              <div className="form-group-single">
+                <label htmlFor="subtitle">Sub-title (optional)</label>
+                <input type="text" name="subtitle" value={subtitle} onChange={handleChange}/>
+              </div>
+              <div className="form-group-double">
+                <label htmlFor="source">Source</label>
+                <input type="text" name="source" value={source} onChange={handleChange} required/>
+              </div>
+              <div className="form-group-double">
+                <label htmlFor="expiration">Expiration Date (Optional)</label>
+                <input type="date" name="expiration" value={expiration} placeholder="mm / dd / yyyy" onChange={handleChange}/>
+              </div>
+              <div className="form-group-single">
+                  <label htmlFor="message">Message</label>
+                  <ReactQuill 
+                      placeholder="Write something..."
+                      className="form-group-quill"
+                      theme="snow"
+                      name="message"
+                      onChange={handleAnnouncementMessage}
+                      value={message}
+                      required
+                  />
+              </div>
+              <button type="submit" className="submit-item">Create Opportunity for Faculty</button>
             </form>
             {errorMessage !== null && <div className="form-errorMessage">{errorMessage}</div>}
             {successMessage !== null && <div className="form-successMessage">{successMessage}</div>}
