@@ -279,11 +279,29 @@ const ViewAll = ({account, allContent, authorization, current}) => {
     }
   }
 
-  // SUBMIT UPDATED FOR OPPORTUNITY ROW CONTENT
-  const submitUpdateOpportunity = async (e) => {
+  // SUBMIT UPDATE FOR FACULTY OPPORTUNITY
+  const submitUpdateFacultyOpportunity = async (e) => {
     e.preventDefault()
     try {
-      const response = await axios.post(`${API}/opportunity/update`, updatedRow, {
+      const response = await axios.post(`${API}/opportunity-faculty/update`, updatedRow, {
+        headers: {
+          Authorization: `Bearer ${authorization}`,
+          contentType: `application/json`
+        }
+      })
+      setMessage({...messages, success: 'Update was made successfully'})
+      setContent(response.data)
+    } catch (error) {
+      console.log(error.response)
+      setMessage({...messages, error: error.response})
+    }
+  }
+
+  // SUBMIT UPDATE FOR STUDENT OPPORTUNITY
+  const submitUpdateStudentOpportunity = async (e) => {
+    e.preventDefault()
+    try {
+      const response = await axios.post(`${API}/opportunity-students/update`, updatedRow, {
         headers: {
           Authorization: `Bearer ${authorization}`,
           contentType: `application/json`
@@ -324,15 +342,27 @@ const ViewAll = ({account, allContent, authorization, current}) => {
           break;
         
       case 'opportunities for faculty':
-        const responseOpportunities = await axios.post(`${API}/opportunity/delete`, selected, {
+        const responseFacultyOpportunities = await axios.post(`${API}/opportunity-faculty/delete`, selected, {
           headers: {
             Authorization: `Bearer ${authorization}`,
             contentType: `application/json`
           }
         })
-        parseExpirationDates(responseOpportunities.data)
-        parseCreatedAtDates(responseOpportunities.data)
-        setContent(responseOpportunities.data)
+        parseExpirationDates(responseFacultyOpportunities.data)
+        parseCreatedAtDates(responseFacultyOpportunities.data)
+        setContent(responseFacultyOpportunities.data)
+        break;
+
+      case 'opportunities for students':
+        const responseStudentOpportunities = await axios.post(`${API}/opportunity-students/delete`, selected, {
+          headers: {
+            Authorization: `Bearer ${authorization}`,
+            contentType: `application/json`
+          }
+        })
+        parseExpirationDates(responseStudentOpportunities.data)
+        parseCreatedAtDates(responseStudentOpportunities.data)
+        setContent(responseStudentOpportunities.data)
         break;
       
         default:
@@ -357,8 +387,14 @@ const ViewAll = ({account, allContent, authorization, current}) => {
   const viewAllButton = (e) => {
     e.preventDefault()
     setSelected([])
+
+    // FORMAT ISO DATE FORMAT TO YYYY/MM/DD FOR CREATEAT OBJECT PROPERTY
     parseCreatedAtDates(content)
+
+    // IF NOT ANNOUNCEMENTS DATA LIST FORMAT ISO DATE FORMAT TO YYYY/MM/DD FOR EXPIRATION OBJECT PROPERTY
     current !== 'announcements' ? parseExpirationDates(content) : null
+
+    // DON'T SHOW UPDATE ROW FORM
     setEditRowForm(false)
   }
   
@@ -556,7 +592,54 @@ const ViewAll = ({account, allContent, authorization, current}) => {
         }
 
         {editRowForm == true && current == 'opportunities for faculty' && 
-          <form className="form editing" action="POST" onSubmit={submitUpdateOpportunity}>
+          <form className="form editing" action="POST" onSubmit={submitUpdateFacultyOpportunity}>
+            <div className="form-group-single">
+              <label htmlFor="title">Title</label>
+              <input type="text" name="title" value={title} required onChange={handleChange}/>
+            </div>
+            <div className="form-group-single">
+              <label htmlFor="subtitle">Sub-title (optional)</label>
+              <input type="text" name="subtitle" value={subtitle} onChange={handleChange}/>
+            </div>
+            <div className="form-group-single">
+              <label htmlFor="source">Source</label>
+              <input type="text" name="source" value={source} onChange={handleChange} required/>
+            </div>
+            <div className="form-group-double">
+              <div className="form-group-checkbox">
+                  <label htmlFor="enabled">
+                    <input type="checkbox" name="enabled" checked={!enabled} onChange={handleChange}/>
+                    <span></span>
+                    <div>
+                      <svg>
+                        <use xlinkHref="/sprite.svg#icon-checkmark"></use>
+                      </svg>
+                    </div>
+                  </label>
+                  Disable
+              </div>
+            </div>
+            <div className="form-group-single">
+              <label htmlFor="expiration">Expiration Date</label>
+              <input type="date" name="expiration" value={expiration} placeholder="mm / dd / yyyy" onChange={handleChange} required/>
+            </div>
+            <div className="form-group-single">
+                <label htmlFor="message">Message</label>
+                <ReactQuill 
+                    placeholder="Write something..."
+                    className="form-group-quill"
+                    theme="snow"
+                    name="message"
+                    value={message}
+                    onChange={handleQuill}
+                />
+            </div>
+            <button type="submit" className="submit-item">Update Meeting or Activity</button>
+          </form>
+        }
+
+        {editRowForm == true && current == 'opportunities for students' && 
+          <form className="form editing" action="POST" onSubmit={submitUpdateStudentOpportunity}>
             <div className="form-group-single">
               <label htmlFor="title">Title</label>
               <input type="text" name="title" value={title} required onChange={handleChange}/>
@@ -656,7 +739,7 @@ ViewAll.getInitialProps = async ({query, req}) => {
       break;
 
     case 'opportunities for faculty':
-      const opportunitiesResponse = await axios.get(`${API}/opportunities/list`, {
+      const facultyOpportunitiesResponse = await axios.get(`${API}/opportunities-faculty/list`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
           contentType: `application/json`
@@ -664,11 +747,29 @@ ViewAll.getInitialProps = async ({query, req}) => {
       })
 
       // CHANGE CREATEDAT DATE FORMAT TO YYYY-MM-DD
-      parseExpirationDates(opportunitiesResponse.data)
-      parseCreatedAtDates(opportunitiesResponse.data)
+      parseExpirationDates(facultyOpportunitiesResponse.data)
+      parseCreatedAtDates(facultyOpportunitiesResponse.data)
 
       return {
-        allContent: opportunitiesResponse.data,
+        allContent: facultyOpportunitiesResponse.data,
+        current: query.viewAll
+      }
+      break;
+
+    case 'opportunities for students':
+      const studentOpportunitiesResponse = await axios.get(`${API}/opportunities-students/list`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          contentType: `application/json`
+        }
+      })
+
+      // CHANGE CREATEDAT DATE FORMAT TO YYYY-MM-DD
+      parseExpirationDates(studentOpportunitiesResponse.data)
+      parseCreatedAtDates(studentOpportunitiesResponse.data)
+
+      return {
+        allContent: studentOpportunitiesResponse.data,
         current: query.viewAll
       }
       break;

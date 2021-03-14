@@ -25,7 +25,6 @@ const Home = ({announcements, meetings, opportunities}) => {
   }
 
   const handleClickOutside = (e) => {
-    console.log(ref.current)
     if(ref.current && !ref.current.contains(e.target)){
       setAnnouncementModal(null)
       setGeneralModal(null)
@@ -209,7 +208,7 @@ const Home = ({announcements, meetings, opportunities}) => {
 Home.getInitialProps = async () => {
   const announcements = await axios.get(`${API}/announcement/public/list`)
   const meetings = await axios.get(`${API}/meetings/public/list`)
-  const opportunities = await axios.get(`${API}/opportunities/public/list`)
+  const opportunities = await axios.get(`${API}/opportunities-faculty/public/list`)
 
   // CHANGE CREATEDAT DATE FORMAT TO YYYY-MM-DD
   parseCreatedAtDates(announcements.data)

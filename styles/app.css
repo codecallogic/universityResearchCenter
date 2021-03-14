@@ -730,7 +730,7 @@ body {
   padding: 2rem 0; }
 
 .home-announcements {
-  grid-column: 3/11;
+  grid-column: 2/12;
   color: #4b4f4d;
   background-color: white;
   border-top-right-radius: 2rem;
@@ -829,7 +829,7 @@ body {
     cursor: pointer; }
 
 .home-meetings {
-  grid-column: 3/7;
+  grid-column: 2/7;
   color: #4b4f4d;
   background-color: white;
   border-top-right-radius: 2rem;
@@ -879,7 +879,7 @@ body {
     cursor: pointer; }
 
 .home-opportunities {
-  grid-column: 7/11;
+  grid-column: 7/12;
   color: #4b4f4d;
   background-color: white;
   border-top-right-radius: 2rem;

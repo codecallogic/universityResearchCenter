@@ -11,7 +11,6 @@ const adminLogin = () => {
   const [user, setLogin] = useState({
     loginCred: '',
     password: '',
-    code: '',
   })
 
   const [messages, setMessage] = useState({
@@ -19,7 +18,7 @@ const adminLogin = () => {
     success: null
   })
 
-  const {loginCred, password, code} = user
+  const {loginCred, password} = user
   const [toggle, setToggle] = useState({showToggle: false})
   const {showToggle} = toggle
   const {error} = messages
@@ -38,7 +37,7 @@ const adminLogin = () => {
   const loginAdmin = async (e) => {
     e.preventDefault()
     try {
-      const response = await axios.post(`${API}/admin/login`, {loginCred, password, code})
+      const response = await axios.post(`${API}/admin/login`, {loginCred, password})
       window.location.href = '/admin'
     } catch (error) {
       console.log(error)
@@ -91,10 +90,6 @@ const adminLogin = () => {
                       <li>8 characters minimum</li>
                     </ul>
                 </div>
-              </div>
-              <div className="admin-form-group">
-                <label htmlFor="code">Admin Code</label>
-                <input type="text" name="code" onChange={handleChange} value={code} required/>
               </div>
               <button type="submit" className="admin-form-button">Login</button>
           </div>
