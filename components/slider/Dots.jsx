@@ -5,7 +5,7 @@ const Dot = ({ active }) => (
   <span
     className={cx(css`
       padding: 10px;
-      margin-right: 5px;
+      margin-right: 3rem;
       cursor: pointer;
       border-radius: 50%;
       background: ${active ? '#4056a1' : 'white'};
@@ -16,12 +16,10 @@ const Dot = ({ active }) => (
 const Dots = ({ slides, activeIndex }) => (
   <div
     className={cx(css`
-      position: absolute;
-      bottom: 25px;
       width: 100%;
       display: flex;
-      align-items: center;
-      justify-content: center;
+      align-items: flex-end;
+      justify-content: flex-start;
     `)}
   >
     {slides.map((slide, i) => (

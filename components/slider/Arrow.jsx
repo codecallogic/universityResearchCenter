@@ -21,6 +21,8 @@ const Arrow = ({ direction, handleClick }) => (
       }
       svg {
         transform: translateX(${direction === 'left' ? '-2' : '2'}px);
+        height: 3rem;
+        width: 3rem;
         fill: white;
         &:focus {
           outline: 0;
