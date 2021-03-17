@@ -1,15 +1,17 @@
 import React, {useState, useEffect, useRef} from 'react'
 import Head from 'next/head'
 import Nav from '../components/nav'
+import Slider from '../components/slider/slider'
 import axios from 'axios'
 import {API} from '../config'
 import {parseCreatedAtDates, parseExpirationDates, sortByCreationDate, sortByExpirationDate} from '../helpers/sort'
 
-const Home = ({announcements, meetings, opportunities}) => {
+const Home = ({announcements, meetings, facultyOpportunities, studentOpportunities}) => {
   
   const [announcementsList, setAnnouncementsList] = useState(announcements)
   const [meetingsList, setList] = useState(meetings)
-  const [opportunitiesList, setOpportunities] = useState(opportunities)
+  const [facultyOpportunitiesList, setFacultyOpportunities] = useState(facultyOpportunities)
+  const [studentOpportunitiesList, setStudentOpportunities] = useState(studentOpportunities)
   const [announcementModal, setAnnouncementModal] = useState(null)
   const [generalModal, setGeneralModal] = useState(null)
   const [modalType, setModalType] = useState(null)
@@ -35,10 +37,20 @@ const Home = ({announcements, meetings, opportunities}) => {
     setModalType(e)
   }
 
+  const images = [
+    'https://images.unsplash.com/photo-1494949649109-ecfc3b8c35df?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=3578&q=80',
+    'https://images.unsplash.com/photo-1606761568499-6d2451b23c66?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2167&q=80',
+    'https://images.unsplash.com/photo-1561089489-f13d5e730d72?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=2167&q=80',
+    'https://images.unsplash.com/photo-1576085898323-218337e3e43c?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2550&q=80'
+  ]
+
   return (
     <>
     <Nav></Nav>
     <div className="home-container">
+      <div className="home-header">
+        <Slider slides={images}></Slider>
+      </div>
       <div className="home-announcements">
         <div className="home-announcements-header">
           <svg>
@@ -92,65 +104,99 @@ const Home = ({announcements, meetings, opportunities}) => {
           }
         </div>
       </div>
-      <div className="home-meetings">
-        <div className="home-meetings-header">
-          <svg>
-            <use xlinkHref="/sprite.svg#icon-calendar"></use>
-          </svg>
-          <span>Meetings and Activities</span>
-        </div>
-        <div className="home-meetings-container">
-          {meetingsList !== null && 
-            meetingsList.map( (item, i) =>
-              item.enabled === true ? 
-              <div key={i} className="home-meetings-item" onClick={() => { createGeneralModal(item); modal('meetings and activities');}}>
-                <div className="home-meetings-item-title">
-                  <div>
-                  <svg>
-                    <use xlinkHref="/sprite.svg#icon-calendar"></use>
-                  </svg>
-                  </div>
-                  <div className="home-meetings-item-title-group">
-                    <h6>{item.title}</h6>
-                    {item.expiration !== 'no expiration' ? <span>Expires: <strong>{item.expiration}</strong></span> : <span>Posted: <strong>{item.createdAt}</strong></span>}
+      <div className="home-box-left">
+        <div className="home-meetings">
+          <div className="home-meetings-header">
+            <svg>
+              <use xlinkHref="/sprite.svg#icon-calendar"></use>
+            </svg>
+            <span>Meetings and Activities</span>
+          </div>
+          <div className="home-meetings-container">
+            {meetingsList !== null && 
+              meetingsList.map( (item, i) =>
+                item.enabled === true ? 
+                <div key={i} className="home-meetings-item" onClick={() => { createGeneralModal(item); modal('meetings and activities');}}>
+                  <div className="home-meetings-item-title">
+                    <div>
+                    <svg>
+                      <use xlinkHref="/sprite.svg#icon-calendar"></use>
+                    </svg>
                     </div>
-                  </div>
-              </div>
-            :
-            null
-            )
-          }
-        </div> 
+                    <div className="home-meetings-item-title-group">
+                      <h6>{item.title}</h6>
+                      {item.expiration !== 'no expiration' ? <span>Expires: <strong>{item.expiration}</strong></span> : <span>Posted: <strong>{item.createdAt}</strong></span>}
+                      </div>
+                    </div>
+                </div>
+              :
+              null
+              )
+            }
+          </div> 
+        </div>
       </div>
 
-      <div className="home-opportunities">
-        <div className="home-opportunities-header">
-          <svg>
-            <use xlinkHref="/sprite.svg#icon-briefcase"></use>
-          </svg>
-          <span>Opportunities for Faculty</span>
-        </div>
-        <div className="home-opportunities-container">
-          {opportunitiesList !== null && 
-            opportunitiesList.map( (item, i) =>
-              item.enabled === true ? 
-              <div key={i} className="home-opportunities-item" onClick={() => { createGeneralModal(item); modal('opportunities for faculty');}}>
-                <div className="home-opportunities-item-title">
-                  <div>
-                  <svg>
-                    <use xlinkHref="/sprite.svg#icon-briefcase"></use>
-                  </svg>
-                  </div>
-                  <div className="home-opportunities-item-title-group">
-                    <h6>{item.title}</h6>
-                    {item.expiration !== 'no expiration' ? <span>Expires: <strong>{item.expiration}</strong></span> : <span>Posted: <strong>{item.createdAt}</strong></span>}
+      <div className="home-box-right">
+        <div className="home-opportunities-faculty">
+          <div className="home-opportunities-faculty-header">
+            <svg>
+              <use xlinkHref="/sprite.svg#icon-briefcase"></use>
+            </svg>
+            <span>Opportunities for Faculty</span>
+          </div>
+          <div>
+            {facultyOpportunitiesList !== null && 
+              facultyOpportunitiesList.map( (item, i) =>
+                item.enabled === true ? 
+                <div key={i} className="home-opportunities-item" onClick={() => { createGeneralModal(item); modal('opportunities for faculty');}}>
+                  <div className="home-opportunities-item-title">
+                    <div>
+                    <svg>
+                      <use xlinkHref="/sprite.svg#icon-briefcase"></use>
+                    </svg>
+                    </div>
+                    <div className="home-opportunities-item-title-group">
+                      <h6>{item.title}</h6>
+                      {item.expiration !== 'no expiration' ? <span>Expires: <strong>{item.expiration}</strong></span> : <span>Posted: <strong>{item.createdAt}</strong></span>}
+                    </div>
                   </div>
                 </div>
-              </div>
-            :
-            null
-            )
-          }
+              :
+              null
+              )
+            }
+          </div>
+        </div>
+        <div className="home-opportunities-students">
+          <div className="home-opportunities-students-header">
+            <svg>
+              <use xlinkHref="/sprite.svg#icon-briefcase"></use>
+            </svg>
+            <span>Opportunities for Student Fellows</span>
+          </div>
+          <div>
+            {studentOpportunitiesList !== null && 
+              studentOpportunitiesList.map( (item, i) =>
+                item.enabled === true ? 
+                <div key={i} className="home-opportunities-item" onClick={() => { createGeneralModal(item); modal('opportunities for students');}}>
+                  <div className="home-opportunities-item-title-students">
+                    <div>
+                    <svg>
+                      <use xlinkHref="/sprite.svg#icon-school"></use>
+                    </svg>
+                    </div>
+                    <div className="home-opportunities-item-title-group">
+                      <h6>{item.title}</h6>
+                      {item.expiration !== 'no expiration' ? <span>Expires: <strong>{item.expiration}</strong></span> : <span>Posted: <strong>{item.createdAt}</strong></span>}
+                    </div>
+                  </div>
+                </div>
+              :
+              null
+              )
+            }
+          </div>
         </div>
       </div>
 
@@ -199,7 +245,7 @@ const Home = ({announcements, meetings, opportunities}) => {
           <use xlinkHref="sprite.svg#icon-cross"></use>
         </svg>
       </div>
-      }
+    }
     </div>
     </>
   )
@@ -208,24 +254,29 @@ const Home = ({announcements, meetings, opportunities}) => {
 Home.getInitialProps = async () => {
   const announcements = await axios.get(`${API}/announcement/public/list`)
   const meetings = await axios.get(`${API}/meetings/public/list`)
-  const opportunities = await axios.get(`${API}/opportunities-faculty/public/list`)
+  const facultyOpportunities = await axios.get(`${API}/opportunities-faculty/public/list`)
+  const studentOpportunities = await axios.get(`${API}/opportunities-students/public/list`)
 
   // CHANGE CREATEDAT DATE FORMAT TO YYYY-MM-DD
   parseCreatedAtDates(announcements.data)
   parseCreatedAtDates(meetings.data)
   parseExpirationDates(meetings.data)
-  parseCreatedAtDates(opportunities.data)
-  parseExpirationDates(opportunities.data)
+  parseCreatedAtDates(facultyOpportunities.data)
+  parseExpirationDates(facultyOpportunities.data)
+  parseCreatedAtDates(studentOpportunities.data)
+  parseExpirationDates(studentOpportunities.data)
 
   // SORT ANNOUNCEMENTS BY DATE POSTED
   let newAnnouncements = sortByCreationDate(announcements.data)
   let newMeetings = sortByExpirationDate(meetings.data)
-  let newOpportunties = sortByExpirationDate(opportunities.data)
+  let newFacultyOpportunties = sortByExpirationDate(facultyOpportunities.data)
+  let newStudentOpportunties = sortByExpirationDate(studentOpportunities.data)
 
   return {
     announcements: newAnnouncements,
     meetings: newMeetings,
-    opportunities: newOpportunties
+    facultyOpportunities: newFacultyOpportunties,
+    studentOpportunities: newStudentOpportunties
   }
 }
 

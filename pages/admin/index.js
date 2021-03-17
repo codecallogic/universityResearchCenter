@@ -131,6 +131,24 @@ const Dashboard = ({loggedIn, account, authorization}) => {
     }
   }
 
+  // Submit form to create an opportunity for student
+  const createSpotlight = async (e) => {
+    e.preventDefault()
+    try {
+      const response = await axios.post(`${API}/opportunity-students/create`, {content}, {
+        headers: {
+          Authorization: `Bearer ${authorization}`,
+          contentType: `application/json`
+        }
+      })
+      setContent({...content, title: '', subtitle: '', expiration: '', source: ''})
+      setContent({...content, message:""})
+      setSuccessMessage(response.data)
+    } catch (error) {
+      setErrorMessage(error.response.data)
+    }
+  }
+
   useEffect( () => {
     const el = document.querySelectorAll('.form-selection')
     el[0].selectedIndex = selectedIndex
@@ -149,6 +167,7 @@ const Dashboard = ({loggedIn, account, authorization}) => {
                 <option value="meetings and activities">Meetings and Activities</option>
                 <option value="opportunities for faculty">Opportunities for Faculty</option>
                 <option value="opportunities for students">Opportunities for Students</option>
+                <option value="spotlight">Spotlight</option>
               </select>             
             </div>
           </div>
@@ -311,6 +330,28 @@ const Dashboard = ({loggedIn, account, authorization}) => {
                       value={message}
                       required
                   />
+              </div>
+              <button type="submit" className="submit-item">Create Opportunity for Students</button>
+            </form>
+            {errorMessage !== null && <div className="form-errorMessage">{errorMessage}</div>}
+            {successMessage !== null && <div className="form-successMessage">{successMessage}</div>}
+          </div>
+          }
+          {form === 'spotlight' &&
+          <div className="dashboard-right-panel">
+            <div className="dashboard-right-panel-toggle" onClick={viewAll}>View All Spotlight Announcements</div>
+            <form className="form" action="POST" onSubmit={createSpotlight}>
+              <div className="form-group-single">
+                <label htmlFor="title">Title</label>
+                <input type="text" name="title" value={title} onChange={handleChange} required/>
+              </div>
+              <div className="form-group-double">
+                <label htmlFor="source">Source</label>
+                <input type="text" name="source" value={source} onChange={handleChange} required/>
+              </div>
+              <div className="form-group-double">
+                <label htmlFor="expiration">Expiration Date (Optional)</label>
+                <input type="date" name="expiration" value={expiration} placeholder="mm / dd / yyyy" onChange={handleChange}/>
               </div>
               <button type="submit" className="submit-item">Create Opportunity for Students</button>
             </form>

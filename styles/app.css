@@ -315,6 +315,9 @@ body {
 .opportunities {
   background-color: #f13c20; }
 
+.students {
+  background-color: #342e37; }
+
 .nav {
   grid-column: 1/-1;
   padding: 3rem;
@@ -338,7 +341,8 @@ body {
     .nav-menu-item {
       font-size: 2rem;
       margin-right: 2rem;
-      position: relative; }
+      position: relative;
+      z-index: 10; }
       .nav-menu-item:before {
         content: '';
         position: absolute;
@@ -405,6 +409,17 @@ body {
     color: white; }
     .adminNav-container:hover {
       background-image: linear-gradient(90deg, #4056a1, #c5cbe3); }
+
+.slider {
+  background-color: red;
+  height: 100%; }
+  .slider-left-column-title {
+    align-self: start;
+    color: white; }
+  .slider-left-column-description {
+    color: white; }
+  .slider-left-column-button {
+    align-self: start; }
 
 .admin {
   background-image: linear-gradient(40deg, #4056a1, #c5cbe3);
@@ -727,7 +742,11 @@ body {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
   background-image: linear-gradient(90deg, #c5cbe3, #342e37);
-  padding: 2rem 0; }
+  padding: 0 0 2rem 0; }
+
+.home-header {
+  grid-column: 1/-1;
+  width: 100%; }
 
 .home-announcements {
   grid-column: 2/12;
@@ -828,15 +847,21 @@ body {
     background-color: #e5e5e5;
     cursor: pointer; }
 
-.home-meetings {
+.home-box-left {
   grid-column: 2/7;
+  margin: 2rem 1rem 0 0; }
+
+.home-box-right {
+  grid-column: 7/12; }
+
+.home-meetings {
+  width: 100%;
   color: #4b4f4d;
   background-color: white;
   border-top-right-radius: 2rem;
   border-top-left-radius: 2rem;
   border-bottom-right-radius: 2rem;
   border-bottom-left-radius: 2rem;
-  margin: 2rem 1rem 0 0;
   height: min-content; }
   .home-meetings-header {
     display: flex;
@@ -878,8 +903,8 @@ body {
     background-color: #e5e5e5;
     cursor: pointer; }
 
-.home-opportunities {
-  grid-column: 7/12;
+.home-opportunities-faculty {
+  width: 100%;
   color: #4b4f4d;
   background-color: white;
   border-top-right-radius: 2rem;
@@ -888,7 +913,7 @@ body {
   border-bottom-left-radius: 2rem;
   margin: 2rem 0 0 0;
   height: min-content; }
-  .home-opportunities-header {
+  .home-opportunities-faculty-header {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -898,34 +923,76 @@ body {
     border-top-right-radius: 2rem;
     border-top-left-radius: 2rem;
     color: white; }
-    .home-opportunities-header svg {
+    .home-opportunities-faculty-header svg {
       width: 3rem;
       height: 3rem;
       margin-right: 2rem;
       fill: white; }
-    .home-opportunities-header span {
+    .home-opportunities-faculty-header span {
       font-size: 3.2rem;
       font-weight: 400; }
-  .home-opportunities-item-title {
+
+.home-opportunities-item-title {
+  display: flex;
+  align-items: center;
+  padding: 3rem 2rem;
+  border-top: 0.5px solid #e5e5e5;
+  color: #f13c20; }
+  .home-opportunities-item-title-students {
     display: flex;
     align-items: center;
     padding: 3rem 2rem;
     border-top: 0.5px solid #e5e5e5;
     color: #f13c20; }
-    .home-opportunities-item-title svg {
+    .home-opportunities-item-title-students svg {
       width: 1.5rem;
       height: 1.5rem;
       margin-right: 2rem;
-      fill: #f13c20; }
-    .home-opportunities-item-title-group {
-      display: grid; }
-      .home-opportunities-item-title-group h6 {
-        font-size: 2rem;
-        font-weight: 500;
-        color: #4056a1; }
-      .home-opportunities-item-title-group span {
-        font-size: 1.8rem;
-        color: black; }
-  .home-opportunities-item:hover {
-    background-color: #e5e5e5;
-    cursor: pointer; }
+      fill: #342e37; }
+  .home-opportunities-item-title svg {
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-right: 2rem;
+    fill: #f13c20; }
+  .home-opportunities-item-title-group {
+    display: grid; }
+    .home-opportunities-item-title-group h6 {
+      font-size: 2rem;
+      font-weight: 500;
+      color: #4056a1; }
+    .home-opportunities-item-title-group span {
+      font-size: 1.8rem;
+      color: black; }
+
+.home-opportunities-item:hover {
+  background-color: #e5e5e5;
+  cursor: pointer; }
+
+.home-opportunities-students {
+  width: 100%;
+  color: #4b4f4d;
+  background-color: white;
+  border-top-right-radius: 2rem;
+  border-top-left-radius: 2rem;
+  border-bottom-right-radius: 2rem;
+  border-bottom-left-radius: 2rem;
+  margin: 2rem 0 0 0;
+  height: min-content; }
+  .home-opportunities-students-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem 0;
+    margin: 0 0 1rem 0;
+    background-color: #342e37;
+    border-top-right-radius: 2rem;
+    border-top-left-radius: 2rem;
+    color: white; }
+    .home-opportunities-students-header svg {
+      width: 3rem;
+      height: 3rem;
+      margin-right: 2rem;
+      fill: white; }
+    .home-opportunities-students-header span {
+      font-size: 3.2rem;
+      font-weight: 400; }

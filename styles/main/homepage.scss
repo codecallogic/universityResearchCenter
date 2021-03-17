@@ -3,7 +3,12 @@
     display: grid;
     grid-template-columns: repeat(12, 1fr);
     background-image: linear-gradient(90deg, $color-scheme-2, $color-scheme-4);
-    padding: 2rem 0;
+    padding: 0 0 2rem 0;
+  }
+
+  &-header {
+    grid-column: 1/-1;
+    width: 100%;
   }
 
   &-announcements {
@@ -159,15 +164,25 @@
     }
   }
 
+  &-box {
+    &-left {
+      grid-column: 2/7;
+      margin: 2rem 1rem 0 0;
+    }
+
+    &-right {
+      grid-column: 7/12;
+    }
+  }
+
   &-meetings {
-    grid-column: 2/7;
+    width: 100%;
     color: $color-shade-dark-gray;
     background-color: white;
     border-top-right-radius: 2rem;
     border-top-left-radius: 2rem;
     border-bottom-right-radius: 2rem;
     border-bottom-left-radius: 2rem;
-    margin: 2rem 1rem 0 0;
     height: min-content;
 
     &-header {
@@ -231,37 +246,39 @@
   }
 
   &-opportunities {
-    grid-column: 7/12;
-    color: $color-shade-dark-gray;
-    background-color: white;
-    border-top-right-radius: 2rem;
-    border-top-left-radius: 2rem;
-    border-bottom-right-radius: 2rem;
-    border-bottom-left-radius: 2rem;
-    margin: 2rem 0 0 0;
-    height: min-content;
-
-    &-header {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 2rem 0;
-      margin: 0 0 1rem 0;
-      background-color: $color-scheme-3;
+    &-faculty {
+      width: 100%;
+      color: $color-shade-dark-gray;
+      background-color: white;
       border-top-right-radius: 2rem;
       border-top-left-radius: 2rem;
-      color: white;
+      border-bottom-right-radius: 2rem;
+      border-bottom-left-radius: 2rem;
+      margin: 2rem 0 0 0;
+      height: min-content;
 
-      svg {
-        width: 3rem;
-        height: 3rem;
-        margin-right: 2rem;
-        fill: white;
-      }
+      &-header {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 2rem 0;
+        margin: 0 0 1rem 0;
+        background-color: $color-scheme-3;
+        border-top-right-radius: 2rem;
+        border-top-left-radius: 2rem;
+        color: white;
 
-      span {
-        font-size: 3.2rem;
-        font-weight: 400;
+        svg {
+          width: 3rem;
+          height: 3rem;
+          margin-right: 2rem;
+          fill: white;
+        }
+
+        span {
+          font-size: 3.2rem;
+          font-weight: 400;
+        }
       }
     }
 
@@ -272,6 +289,21 @@
         padding: 3rem 2rem;
         border-top: 0.5px solid $color-shade-light-gray;
         color: $color-scheme-3;
+
+        &-students {
+          display: flex;
+          align-items: center;
+          padding: 3rem 2rem;
+          border-top: 0.5px solid $color-shade-light-gray;
+          color: $color-scheme-3;
+
+          svg {
+            width: 1.5rem;
+            height: 1.5rem;
+            margin-right: 2rem;
+            fill: $color-scheme-4;
+          }
+        }
 
         svg {
           width: 1.5rem;
@@ -299,6 +331,42 @@
       &:hover {
         background-color: $color-shade-light-gray;
         cursor: pointer;
+      }
+    }
+
+    &-students {
+      width: 100%;
+      color: $color-shade-dark-gray;
+      background-color: white;
+      border-top-right-radius: 2rem;
+      border-top-left-radius: 2rem;
+      border-bottom-right-radius: 2rem;
+      border-bottom-left-radius: 2rem;
+      margin: 2rem 0 0 0;
+      height: min-content;
+
+      &-header {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 2rem 0;
+        margin: 0 0 1rem 0;
+        background-color: $color-scheme-4;
+        border-top-right-radius: 2rem;
+        border-top-left-radius: 2rem;
+        color: white;
+
+        svg {
+          width: 3rem;
+          height: 3rem;
+          margin-right: 2rem;
+          fill: white;
+        }
+
+        span {
+          font-size: 3.2rem;
+          font-weight: 400;
+        }
       }
     }
   }

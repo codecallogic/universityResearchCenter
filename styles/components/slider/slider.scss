@@ -1,0 +1,34 @@
+.slider {
+  background-color: red;
+  height: 100%;
+
+  &-left-column {
+    &-title {
+      align-self: start;
+      color: white;
+    }
+
+    &-description {
+      color: white;
+    }
+
+    &-button {
+      align-self: start;
+    }
+  }
+  
+  // &-icon {
+  //   &-left {
+  //     width: 3rem;
+  //     height: 3rem;
+  //     fill: white;
+  //   }
+
+  //   &-right {
+  //     width: 3rem;
+  //     height: 3rem;
+  //     fill: white;
+  //   }
+  // }
+  
+}
