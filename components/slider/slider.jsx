@@ -1,62 +1,45 @@
 import React, {useState, useEffect} from 'react'
+import {connect} from 'react-redux'
+import { useDispatch } from 'react-redux';
 import SliderContent from './sliderContent'
 import Slide from './Slide'
 import Arrow from './Arrow'
+import {useWindowSize} from '../../helpers/window'
 import { css, cx } from '@emotion/css'
 
-const Header = ({slides}) => {
+const Header = ({slides, slider}) => {
+
+  const dispatch = useDispatch()
+  const size = useWindowSize();
 
   useEffect(() => {
-    setWidth(window.innerWidth);
-  }, [])
-
-  const [width, setWidth] = useState(0)
-  const [state, setState] = useState({
-    translate: 0,
-    transition: 0.45,
-    activeIndex: 0
-  })
-
-  const { translate, transition, activeIndex } = state
+    dispatch({type: 'WIDTH', width: window.innerWidth})
+  }, [size])
 
   const nextSlide = () => {
-    if (activeIndex === slides.length - 1) {
-      return setState({
-        ...state,
-        translate: 0,
-        activeIndex: 0
-      })
+    if (slider.activeIndex === slides.length - 1) {
+      return dispatch({type: 'BACK_TO_START'})
     }
 
-    setState({
-      ...state,
-      activeIndex: activeIndex + 1,
-      translate: (activeIndex + 1) * window.innerWidth
-    })
+    dispatch({type: 'NEXT_SLIDE'})
   }
 
   const prevSlide = () => {
-    if (activeIndex === 0) {
-      return setState({
-        ...state,
-        translate: (slides.length - 1) * window.innerWidth,
-        activeIndex: slides.length - 1
-      })
+    if (slider.activeIndex === 0) {
+      return dispatch({type: 'LAST_SLIDE', length: slides.length})
     }
 
-    setState({
-      ...state,
-      activeIndex: activeIndex - 1,
-      translate: (activeIndex - 1) * window.innerWidth
-    })
+    dispatch({type: 'PREV_SLIDE'})
   }
 
   return (
     <div className={cx(SliderCSS)}>
+      <div>
+      </div>
       <SliderContent
-        translate={translate}
-        transition={transition}
-        width={width * slides.length}
+        translate={slider.translate}
+        transition={slider.transition}
+        width={slider.width * slides.length}
       >
         {slides.map( slide => (
           <div key={slide} className={cx(css`
@@ -64,7 +47,7 @@ const Header = ({slides}) => {
             grid-template-columns: repeat(12, 1fr);
             width: 100%;
           `)}>
-          <Slide key={slide} content={slide} slides={slides} activeIndex={activeIndex}/>
+          <Slide key={slide} content={slide} slides={slides} activeIndex={slider.activeIndex}/>
           </div>  
         ))}
       </SliderContent>
@@ -82,4 +65,11 @@ const SliderCSS = css`
   overflow: hidden;
 `
 
-export default Header
+const mapStateToProps = state => {
+    return {
+        slider: state.slider,
+        slides: state.slidesContent
+    }
+}
+
+export default connect(mapStateToProps)(Header)

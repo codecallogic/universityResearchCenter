@@ -1,8 +1,20 @@
 import React from 'react'
+import {connect} from 'react-redux'
+import { useDispatch } from 'react-redux';
 import { css, cx } from '@emotion/css'
 
-const Dot = ({ active }) => (
-  <span
+const Dot = ({ active, index }) => {
+
+  const dispatch = useDispatch()
+
+  const goToSlide = () => {
+    console.log(index)
+    dispatch({type: "UPDATE_ACTIVE_INDEX", index: index})
+  }
+
+  return (
+    <span
+    onClick={goToSlide} 
     className={cx(css`
       padding: 10px;
       margin-right: 3rem;
@@ -10,22 +22,24 @@ const Dot = ({ active }) => (
       border-radius: 50%;
       background: ${active ? '#4056a1' : 'white'};
     `)}
-  />
-)
+    />)
+}
 
-const Dots = ({ slides, activeIndex }) => (
-  <div
+const Dots = ({ slides, activeIndex }) => {
+  return (
+    <div
     className={cx(css`
       width: 100%;
       display: flex;
       align-items: flex-end;
       justify-content: flex-start;
     `)}
-  >
+    >
     {slides.map((slide, i) => (
-      <Dot key={slide} active={activeIndex === i} />
+      <Dot key={slide} active={activeIndex === i} index={i}/>
     ))}
-  </div>
-)
+    </div>
+  )
+}
 
 export default Dots
