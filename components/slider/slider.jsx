@@ -1,20 +1,27 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useRef} from 'react'
 import {connect} from 'react-redux'
 import { useDispatch } from 'react-redux';
 import SliderContent from './sliderContent'
 import Slide from './Slide'
 import Arrow from './Arrow'
 import {useWindowSize} from '../../helpers/window'
+import {rightColumnImages} from '../../helpers/sort'
 import { css, cx } from '@emotion/css'
+import axios from 'axios'
 
-const Header = ({slides, slider}) => {
+const Slider = ({slides, slider, header}) => {
 
   const dispatch = useDispatch()
   const size = useWindowSize();
 
   useEffect(() => {
     dispatch({type: 'WIDTH', width: window.innerWidth})
+    handleResize()
   }, [size])
+
+  const handleResize = () => {
+    dispatch({type: 'RESIZE'})
+  }
 
   const nextSlide = () => {
     if (slider.activeIndex === slides.length - 1) {
@@ -32,6 +39,13 @@ const Header = ({slides, slider}) => {
     dispatch({type: 'PREV_SLIDE'})
   }
 
+  useEffect( () => {
+    dispatch({
+      type: 'SET_SLIDES',
+      payload: rightColumnImages(header)
+    })
+  }, [header])
+
   return (
     <div className={cx(SliderCSS)}>
       <div>
@@ -41,13 +55,13 @@ const Header = ({slides, slider}) => {
         transition={slider.transition}
         width={slider.width * slides.length}
       >
-        {slides.map( slide => (
-          <div key={slide} className={cx(css`
+        {header.map( slide => (
+          <div key={slide._id} className={cx(css`
             display: grid;
             grid-template-columns: repeat(12, 1fr);
             width: 100%;
           `)}>
-          <Slide key={slide} content={slide} slides={slides} activeIndex={slider.activeIndex}/>
+          <Slide content={slide} slides={slides} activeIndex={slider.activeIndex}/>
           </div>  
         ))}
       </SliderContent>
@@ -59,7 +73,7 @@ const Header = ({slides, slider}) => {
 
 const SliderCSS = css`
   position: relative;
-  height: 45rem;
+  height: 50rem;
   width: 100%;
   margin: 0 auto;
   overflow: hidden;
@@ -72,4 +86,4 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps)(Header)
+export default connect(mapStateToProps)(Slider)

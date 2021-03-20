@@ -8,7 +8,6 @@ const Dot = ({ active, index }) => {
   const dispatch = useDispatch()
 
   const goToSlide = () => {
-    console.log(index)
     dispatch({type: "UPDATE_ACTIVE_INDEX", index: index})
   }
 

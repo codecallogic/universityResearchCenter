@@ -16,6 +16,9 @@ $color-shade-light-gray: #e5e5e5;
 $color-shade-dark-gray: #4b4f4d;
 $color-shade-scheme-1: rgba(60, 145, 230, 0.3);
 
+// CONTRAST
+$dark-contrast: white;
+
 // Breakpoints
 $extra-large: 1200px;
 $large: 992px;
@@ -49,7 +52,7 @@ body {
   line-height: 1.6;
 }
 
-svg { 
+svg {
   height: 100%;
   width: 100%;
 }

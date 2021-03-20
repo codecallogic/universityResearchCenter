@@ -8,14 +8,16 @@ export const parseCreatedAtDates = (data) => {
 
 export const parseExpirationDates = (data) => {
   let newResultsExpirationDates = data.map( item => {
-    if(item.expiration !== null){
-      let now = new Date(item.expiration)
-      item.expiration = now.toISOString().slice(0,10)
-      return item
-    }
-    if(item.expiration === null){
-      item.expiration = 'no expiration'
-      return item
+    if(item.expiration){
+      if(item.expiration !== null){
+        let now = new Date(item.expiration)
+        item.expiration = now.toISOString().slice(0,10)
+        return item
+      }
+      if(item.expiration === null){
+        item.expiration = 'no expiration'
+        return item
+      }
     }
   })
 }
@@ -36,4 +38,68 @@ export const sortByExpirationDate = (data) => {
   })
   newArray = [...filterDates]
   return newArray
+}
+
+export const removeHeaders = (data) => {
+  data.forEach( (item, index) => {
+    delete item.updatedAt
+  })
+}
+
+export const setBoxDropDown = (i) => {
+  if(!i){
+    const el = document.querySelectorAll('.form-selection-boxes')
+    el[0].selectedIndex = 0
+  }
+
+  if(i){
+    const el = document.querySelectorAll('.form-selection-boxes')
+    el[0].selectedIndex = i
+  }
+  
+}
+
+export const setComponentDropDown = (i) => {
+  if(!i){
+    const el = document.querySelectorAll('.form-selection-components')
+    el[0].selectedIndex = 0
+  }
+
+  if(i){
+    const el = document.querySelectorAll('.form-selection-components')
+    el[0].selectedIndex = i
+  }
+  
+}
+
+export const sortByEnableAndCreationDate = (data) => {
+
+  let newArray = []
+
+  let filteredByCreatedDate = data.sort( (a, b) => {
+    return (new Date(b.createdAt) - new Date(a.createdAt)) > -1 ? 1 : -1;
+  })
+
+  newArray = [...filteredByCreatedDate]
+  
+  let filterArray = newArray.slice(0, 5)
+  
+  let filter = filterArray.filter( (item) => {
+    if(item.enabled === true){
+      return item
+    }
+  })
+
+  return filter
+}
+
+export const rightColumnImages = (data) => {
+
+  let filter = data.map( (item) => {
+    if(item.imageRightColumn){
+      return item.imageRightColumn
+    }
+  })
+
+  return filter
 }

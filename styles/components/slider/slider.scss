@@ -3,21 +3,55 @@
   height: 100%;
 
   &-left-column {
+    grid-column: 1/5;
+    display: flex;
+    flex-direction: column;
+    gap: 5rem;
+    align-items: start;
+    justify-content: flex-end;
+    padding: 0 5rem 5rem 10rem;
+    height: 100%;
+    width: 100%;
+
     &-title {
       align-self: start;
+      font-size: 2.5rem;
       color: white;
     }
 
     &-description {
+      align-self: flex-start;
+      font-size: 1.4rem;
+      padding: 2rem 0;
       color: white;
     }
 
     &-button {
       align-self: start;
+      padding: 1rem 2rem;
+      margin-bottom: 5rem;
+      outline: none;
+      border: none;
+      background-color: $color-scheme-5;
+      color: $dark-contrast;
+      font-size: 1.4rem;
+      text-transform: capitalize;
+
+      &:hover {
+        cursor: pointer;
+      }
     }
   }
 
   &-right-column {
+    grid-column: 5/-1;
+    height: 100%;
+    width: 100%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    position: relative;
+
     &-caption-one {
       font-size: 2rem;
       position: absolute;
@@ -26,7 +60,7 @@
       color: white;
       background-color: $color-shade-dark-gray;
       padding: 1rem 2rem;
-      
+
       span {
         font-weight: 900;
         margin-right: 1rem;
@@ -41,7 +75,7 @@
       color: white;
       background-color: $color-shade-dark-gray;
       padding: 1rem 2rem;
-      
+
       span {
         font-weight: 900;
         margin-right: 1rem;

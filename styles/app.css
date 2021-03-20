@@ -417,35 +417,67 @@ svg {
 .slider {
   background-color: red;
   height: 100%; }
-  .slider-left-column-title {
-    align-self: start;
-    color: white; }
-  .slider-left-column-description {
-    color: white; }
-  .slider-left-column-button {
-    align-self: start; }
-  .slider-right-column-caption-one {
-    font-size: 2rem;
-    position: absolute;
-    bottom: 2rem;
-    right: 4rem;
-    color: white;
-    background-color: #4b4f4d;
-    padding: 1rem 2rem; }
-    .slider-right-column-caption-one span {
-      font-weight: 900;
-      margin-right: 1rem; }
-  .slider-right-column-caption-two {
-    font-size: 2rem;
-    position: absolute;
-    bottom: 2rem;
-    right: 4rem;
-    color: white;
-    background-color: #4b4f4d;
-    padding: 1rem 2rem; }
-    .slider-right-column-caption-two span {
-      font-weight: 900;
-      margin-right: 1rem; }
+  .slider-left-column {
+    grid-column: 1/5;
+    display: flex;
+    flex-direction: column;
+    gap: 5rem;
+    align-items: start;
+    justify-content: flex-end;
+    padding: 0 5rem 5rem 10rem;
+    height: 100%;
+    width: 100%; }
+    .slider-left-column-title {
+      align-self: start;
+      font-size: 2.5rem;
+      color: white; }
+    .slider-left-column-description {
+      align-self: flex-start;
+      font-size: 1.4rem;
+      padding: 2rem 0;
+      color: white; }
+    .slider-left-column-button {
+      align-self: start;
+      padding: 1rem 2rem;
+      margin-bottom: 5rem;
+      outline: none;
+      border: none;
+      background-color: #d79922;
+      color: white;
+      font-size: 1.4rem;
+      text-transform: capitalize; }
+      .slider-left-column-button:hover {
+        cursor: pointer; }
+  .slider-right-column {
+    grid-column: 5/-1;
+    height: 100%;
+    width: 100%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    position: relative; }
+    .slider-right-column-caption-one {
+      font-size: 2rem;
+      position: absolute;
+      bottom: 2rem;
+      right: 4rem;
+      color: white;
+      background-color: #4b4f4d;
+      padding: 1rem 2rem; }
+      .slider-right-column-caption-one span {
+        font-weight: 900;
+        margin-right: 1rem; }
+    .slider-right-column-caption-two {
+      font-size: 2rem;
+      position: absolute;
+      bottom: 2rem;
+      right: 4rem;
+      color: white;
+      background-color: #4b4f4d;
+      padding: 1rem 2rem; }
+      .slider-right-column-caption-two span {
+        font-weight: 900;
+        margin-right: 1rem; }
 
 .admin {
   background-image: linear-gradient(40deg, #4056a1, #c5cbe3);
@@ -584,13 +616,13 @@ svg {
   padding: 1rem 0;
   height: 100vh; }
   .dashboard-control {
-    padding: 1rem 5rem;
-    background-color: #c5cbe3;
+    padding: 1rem 2rem;
+    background-color: #d79922;
     font-size: 1.6rem;
-    color: #342e37;
+    color: white;
     border-radius: 1rem;
     transition: all 0.5s ease-in;
-    width: max-content;
+    width: 100%;
     outline: none; }
     .dashboard-control:hover {
       cursor: pointer;
@@ -604,13 +636,10 @@ svg {
       padding: 2rem 0;
       font-size: 2.5rem; }
     .dashboard-left-panel-group {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      grid-gap: 3rem;
-      border: 0.1rem solid #d79922;
+      border: 0.1rem solid #342e37;
       padding: 2rem;
       border-radius: 1rem;
-      width: min-content; }
+      width: 100%; }
   .dashboard-right-panel {
     grid-column: 6/-1;
     padding: 2rem 5rem 3rem 5rem;
@@ -684,7 +713,7 @@ svg {
       transition: all 0.5s; }
   .content-table-headers {
     display: grid;
-    grid-template-columns: max-content repeat(8, minmax(10rem, 1fr));
+    grid-template-columns: repeat(8, minmax(10rem, 1fr));
     align-items: center;
     padding: 2rem 0;
     border-bottom: 0.1rem solid #4056a1; }

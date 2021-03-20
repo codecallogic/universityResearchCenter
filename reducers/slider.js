@@ -43,6 +43,12 @@ export const sliderReducer = (state = initialState, action)  => {
         activeIndex: action.index
       }
 
+    case "RESIZE":
+      return {
+        ...state,
+        translate: state.activeIndex * state.width
+      }
+
     default: 
       return state
   }

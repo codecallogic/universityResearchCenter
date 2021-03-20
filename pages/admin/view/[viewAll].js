@@ -5,7 +5,7 @@ import withAdmin from '../../withAdmin'
 import {useRouter} from 'next/router'
 import AdminNav from '../../../components/admin/adminNav'
 import {getToken} from '../../../helpers/auth'
-import {parseCreatedAtDates, parseExpirationDates} from '../../../helpers/sort'
+import {parseCreatedAtDates, parseExpirationDates, removeHeaders} from '../../../helpers/sort'
 import dynamic from 'next/dynamic'
 const ReactQuill = dynamic(() => import('react-quill'), {ssr: false, loading: () => <p>Loading ...</p>})
 import 'react-quill/dist/quill.snow.css'
@@ -32,7 +32,14 @@ const ViewAll = ({account, allContent, authorization, current}) => {
     expiration: '',
     primary: false,
     enabled: true,
-    message: ''
+    message: '',
+    headline: '',
+    subheading: '',
+    button: '',
+    imageLeftColumn: '',
+    imageRightColumn: '',
+    captionOne: '',
+    captionTwo: '',
   })
   const [messages, setMessage] = useState({
     error: null,
@@ -40,7 +47,7 @@ const ViewAll = ({account, allContent, authorization, current}) => {
   })
 
   const {error, success} = messages
-  const {title, subtitle, imageURL, imageDescr, source, expiration, primary, enabled, message} = updatedRow
+  const {title, subtitle, imageURL, imageDescr, source, expiration, primary, enabled, message, headline, subheading, button, imageLeftColumn, imageRightColumn, captionOne, captionTwo} = updatedRow
 
   const handleFilter = (header, key) => {
     // GET SVG XLINK:HREF ATTRITUTE BY ELEMENT BY ID 
@@ -225,7 +232,7 @@ const ViewAll = ({account, allContent, authorization, current}) => {
     for(let i = 0; i < content.length; i++){
       if(content[i]._id == selected[0]){
         setEditRowForm(true)
-        setUpdatedRow({...updatedRow, id: content[i]._id, title: content[i].title,  subtitle: content[i].subtitle, imageURL: content[i].imageURL, imageDescr: content[i].imageDescr, source: content[i].source, expiration: content[i].expiration, primary: content[i].primary, enabled: content[i].enabled, message: content[i].message})
+        setUpdatedRow({...updatedRow, id: content[i]._id, title: content[i].title,  subtitle: content[i].subtitle, imageURL: content[i].imageURL, imageDescr: content[i].imageDescr, source: content[i].source, expiration: content[i].expiration, primary: content[i].primary, enabled: content[i].enabled, message: content[i].message, headline: content[i].headline, subheading: content[i].subheading, button: content[i].button, imageLeftColumn: content[i].imageLeftColumn, imageRightColumn: content[i].imageRightColumn, captionOne: content[i].captionOne, captionTwo: content[i].captionTwo})
       }
     }
   }
@@ -257,7 +264,8 @@ const ViewAll = ({account, allContent, authorization, current}) => {
       setContent(response.data)
       setMessage({...messages, success: 'Update was made successfully'})
     } catch (error) {
-      setMessage({...messages, error: error.response.data})
+      if(error.response.statusText === 'Unauthorized') window.location.href = '/admin/login'
+      setMessage({...messages, error: error.response})
     }
   }
 
@@ -274,7 +282,8 @@ const ViewAll = ({account, allContent, authorization, current}) => {
       setMessage({...messages, success: 'Update was made successfully'})
       setContent(response.data)
     } catch (error) {
-      console.log(error.response)
+      console.log(error)
+      if(error.response.statusText === 'Unauthorized') window.location.href = '/admin/login'
       setMessage({...messages, error: error.response})
     }
   }
@@ -293,6 +302,7 @@ const ViewAll = ({account, allContent, authorization, current}) => {
       setContent(response.data)
     } catch (error) {
       console.log(error.response)
+      if(error.response.statusText === 'Unauthorized') window.location.href = '/admin/login'
       setMessage({...messages, error: error.response})
     }
   }
@@ -311,10 +321,29 @@ const ViewAll = ({account, allContent, authorization, current}) => {
       setContent(response.data)
     } catch (error) {
       console.log(error.response)
+      if(error.response.statusText === 'Unauthorized') window.location.href = '/admin/login'
       setMessage({...messages, error: error.response})
     }
   }
 
+  const submitUpdateHeader = async (e) => {
+    e.preventDefault()
+    try {
+      const response = await axios.post(`${API}/header-component/update`, updatedRow, {
+        headers: {
+          Authorization: `Bearer ${authorization}`,
+          contentType: `application/json`
+        }
+      })
+      setMessage({...messages, success: 'Update was made successfully'})
+      setContent(response.data)
+    } catch (error) {
+      console.log(error.response)
+      if(error.response.statusText === 'Unauthorized') window.location.href = '/admin/login'
+      setMessage({...messages, error: error.response})
+    }
+  }
+  
   const deleteRow = async (e) => {
     e.preventDefault()
     try {
@@ -364,6 +393,19 @@ const ViewAll = ({account, allContent, authorization, current}) => {
         parseCreatedAtDates(responseStudentOpportunities.data)
         setContent(responseStudentOpportunities.data)
         break;
+
+      case 'header':
+        const responseHeader = await axios.post(`${API}/header-component/delete`, selected, {
+          headers: {
+            Authorization: `Bearer ${authorization}`,
+            contentType: `application/json`
+          }
+        })
+        console.log(responseHeader)
+        parseCreatedAtDates(responseHeader.data)
+        removeHeaders(responseHeader.data)
+        setContent(responseHeader.data)
+        break;
       
         default:
           break;
@@ -378,7 +420,7 @@ const ViewAll = ({account, allContent, authorization, current}) => {
           }
         }
       }
-      setMessage({...messages, success: 'Announcement was deleted successfully'})
+      setMessage({...messages, success: 'Row was deleted successfully'})
     } catch (error) {
       setMessage({...messages, error: error.response.error})
     }
@@ -392,7 +434,10 @@ const ViewAll = ({account, allContent, authorization, current}) => {
     parseCreatedAtDates(content)
 
     // IF NOT ANNOUNCEMENTS DATA LIST FORMAT ISO DATE FORMAT TO YYYY/MM/DD FOR EXPIRATION OBJECT PROPERTY
-    current !== 'announcements' ? parseExpirationDates(content) : null
+    current !== 'announcements' || current !== 'header' ? parseExpirationDates(content) : null
+
+    // REMOVE HEADERS
+    current === 'header' ? removeHeaders(content): null
 
     // DON'T SHOW UPDATE ROW FORM
     setEditRowForm(false)
@@ -418,7 +463,7 @@ const ViewAll = ({account, allContent, authorization, current}) => {
         }
         
         <div className="content-table-headers">
-          {editRowForm == false && 
+          {/* {editRowForm == false && 
           <div className="content-table-group">
             <label htmlFor="selectAll" onClick={selectAll}>
               <input type="checkbox" name="selectAll"/>
@@ -430,9 +475,9 @@ const ViewAll = ({account, allContent, authorization, current}) => {
               </div>
             </label>
           </div>
-          }
+          } */}
           {headers !== null && editRowForm == false && headers.map( (header, i) => (
-          header !== 'primary' && header !== 'enabled' && header !== '__v' ? 
+          header !== 'primary' && header !== 'enabled' && header !== '__v' && header !== '_id'? 
             <div key={i} className="content-table-headers-heading">
               {header}
               {/* 
@@ -465,17 +510,14 @@ const ViewAll = ({account, allContent, authorization, current}) => {
             </label>
           </div>
           {Object.keys(item).map( (keyName, keyIndex) => (
-          keyName !== '__v' && keyName !== 'primary' && keyName !== 'enabled'  ?  
+          keyName !== '__v' && keyName !== 'primary' && keyName !== 'enabled' && keyName !== '_id'?  
             <div key={keyIndex} className="content-table-rows-content">
               <span>
-              {item[keyName].toString().length > 50 ?  
+              {item[keyName].toString().length > 50 ?
               item[keyName].toString().substring(0, 50): 
               item[keyName].toString()
               } 
               </span>
-              {/* <svg>
-                <use xlinkHref={`/sprite.svg#icon-chevron-thin-desc`}></use>
-              </svg> */}
             </div>
           : null
           ))}
@@ -685,6 +727,54 @@ const ViewAll = ({account, allContent, authorization, current}) => {
           </form>
         }
 
+        {editRowForm == true && current == 'header' && 
+          <form className="form editing" action="POST" onSubmit={submitUpdateHeader}>
+            <div className="form-group-single">
+              <label htmlFor="headline">Headline</label>
+              <input type="text" name="headline" value={headline} required onChange={handleChange}/>
+            </div>
+            <div className="form-group-single">
+              <label htmlFor="subheading">Subheading</label>
+              <input type="text" name="subheading" value={subheading} onChange={handleChange}/>
+            </div>
+            <div className="form-group-single">
+              <label htmlFor="button">Button</label>
+              <input type="text" name="button" value={button} onChange={handleChange} required/>
+            </div>
+            <div className="form-group-double">
+              <div className="form-group-checkbox">
+                  <label htmlFor="enabled">
+                    <input type="checkbox" name="enabled" checked={!enabled} onChange={handleChange}/>
+                    <span></span>
+                    <div>
+                      <svg>
+                        <use xlinkHref="/sprite.svg#icon-checkmark"></use>
+                      </svg>
+                    </div>
+                  </label>
+                  Disable
+              </div>
+            </div>
+            <div className="form-group-single">
+              <label htmlFor="imageLeftColumn">Image Left Column</label>
+              <input type="text" name="imageLeftColumn" value={imageLeftColumn} onChange={handleChange}/>
+            </div>
+            <div className="form-group-single">
+              <label htmlFor="imageRightColumn">Image Right Column</label>
+              <input type="text" name="imageRightColumn" value={imageRightColumn} onChange={handleChange}/>
+            </div>
+            <div className="form-group-single">
+              <label htmlFor="captionOne">Caption One</label>
+              <input type="text" name="captionOne" value={captionOne} onChange={handleChange}/>
+            </div>
+            <div className="form-group-single">
+              <label htmlFor="captionTwo">Caption Two</label>
+              <input type="text" name="captionTwo" value={captionTwo} onChange={handleChange}/>
+            </div>
+            <button type="submit" className="submit-item">Update Header</button>
+          </form>
+        }
+
         {success !== null && editRowForm == true && <div className="form-successMessage">{success}</div>}
         {error !== null && editRowForm == true && <div className="form-errorMessage">{error}</div>}
         
@@ -770,6 +860,24 @@ ViewAll.getInitialProps = async ({query, req}) => {
 
       return {
         allContent: studentOpportunitiesResponse.data,
+        current: query.viewAll
+      }
+      break;
+
+    case 'header':
+      let headerComponentResponse = await axios.get(`${API}/header-component/list`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          contentType: `application/json`
+        }
+      })
+
+      // CHANGE CREATEDAT DATE FORMAT TO YYYY-MM-DD
+      parseCreatedAtDates(headerComponentResponse.data)
+      removeHeaders(headerComponentResponse.data)
+
+      return {
+        allContent: headerComponentResponse.data,
         current: query.viewAll
       }
       break;

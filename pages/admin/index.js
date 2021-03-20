@@ -3,19 +3,24 @@ import withAdmin from '../withAdmin'
 import {useRouter} from 'next/router'
 import AdminNav from '../../components/admin/adminNav'
 import {API} from '../../config'
+import {connect} from 'react-redux'
+import { useDispatch } from 'react-redux';
 import axios from 'axios'
+import {setBoxDropDown, setComponentDropDown} from '../../helpers/sort'
 import dynamic from 'next/dynamic'
 const ReactQuill = dynamic(() => import('react-quill'), {ssr: false, loading: () => <p>Loading ...</p>})
 import 'react-quill/dist/quill.snow.css'
 
 // TODO: Create front end protected url routes using SSR for Admin
 
-const Dashboard = ({loggedIn, account, authorization}) => {
-  
+const Dashboard = ({loggedIn, account, authorization, header, headerData}) => {
+
+  const dispatch = useDispatch()
   const router = useRouter()
 
   const [form, setForm] = useState('announcements')
   const [selectedIndex, setSelectedIndex] = useState(0)
+  const [selectedIndexComponent, setSelectedIndexComponent] = useState(0)
   const [user, setUser] = useState(JSON.parse(decodeURIComponent(account)))
   const [content, setContent] = useState({
     title: '',
@@ -31,10 +36,20 @@ const Dashboard = ({loggedIn, account, authorization}) => {
   const [errorMessage, setErrorMessage] = useState(null)
   const [successMessage, setSuccessMessage] = useState(null)
 
-  // Handle announcement form
+  // Handle change for box forms
   const handleChange = (e) => {
     e.target.name == 'primary' ? setContent({...content, [e.target.name]: e.target.checked}) : null
     e.target.name !== 'primary' ? setContent({...content, [e.target.name]: e.target.value}) : null
+    setSuccessMessage(null)
+    setErrorMessage(null)
+  }
+
+  // Handle change for header form
+  const handleChangeHeader = (e) => {
+    dispatch({
+      type: 'UPDATE_STATE',
+      payload: {name: e.target.name, value: e.target.value}
+    })
     setSuccessMessage(null)
     setErrorMessage(null)
   }
@@ -51,10 +66,12 @@ const Dashboard = ({loggedIn, account, authorization}) => {
     if(form == 'meetings and activities') window.location.href = `/admin/view/${form}`
     if(form == 'opportunities for faculty') window.location.href = `/admin/view/${form}`
     if(form == 'opportunities for students') window.location.href = `/admin/view/${form}`
+    if(form == 'header') window.location.href = `/admin/view/${form}`
   }
   
   const handleForms = (e) => {
-    setSelectedIndex(e.target.options.selectedIndex)
+    e.target.classList.contains('form-selection-boxes') === true ? (setSelectedIndex(e.target.options.selectedIndex), setComponentDropDown()) : null
+    e.target.classList.contains('form-selection-components') === true ? (setSelectedIndexComponent(e.target.options.selectedIndex), setBoxDropDown()) : null
     setForm(e.target.value.toLowerCase())
     setContent({...content, title: '', subtitle: '', imageURL: '', imageDescr: '', primary: false, source: '', message: ''})
   }
@@ -149,10 +166,29 @@ const Dashboard = ({loggedIn, account, authorization}) => {
     }
   }
 
+  // Update Header
+  const createHeader = async (e) => {
+    e.preventDefault()
+    try {
+      const response = await axios.post(`${API}/header-component/create`, {header}, {
+        headers: {
+          Authorization: `Bearer ${authorization}`,
+          contentType: `application/json`
+        }
+      })
+      dispatch({
+        type: 'RESET_STATE'
+      })
+      setSuccessMessage(response.data)
+    } catch (error) {
+      setErrorMessage(error.response.data)
+    }
+  }
+
   useEffect( () => {
-    const el = document.querySelectorAll('.form-selection')
-    el[0].selectedIndex = selectedIndex
-  })
+    setBoxDropDown(selectedIndex)
+    setComponentDropDown(selectedIndexComponent)
+  }, [])
   
   return (
     <>
@@ -162,12 +198,20 @@ const Dashboard = ({loggedIn, account, authorization}) => {
           <div className="dashboard-left-panel">
             <div className="dashboard-left-panel-title">Homepage Boxes</div>
             <div className="dashboard-left-panel-group">
-              <select className="dashboard-control form-selection" onChange={handleForms}>
+              <select className="dashboard-control form-selection-boxes" onChange={handleForms}>
+                <option value="select a box" disabled>Select a box</option>
                 <option value="announcements">Announcements</option>
                 <option value="meetings and activities">Meetings and Activities</option>
                 <option value="opportunities for faculty">Opportunities for Faculty</option>
                 <option value="opportunities for students">Opportunities for Students</option>
                 <option value="spotlight">Spotlight</option>
+              </select>             
+            </div>
+            <div className="dashboard-left-panel-title">Components</div>
+            <div className="dashboard-left-panel-group">
+              <select className="dashboard-control form-selection-components" onChange={handleForms}>
+                <option value="select a component" disabled>Select a component</option>
+                <option value="header">Header</option>
               </select>             
             </div>
           </div>
@@ -359,6 +403,38 @@ const Dashboard = ({loggedIn, account, authorization}) => {
             {successMessage !== null && <div className="form-successMessage">{successMessage}</div>}
           </div>
           }
+          {form === 'header' &&
+          <div className="dashboard-right-panel">
+            <div className="dashboard-right-panel-toggle" onClick={viewAll}>View All Header Slides</div>
+            <form className="form" action="POST" onSubmit={createHeader}>
+              <div className="form-group-single">
+                <label htmlFor="headline1">Headline</label>
+                <input type="text" name="headline" value={header.headline} onChange={handleChangeHeader} required/> 
+
+                <label htmlFor="subheading1">Subheading</label>
+                <input type="text" name="subheading" value={header.subheading} onChange={handleChangeHeader} required/> 
+
+                <label htmlFor="button1">Button</label>
+                <input type="text" name="button" value={header.button} onChange={handleChangeHeader} required/> 
+
+                <label htmlFor="imageLeftColumn">Image Left Column</label>
+                <input type="text" name="imageLeftColumn" value={header.imageLeftColumn} onChange={handleChangeHeader} required/>
+
+                <label htmlFor="imageRightColumn">Image Right Column</label>
+                <input type="text" name="imageRightColumn" value={header.imageRightColumn} onChange={handleChangeHeader} required/>
+
+                <label htmlFor="captionOne">Caption 1</label>
+                <input type="text" name="captionOne" value={header.captionOne} onChange={handleChangeHeader} required/> 
+
+                <label htmlFor="captionTwo">Caption 2</label>
+                <input type="text" name="captionTwo" value={header.captionTwo} onChange={handleChangeHeader}/> 
+              </div>
+              <button type="submit" className="submit-item">Create Header Slide</button>
+            </form>
+            {errorMessage !== null && <div className="form-errorMessage">{errorMessage}</div>}
+            {successMessage !== null && <div className="form-successMessage">{successMessage}</div>}
+          </div>
+          }
         </div>
       </div>
     }
@@ -366,4 +442,10 @@ const Dashboard = ({loggedIn, account, authorization}) => {
   )
 }
 
-export default withAdmin(Dashboard)
+const mapStateToProps = state => {
+  return {
+      header: state.header
+  }
+}
+
+export default connect(mapStateToProps)(withAdmin(Dashboard))

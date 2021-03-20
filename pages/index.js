@@ -4,9 +4,9 @@ import Nav from '../components/nav'
 import Slider from '../components/slider/slider'
 import axios from 'axios'
 import {API} from '../config'
-import {parseCreatedAtDates, parseExpirationDates, sortByCreationDate, sortByExpirationDate} from '../helpers/sort'
+import {parseCreatedAtDates, parseExpirationDates, sortByCreationDate, sortByExpirationDate, sortByEnableAndCreationDate} from '../helpers/sort'
 
-const Home = ({announcements, meetings, facultyOpportunities, studentOpportunities}) => {
+const Home = ({announcements, meetings, facultyOpportunities, studentOpportunities, headerData}) => {
   
   const [announcementsList, setAnnouncementsList] = useState(announcements)
   const [meetingsList, setList] = useState(meetings)
@@ -42,7 +42,7 @@ const Home = ({announcements, meetings, facultyOpportunities, studentOpportuniti
     <Nav></Nav>
     <div className="home-container">
       <div className="home-header">
-        <Slider></Slider>
+        <Slider header={headerData}></Slider>
       </div>
       <div className="home-announcements">
         <div className="home-announcements-header">
@@ -249,6 +249,7 @@ Home.getInitialProps = async () => {
   const meetings = await axios.get(`${API}/meetings/public/list`)
   const facultyOpportunities = await axios.get(`${API}/opportunities-faculty/public/list`)
   const studentOpportunities = await axios.get(`${API}/opportunities-students/public/list`)
+  const headerComponent = await axios.get(`${API}/header-component/public`)
 
   // CHANGE CREATEDAT DATE FORMAT TO YYYY-MM-DD
   parseCreatedAtDates(announcements.data)
@@ -265,11 +266,15 @@ Home.getInitialProps = async () => {
   let newFacultyOpportunties = sortByExpirationDate(facultyOpportunities.data)
   let newStudentOpportunties = sortByExpirationDate(studentOpportunities.data)
 
+  // SORT HEADER SLIDER BY ENABLED AND DATE
+  let newHeaderComponent = sortByEnableAndCreationDate(headerComponent.data)
+
   return {
     announcements: newAnnouncements,
     meetings: newMeetings,
     facultyOpportunities: newFacultyOpportunties,
-    studentOpportunities: newStudentOpportunties
+    studentOpportunities: newStudentOpportunties,
+    headerData: newHeaderComponent
   }
 }
 

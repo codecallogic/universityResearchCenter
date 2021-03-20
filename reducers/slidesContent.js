@@ -6,5 +6,12 @@ const images = [
 ]
 
 export const slidesContentReducer = (state = images, action)  => {
-  return state
+  switch (action.type) {
+    case 'SET_SLIDES':
+      return action.payload
+      break;
+  
+    default:
+      return state
+  }
 }
