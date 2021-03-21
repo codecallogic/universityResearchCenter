@@ -19,7 +19,7 @@ const withAdmin = Page => {
     if(token){
       accessToken = token.split('=')[1]
     }
-
+    
     try {
       const response = await axios.get(`${API}/admin`, {
           headers: {
@@ -34,7 +34,6 @@ const withAdmin = Page => {
       authorization = accessToken
 
     } catch(err){
-      
       if(err){
         message = err.response.data
         account = null

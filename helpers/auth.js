@@ -14,7 +14,7 @@ export const getCookieFromServer = (key, req) => {
   if(!req.headers.cookie){
       return undefined
   }
-
+  
   let token = req.headers.cookie
 
   if(!token){
@@ -22,7 +22,16 @@ export const getCookieFromServer = (key, req) => {
   }
   
   let tokenValue = token.split(';')[0]
-  return tokenValue
+
+  const array = new Array(token.split(';'))
+
+  const newArray = array[0].map( (i) => {
+    return i.trim()
+  })
+
+  let el = newArray.find( a => a.includes("accessToken"))
+
+  return el
 }
 
 // Get user
@@ -46,5 +55,14 @@ export const getUserFromServer = (key, req) => {
   }
   
   let userData = user.split(';')[1]
-  return userData
+
+  const array = new Array(user.split(';'))
+
+  const newArray = array[0].map( (i) => {
+    return i.trim()
+  })
+
+  let el = newArray.find( a => a.includes("user"))
+
+  return el
 }

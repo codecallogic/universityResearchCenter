@@ -6,14 +6,15 @@ import {API} from '../../config'
 import {connect} from 'react-redux'
 import { useDispatch } from 'react-redux';
 import axios from 'axios'
-import {setBoxDropDown, setComponentDropDown, setProfileDropDown, setDropDowns} from '../../helpers/sort'
+import {setDropDowns} from '../../helpers/sort'
+import {createTag} from '../../helpers/forms'
 import dynamic from 'next/dynamic'
 const ReactQuill = dynamic(() => import('react-quill'), {ssr: false, loading: () => <p>Loading ...</p>})
 import 'react-quill/dist/quill.snow.css'
 
 // TODO: Create front end protected url routes using SSR for Admin
 
-const Dashboard = ({loggedIn, account, authorization, header, headerData}) => {
+const Dashboard = ({loggedIn, account, authorization, header, student}) => {
 
   const dispatch = useDispatch()
   const router = useRouter()
@@ -46,9 +47,10 @@ const Dashboard = ({loggedIn, account, authorization, header, headerData}) => {
   }
 
   // Handle change for header form
-  const handleChangeHeader = (e) => {
+  const handleChangeRedux = (e) => {
+    createTag(e)
     dispatch({
-      type: 'UPDATE_STATE',
+      type: 'UPDATE_STATE_HEADER',
       payload: {name: e.target.name, value: e.target.value}
     })
     setSuccessMessage(null)
@@ -420,26 +422,26 @@ const Dashboard = ({loggedIn, account, authorization, header, headerData}) => {
             <div className="dashboard-right-panel-toggle" onClick={viewAll}>View All Header Slides</div>
             <form className="form" action="POST" onSubmit={createHeader}>
               <div className="form-group-single">
-                <label htmlFor="headline1">Headline</label>
-                <input type="text" name="headline" value={header.headline} onChange={handleChangeHeader} required/> 
+                <label htmlFor="headline">Headline</label>
+                <input type="text" name="headline" value={header.headline} onChange={handleChangeRedux} required/> 
 
-                <label htmlFor="subheading1">Subheading</label>
-                <input type="text" name="subheading" value={header.subheading} onChange={handleChangeHeader} required/> 
+                <label htmlFor="subheading">Subheading</label>
+                <input type="text" name="subheading" value={header.subheading} onChange={handleChangeRedux} required/> 
 
                 <label htmlFor="button1">Button</label>
-                <input type="text" name="button" value={header.button} onChange={handleChangeHeader} required/> 
+                <input type="text" name="button" value={header.button} onChange={handleChangeRedux} required/> 
 
                 <label htmlFor="imageLeftColumn">Image Left Column</label>
-                <input type="text" name="imageLeftColumn" value={header.imageLeftColumn} onChange={handleChangeHeader} required/>
+                <input type="text" name="imageLeftColumn" value={header.imageLeftColumn} onChange={handleChangeRedux} required/>
 
                 <label htmlFor="imageRightColumn">Image Right Column</label>
-                <input type="text" name="imageRightColumn" value={header.imageRightColumn} onChange={handleChangeHeader} required/>
+                <input type="text" name="imageRightColumn" value={header.imageRightColumn} onChange={handleChangeRedux} required/>
 
                 <label htmlFor="captionOne">Caption 1</label>
-                <input type="text" name="captionOne" value={header.captionOne} onChange={handleChangeHeader} required/> 
+                <input type="text" name="captionOne" value={header.captionOne} onChange={handleChangeRedux} required/> 
 
                 <label htmlFor="captionTwo">Caption 2</label>
-                <input type="text" name="captionTwo" value={header.captionTwo} onChange={handleChangeHeader}/> 
+                <input type="text" name="captionTwo" value={header.captionTwo} onChange={handleChangeRedux}/> 
               </div>
               <button type="submit" className="submit-item">Create Header Slide</button>
             </form>
@@ -452,16 +454,20 @@ const Dashboard = ({loggedIn, account, authorization, header, headerData}) => {
             <div className="dashboard-right-panel-toggle" onClick={viewAll}>View All Student Profiles</div>
             <form className="form" action="POST" onSubmit={createSpotlight}>
               <div className="form-group-single">
-                <label htmlFor="title">Title</label>
-                <input type="text" name="title" value={title} onChange={handleChange} required/>
+                <label htmlFor="photo">Photo</label>
+                <input type="text" name="photo" value={student.photo} onChange={handleChangeRedux} required/>
               </div>
               <div className="form-group-double">
-                <label htmlFor="source">Source</label>
-                <input type="text" name="source" value={source} onChange={handleChange} required/>
+                <label htmlFor="name">Name</label>
+                <input type="text" name="name" value={student.name} onChange={handleChangeRedux} required/>
               </div>
               <div className="form-group-double">
-                <label htmlFor="expiration">Expiration Date (Optional)</label>
-                <input type="date" name="expiration" value={expiration} placeholder="mm / dd / yyyy" onChange={handleChange}/>
+                <label htmlFor="linkedin">LinkedIn</label>
+                <input type="text" name="linkedin" value={student.linkedin} onChange={handleChangeRedux} required/>
+              </div>
+              <div className="form-group-single">
+                <label htmlFor="researchInterests">Research Interests</label>
+                <input type="text" name="researchInterests" value={student.researchInterests} onChange={handleChangeRedux} required/>
               </div>
               <button type="submit" className="submit-item">Create Opportunity for Students</button>
             </form>
@@ -478,7 +484,8 @@ const Dashboard = ({loggedIn, account, authorization, header, headerData}) => {
 
 const mapStateToProps = state => {
   return {
-      header: state.header
+      header: state.header,
+      student: state.studentProfile
   }
 }
 

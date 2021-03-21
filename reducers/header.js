@@ -13,7 +13,7 @@ export const headerReducer = (state = initialState, action)  => {
     case 'RESET_STATE':
     return initialState
     
-    case 'UPDATE_STATE':
+    case 'UPDATE_STATE_HEADER':
       return {
         ...state,
         [action.payload.name]: action.payload.value

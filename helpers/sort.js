@@ -46,45 +46,6 @@ export const removeHeaders = (data) => {
   })
 }
 
-export const setBoxDropDown = (i) => {
-  if(!i){
-    const el = document.querySelectorAll('.form-selection-boxes')
-    el[0].selectedIndex = 0
-  }
-
-  if(i){
-    const el = document.querySelectorAll('.form-selection-boxes')
-    el[0].selectedIndex = i
-  }
-  
-}
-
-export const setComponentDropDown = (i) => {
-  if(!i){
-    const el = document.querySelectorAll('.form-selection-components')
-    el[0].selectedIndex = 0
-  }
-
-  if(i){
-    const el = document.querySelectorAll('.form-selection-components')
-    el[0].selectedIndex = i
-  }
-  
-}
-
-export const setProfileDropDown = (i) => {
-  if(!i){
-    const el = document.querySelectorAll('.form-selection-profiles')
-    el[0].selectedIndex = 0
-  }
-
-  if(i){
-    const el = document.querySelectorAll('.form-selection-profiles')
-    el[0].selectedIndex = i
-  }
-  
-}
-
 export const setDropDowns = (value, i) => {
   const boxes = document.querySelectorAll('.form-selection-boxes')
   boxes[0].selectedIndex = 0
