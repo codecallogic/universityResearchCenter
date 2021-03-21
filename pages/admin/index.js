@@ -6,7 +6,7 @@ import {API} from '../../config'
 import {connect} from 'react-redux'
 import { useDispatch } from 'react-redux';
 import axios from 'axios'
-import {setBoxDropDown, setComponentDropDown} from '../../helpers/sort'
+import {setBoxDropDown, setComponentDropDown, setProfileDropDown, setDropDowns} from '../../helpers/sort'
 import dynamic from 'next/dynamic'
 const ReactQuill = dynamic(() => import('react-quill'), {ssr: false, loading: () => <p>Loading ...</p>})
 import 'react-quill/dist/quill.snow.css'
@@ -21,6 +21,7 @@ const Dashboard = ({loggedIn, account, authorization, header, headerData}) => {
   const [form, setForm] = useState('announcements')
   const [selectedIndex, setSelectedIndex] = useState(0)
   const [selectedIndexComponent, setSelectedIndexComponent] = useState(0)
+  const [selectedIndexProfile, setSelectedIndexProfile] = useState(0)
   const [user, setUser] = useState(JSON.parse(decodeURIComponent(account)))
   const [content, setContent] = useState({
     title: '',
@@ -70,9 +71,14 @@ const Dashboard = ({loggedIn, account, authorization, header, headerData}) => {
   }
   
   const handleForms = (e) => {
-    e.target.classList.contains('form-selection-boxes') === true ? (setSelectedIndex(e.target.options.selectedIndex), setComponentDropDown()) : null
-    e.target.classList.contains('form-selection-components') === true ? (setSelectedIndexComponent(e.target.options.selectedIndex), setBoxDropDown()) : null
+    e.target.classList.contains('form-selection-boxes') === true ? (setSelectedIndex(e.target.options.selectedIndex), setDropDowns('boxes', e.target.options.selectedIndex)) : null
+
+    e.target.classList.contains('form-selection-components') === true ? (setSelectedIndexComponent(e.target.options.selectedIndex), setDropDowns('components', e.target.options.selectedIndex)) : null
+
+    e.target.classList.contains('form-selection-profiles') === true ? (setSelectedIndexProfile(e.target.options.selectedIndex), setDropDowns('profiles', e.target.options.selectedIndex)) : null
+
     setForm(e.target.value.toLowerCase())
+
     setContent({...content, title: '', subtitle: '', imageURL: '', imageDescr: '', primary: false, source: '', message: ''})
   }
 
@@ -186,8 +192,7 @@ const Dashboard = ({loggedIn, account, authorization, header, headerData}) => {
   }
 
   useEffect( () => {
-    setBoxDropDown(selectedIndex)
-    setComponentDropDown(selectedIndexComponent)
+    setDropDowns(null, null)
   }, [])
   
   return (
@@ -213,6 +218,13 @@ const Dashboard = ({loggedIn, account, authorization, header, headerData}) => {
                 <option value="select a component" disabled>Select a component</option>
                 <option value="header">Header</option>
               </select>             
+            </div>
+            <div className="dashboard-left-panel-title">Profiles</div>
+            <div className="dashboard-left-panel-group">
+              <select className="dashboard-control form-selection-profiles" onChange={handleForms}>
+                <option value="select a profile" disabled>Select a profile</option>
+                <option value="student">Student Profile</option>
+              </select>            
             </div>
           </div>
           {form === 'announcements' &&
@@ -430,6 +442,28 @@ const Dashboard = ({loggedIn, account, authorization, header, headerData}) => {
                 <input type="text" name="captionTwo" value={header.captionTwo} onChange={handleChangeHeader}/> 
               </div>
               <button type="submit" className="submit-item">Create Header Slide</button>
+            </form>
+            {errorMessage !== null && <div className="form-errorMessage">{errorMessage}</div>}
+            {successMessage !== null && <div className="form-successMessage">{successMessage}</div>}
+          </div>
+          }
+          {form === 'student' &&
+          <div className="dashboard-right-panel">
+            <div className="dashboard-right-panel-toggle" onClick={viewAll}>View All Student Profiles</div>
+            <form className="form" action="POST" onSubmit={createSpotlight}>
+              <div className="form-group-single">
+                <label htmlFor="title">Title</label>
+                <input type="text" name="title" value={title} onChange={handleChange} required/>
+              </div>
+              <div className="form-group-double">
+                <label htmlFor="source">Source</label>
+                <input type="text" name="source" value={source} onChange={handleChange} required/>
+              </div>
+              <div className="form-group-double">
+                <label htmlFor="expiration">Expiration Date (Optional)</label>
+                <input type="date" name="expiration" value={expiration} placeholder="mm / dd / yyyy" onChange={handleChange}/>
+              </div>
+              <button type="submit" className="submit-item">Create Opportunity for Students</button>
             </form>
             {errorMessage !== null && <div className="form-errorMessage">{errorMessage}</div>}
             {successMessage !== null && <div className="form-successMessage">{successMessage}</div>}

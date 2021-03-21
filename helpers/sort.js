@@ -72,6 +72,33 @@ export const setComponentDropDown = (i) => {
   
 }
 
+export const setProfileDropDown = (i) => {
+  if(!i){
+    const el = document.querySelectorAll('.form-selection-profiles')
+    el[0].selectedIndex = 0
+  }
+
+  if(i){
+    const el = document.querySelectorAll('.form-selection-profiles')
+    el[0].selectedIndex = i
+  }
+  
+}
+
+export const setDropDowns = (value, i) => {
+  const boxes = document.querySelectorAll('.form-selection-boxes')
+  boxes[0].selectedIndex = 0
+  const components = document.querySelectorAll('.form-selection-components')
+  components[0].selectedIndex = 0
+  const profiles = document.querySelectorAll('.form-selection-profiles')
+  profiles[0].selectedIndex = 0
+  
+  if(i){
+    const el = document.querySelectorAll(`.form-selection-${value}`)
+    el[0].selectedIndex = i
+  }
+}
+
 export const sortByEnableAndCreationDate = (data) => {
 
   let newArray = []
