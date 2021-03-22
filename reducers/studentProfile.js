@@ -19,10 +19,17 @@ export const studentProfileReducer = (state = initialState, action)  => {
     case 'RESET_STATE':
     return initialState
     
-    case 'UPDATE_STATE':
+    case 'UPDATE_STATE_STUDENT':
       return {
         ...state,
         [action.payload.name]: action.payload.value
+      }
+      break;
+
+    case 'UPDATE_RESEARCH_INTERESTS':
+      return {
+        ...state,
+        researchInterests: action.payload
       }
       break;
       

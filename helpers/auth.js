@@ -21,7 +21,7 @@ export const getCookieFromServer = (key, req) => {
       return undefined
   }
   
-  let tokenValue = token.split(';')[0]
+  // let tokenValue = token.split(';')[0]
 
   const array = new Array(token.split(';'))
 
@@ -54,7 +54,7 @@ export const getUserFromServer = (key, req) => {
       return undefined
   }
   
-  let userData = user.split(';')[1]
+  // let userData = user.split(';')[1]
 
   const array = new Array(user.split(';'))
 

@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useRef} from 'react'
 import withAdmin from '../withAdmin'
 import {useRouter} from 'next/router'
 import AdminNav from '../../components/admin/adminNav'
@@ -7,7 +7,7 @@ import {connect} from 'react-redux'
 import { useDispatch } from 'react-redux';
 import axios from 'axios'
 import {setDropDowns} from '../../helpers/sort'
-import {createTag} from '../../helpers/forms'
+import {manageTags} from '../../helpers/forms'
 import dynamic from 'next/dynamic'
 const ReactQuill = dynamic(() => import('react-quill'), {ssr: false, loading: () => <p>Loading ...</p>})
 import 'react-quill/dist/quill.snow.css'
@@ -18,6 +18,7 @@ const Dashboard = ({loggedIn, account, authorization, header, student}) => {
 
   const dispatch = useDispatch()
   const router = useRouter()
+  const inputTags = useRef()
 
   const [form, setForm] = useState('announcements')
   const [selectedIndex, setSelectedIndex] = useState(0)
@@ -32,11 +33,12 @@ const Dashboard = ({loggedIn, account, authorization, header, student}) => {
     primary: false,
     source: '',
     expiration: '',
-    message: ''
+    message: '',
   })
   const {title, subtitle, imageURL, imageDescr, source, expiration, message} = content
   const [errorMessage, setErrorMessage] = useState(null)
   const [successMessage, setSuccessMessage] = useState(null)
+  const [tags, setTags] = useState('')
 
   // Handle change for box forms
   const handleChange = (e) => {
@@ -48,13 +50,58 @@ const Dashboard = ({loggedIn, account, authorization, header, student}) => {
 
   // Handle change for header form
   const handleChangeRedux = (e) => {
-    createTag(e)
+    setTags(e.target.value)
+    
+    // HANDLE CHANGE FOR HEADER
     dispatch({
       type: 'UPDATE_STATE_HEADER',
       payload: {name: e.target.name, value: e.target.value}
     })
+
+    // HANDLE CHANGE FOR STUDENT PROFILE
+    dispatch({
+      type: 'UPDATE_STATE_STUDENT',
+      payload: {name: e.target.name, value: e.target.value}
+    })
     setSuccessMessage(null)
     setErrorMessage(null)
+  }
+
+  // HANDLE KEY PRESS
+  const handleKeyPress = (e) => {    
+    if(e.key === 'Enter'){
+      e.preventDefault();
+      manageTags()
+      let closeIcon = document.querySelectorAll('.form-tag')
+      let postHidden = document.getElementById("tagValue")
+      let values = postHidden.getAttribute('value').split(',')
+
+      closeIcon.forEach( (e) => {
+        e.addEventListener('click', function(e){
+          let parent = e.target.parentNode
+          let parentOfParent = parent.parentNode
+          parentOfParent.remove()
+
+          let tagValues = document.querySelectorAll(".tag > span")
+          let newValues = []
+          
+          tagValues.forEach( e => {
+            newValues.push(e.innerHTML)
+          })
+
+          dispatch({
+            type: 'UPDATE_RESEARCH_INTERESTS',
+            payload: newValues
+          })
+        })
+      })
+
+      dispatch({
+        type: 'UPDATE_RESEARCH_INTERESTS',
+        payload: values
+      })
+      setTags('')
+    }
   }
 
   // Handle announcement form
@@ -466,10 +513,13 @@ const Dashboard = ({loggedIn, account, authorization, header, student}) => {
                 <input type="text" name="linkedin" value={student.linkedin} onChange={handleChangeRedux} required/>
               </div>
               <div className="form-group-single">
-                <label htmlFor="researchInterests">Research Interests</label>
-                <input type="text" name="researchInterests" value={student.researchInterests} onChange={handleChangeRedux} required/>
+                <label htmlFor="tags">Research Interests</label>
+                <input type="hidden" name="tags" id="tagValue" value="" required></input>
+                <div className="form-tag-container">
+                  <input type="text" id="researchInterests" name="tags" ref={inputTags} value={tags} onKeyPress={handleKeyPress} onChange={handleChangeRedux} required/>
+                </div>
               </div>
-              <button type="submit" className="submit-item">Create Opportunity for Students</button>
+              <button className="submit-item">Create Opportunity for Students</button>
             </form>
             {errorMessage !== null && <div className="form-errorMessage">{errorMessage}</div>}
             {successMessage !== null && <div className="form-successMessage">{successMessage}</div>}

@@ -125,6 +125,54 @@
       }
     }
   }
+
+  &-tag-container {
+    border: 0.1rem solid $color-shade-gray;
+    border-radius: 3px;
+    background: #fff;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    padding: 6px;
+
+    .tag {
+      height: 100%;
+      color: black;
+      padding: 0.5rem 1rem;
+      border: 0.1rem solid $color-scheme-1;
+      border-radius: 1rem;
+      font-size: 1.4rem;
+      margin-right: 1rem;
+      margin-bottom: 0.5rem;
+      cursor: pointer;
+
+      svg {
+        height: 1rem;
+        width: 1rem;
+        margin-left: 1rem;
+        fill: $color-scheme-1;
+      }
+    }
+
+    input {
+      flex: 1;
+      width: auto;
+      border: 0;
+      outline: none;
+      color: black;
+      padding: 0.5rem;
+      font-size: 1.4rem;
+
+      &:focus {
+        outline: none;
+        border: none;
+      }
+    }
+
+    &:hover {
+      border: 0.1rem solid $color-scheme-5;
+    }
+  }
 }
 
 .enabled {
