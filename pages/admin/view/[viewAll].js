@@ -513,6 +513,19 @@ const ViewAll = ({account, allContent, authorization, current, studentList, pure
         setContent(responseHeader.data)
         break;
       
+      case 'student':
+        const responseStudentProfile = await axios.post(`${API}/student-profile/delete`, selected, {
+          headers: {
+            Authorization: `Bearer ${authorization}`,
+            contentType: `application/json`
+          }
+        })
+
+        removeHeadersStudentProfile(responseStudentProfile.data)
+        setContent(responseStudentProfile.data)
+        
+        break;
+      
         default:
           break;
       }
