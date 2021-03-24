@@ -372,7 +372,9 @@ svg {
     .nav-container:hover {
       background-image: linear-gradient(90deg, #4056a1, #c5cbe3); }
   .nav-logo {
-    font-size: 3rem; }
+    font-size: 3rem;
+    text-decoration: none;
+    color: white; }
     .nav-logo:hover {
       cursor: pointer; }
   .nav-menu {
@@ -1087,3 +1089,147 @@ svg {
     .home-opportunities-students-header span {
       font-size: 3.2rem;
       font-weight: 400; }
+
+.home-student-spotlight {
+  width: 100%;
+  color: #4b4f4d;
+  background-color: white;
+  border-top-right-radius: 2rem;
+  border-top-left-radius: 2rem;
+  border-bottom-right-radius: 2rem;
+  border-bottom-left-radius: 2rem;
+  margin: 2rem 0 0 0;
+  height: min-content; }
+  .home-student-spotlight-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem 0;
+    margin: 0 0 1rem 0;
+    background-color: #c5cbe3;
+    border-top-right-radius: 2rem;
+    border-top-left-radius: 2rem;
+    color: white; }
+    .home-student-spotlight-header svg {
+      width: 3rem;
+      height: 3rem;
+      margin-right: 2rem;
+      fill: white; }
+    .home-student-spotlight-header span {
+      font-size: 3.2rem;
+      font-weight: 400; }
+  .home-student-spotlight-item-students {
+    display: flex;
+    align-items: center;
+    padding: 3rem 2rem;
+    border-top: 0.5px solid #e5e5e5;
+    color: #f13c20; }
+    .home-student-spotlight-item-students svg {
+      width: 1.5rem;
+      height: 1.5rem;
+      margin-right: 2rem;
+      fill: #c5cbe3; }
+  .home-student-spotlight-item svg {
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-right: 2rem;
+    fill: #c5cbe3; }
+  .home-student-spotlight-item-group {
+    display: grid; }
+    .home-student-spotlight-item-group h6 {
+      font-size: 2rem;
+      font-weight: 500;
+      color: #4056a1; }
+    .home-student-spotlight-item-group span {
+      font-size: 1.8rem;
+      color: black; }
+  .home-student-spotlight-item:hover {
+    background-color: #e5e5e5;
+    cursor: pointer; }
+  .home-student-spotlight-students {
+    width: 100%;
+    color: #4b4f4d;
+    background-color: white;
+    border-top-right-radius: 2rem;
+    border-top-left-radius: 2rem;
+    border-bottom-right-radius: 2rem;
+    border-bottom-left-radius: 2rem;
+    margin: 2rem 0 0 0;
+    height: min-content; }
+    .home-student-spotlight-students-header {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem 0;
+      margin: 0 0 1rem 0;
+      background-color: #342e37;
+      border-top-right-radius: 2rem;
+      border-top-left-radius: 2rem;
+      color: white; }
+      .home-student-spotlight-students-header svg {
+        width: 3rem;
+        height: 3rem;
+        margin-right: 2rem;
+        fill: white; }
+      .home-student-spotlight-students-header span {
+        font-size: 3.2rem;
+        font-weight: 400; }
+
+.student-profile {
+  grid-column: 3/11;
+  padding: 2rem;
+  height: 100%; }
+  .student-profile-container {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr); }
+  .student-profile-record {
+    margin: 0 auto;
+    background-color: #342e37;
+    color: white;
+    padding: 2rem;
+    border-radius: 1rem; }
+    .student-profile-record-image {
+      float: left;
+      width: auto;
+      padding: 2rem;
+      -webkit-shape-outside: circle(50% at 50% 50%);
+      shape-outside: circle(50% at 50% 50%);
+      -webkit-clip-path: circle(50% at 50% 50%);
+      clip-path: circle(50% at 50% 50%); }
+      .student-profile-record-image img {
+        width: 30rem;
+        height: 30rem;
+        box-shadow: 0 1rem 1rem rgba(0, 0, 0, 0.4);
+        object-fit: cover;
+        border-radius: 50%;
+        outline: none;
+        border: none;
+        image-rendering: auto;
+        image-rendering: crisp-edges;
+        image-rendering: pixelated; }
+    .student-profile-record-details h1 {
+      padding: 1rem 2rem;
+      font-size: 3.6rem;
+      font-weight: 200; }
+    .student-profile-record-details h2 {
+      font-size: 2.4rem;
+      font-weight: 200; }
+    .student-profile-record-details-info {
+      padding: 3rem; }
+      .student-profile-record-details-info div {
+        display: flex;
+        align-items: center; }
+        .student-profile-record-details-info div div {
+          margin-left: 1rem;
+          font-size: 1.6rem; }
+          .student-profile-record-details-info div div a {
+            margin-left: 0.5rem;
+            text-decoration: none;
+            color: #f13c20; }
+        .student-profile-record-details-info div svg {
+          margin-left: 3rem;
+          width: 3rem;
+          height: 3rem;
+          fill: #d79922; }
+    .student-profile-record-bio {
+      clear: both; }

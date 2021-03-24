@@ -1,4 +1,5 @@
 import React, {useState, useEffect, useRef} from 'react'
+import {useRouter} from 'next/router'
 import Head from 'next/head'
 import Nav from '../components/nav'
 import Slider from '../components/slider/slider'
@@ -6,7 +7,7 @@ import axios from 'axios'
 import {API} from '../config'
 import {parseCreatedAtDates, parseExpirationDates, sortByCreationDate, sortByExpirationDate, sortByEnableAndCreationDate} from '../helpers/sort'
 
-const Home = ({announcements, meetings, facultyOpportunities, studentOpportunities, headerData}) => {
+const Home = ({announcements, meetings, facultyOpportunities, studentOpportunities, headerData, studentProfiles}) => {
   
   const [announcementsList, setAnnouncementsList] = useState(announcements)
   const [meetingsList, setList] = useState(meetings)
@@ -17,6 +18,7 @@ const Home = ({announcements, meetings, facultyOpportunities, studentOpportuniti
   const [modalType, setModalType] = useState(null)
 
   const ref = useRef()
+  const router = useRouter()
 
   const createAnnouncementModal = (e) => {
     setAnnouncementModal(e)
@@ -37,9 +39,9 @@ const Home = ({announcements, meetings, facultyOpportunities, studentOpportuniti
     setModalType(e)
   }
 
-  useEffect(() => {
-    console.log(headerData)
-  }, [])
+  const studentProfile = (query) => {
+    router.push(`/student/${query}`)
+  }
 
   return (
     <>
@@ -131,6 +133,33 @@ const Home = ({announcements, meetings, facultyOpportunities, studentOpportuniti
               )
             }
           </div> 
+        </div>
+        <div className="home-student-spotlight">
+          <div className="home-student-spotlight-header">
+            <svg>
+              <use xlinkHref="/sprite.svg#icon-user-tie"></use>
+            </svg>
+            <span>Student Spotlight</span>
+          </div>
+          <div>
+            {studentProfiles !== null && 
+              studentProfiles.map( (item, i) =>
+                <div key={i} className="home-student-spotlight-item" onClick={() => studentProfile(item._id)}>
+                  <div className="home-student-spotlight-item-students">
+                    <div>
+                    <svg>
+                      <use xlinkHref="/sprite.svg#icon-user-tie"></use>
+                    </svg>
+                    </div>
+                    <div className="home-student-spotlight-item-group">
+                      <h6>{item.firstName} {item.lastName} ({item.institution}), Department of ({item.department})</h6>
+                      <span>{item.activity} for {item.areaOfStudy}</span>
+                    </div>
+                  </div>
+                </div>
+              )
+            }
+          </div>
         </div>
       </div>
 
@@ -254,6 +283,7 @@ Home.getInitialProps = async () => {
   const facultyOpportunities = await axios.get(`${API}/opportunities-faculty/public/list`)
   const studentOpportunities = await axios.get(`${API}/opportunities-students/public/list`)
   const headerComponent = await axios.get(`${API}/header-component/public`)
+  const studentProfiles = await axios.get(`${API}/student-profiles/public`)
 
   // CHANGE CREATEDAT DATE FORMAT TO YYYY-MM-DD
   parseCreatedAtDates(announcements.data)
@@ -278,7 +308,8 @@ Home.getInitialProps = async () => {
     meetings: newMeetings,
     facultyOpportunities: newFacultyOpportunties,
     studentOpportunities: newStudentOpportunties,
-    headerData: newHeaderComponent
+    headerData: newHeaderComponent,
+    studentProfiles: studentProfiles.data
   }
 }
 

@@ -12,7 +12,7 @@ const Nav = ({}) => {
     <>
     <div className="nav-container">
       <nav className="nav">
-        <div className="nav-logo">Student Research Center</div>
+        <a href="/" className="nav-logo">Student Research Center</a>
         <div className="nav-menu">
           <a className="nav-menu-item">About
             <ul className="nav-menu-dropdown">

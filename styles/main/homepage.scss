@@ -370,4 +370,120 @@
       }
     }
   }
+
+  &-student-spotlight {
+    width: 100%;
+    color: $color-shade-dark-gray;
+    background-color: white;
+    border-top-right-radius: 2rem;
+    border-top-left-radius: 2rem;
+    border-bottom-right-radius: 2rem;
+    border-bottom-left-radius: 2rem;
+    margin: 2rem 0 0 0;
+    height: min-content;
+
+    &-header {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem 0;
+      margin: 0 0 1rem 0;
+      background-color: $color-scheme-2;
+      border-top-right-radius: 2rem;
+      border-top-left-radius: 2rem;
+      color: white;
+
+      svg {
+        width: 3rem;
+        height: 3rem;
+        margin-right: 2rem;
+        fill: white;
+      }
+
+      span {
+        font-size: 3.2rem;
+        font-weight: 400;
+      }
+    }
+
+    &-item {
+      &-students {
+        display: flex;
+        align-items: center;
+        padding: 3rem 2rem;
+        border-top: 0.5px solid $color-shade-light-gray;
+        color: $color-scheme-3;
+
+        svg {
+          width: 1.5rem;
+          height: 1.5rem;
+          margin-right: 2rem;
+          fill: $color-scheme-2;
+        }
+      }
+
+      svg {
+        width: 1.5rem;
+        height: 1.5rem;
+        margin-right: 2rem;
+        fill: $color-scheme-2;
+      }
+
+      &-group {
+        display: grid;
+
+        h6 {
+          font-size: 2rem;
+          font-weight: 500;
+          color: $color-scheme-1;
+        }
+
+        span {
+          font-size: 1.8rem;
+          color: black;
+        }
+      }
+
+      &:hover {
+        background-color: $color-shade-light-gray;
+        cursor: pointer;
+      }
+    }
+
+    &-students {
+      width: 100%;
+      color: $color-shade-dark-gray;
+      background-color: white;
+      border-top-right-radius: 2rem;
+      border-top-left-radius: 2rem;
+      border-bottom-right-radius: 2rem;
+      border-bottom-left-radius: 2rem;
+      margin: 2rem 0 0 0;
+      height: min-content;
+
+      &-header {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 2rem 0;
+        margin: 0 0 1rem 0;
+        background-color: $color-scheme-4;
+        border-top-right-radius: 2rem;
+        border-top-left-radius: 2rem;
+        color: white;
+
+        svg {
+          width: 3rem;
+          height: 3rem;
+          margin-right: 2rem;
+          fill: white;
+        }
+
+        span {
+          font-size: 3.2rem;
+          font-weight: 400;
+        }
+      }
+    }
+  }
 }
