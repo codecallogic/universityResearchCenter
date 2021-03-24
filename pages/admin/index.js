@@ -8,6 +8,7 @@ import { useDispatch } from 'react-redux';
 import axios from 'axios'
 import {setDropDowns} from '../../helpers/sort'
 import {manageTags} from '../../helpers/forms'
+import StudentProfile from '../../components/admin/forms/studentProfile'
 import dynamic from 'next/dynamic'
 const ReactQuill = dynamic(() => import('react-quill'), {ssr: false, loading: () => <p>Loading ...</p>})
 import 'react-quill/dist/quill.snow.css'
@@ -18,12 +19,8 @@ const Dashboard = ({loggedIn, account, authorization, header, student}) => {
 
   const dispatch = useDispatch()
   const router = useRouter()
-  const inputTags = useRef()
 
   const [form, setForm] = useState('announcements')
-  const [selectedIndex, setSelectedIndex] = useState(0)
-  const [selectedIndexComponent, setSelectedIndexComponent] = useState(0)
-  const [selectedIndexProfile, setSelectedIndexProfile] = useState(0)
   const [user, setUser] = useState(JSON.parse(decodeURIComponent(account)))
   const [content, setContent] = useState({
     title: '',
@@ -48,21 +45,28 @@ const Dashboard = ({loggedIn, account, authorization, header, student}) => {
     setErrorMessage(null)
   }
 
-  // Handle change for header form
-  const handleChangeRedux = (e) => {
-    setTags(e.target.value)
-    
-    // HANDLE CHANGE FOR HEADER
+  // HANDLE CHANGE FOR HEADER
+  const handleChangeHeader = (e) => {
     dispatch({
       type: 'UPDATE_STATE_HEADER',
       payload: {name: e.target.name, value: e.target.value}
     })
+
+    setSuccessMessage(null)
+    setErrorMessage(null)
+  }
+
+
+  // HANDLE CHANGE STUDENT PROFILE
+  const handleChangeStudentProfile = (e) => {
+    e.target.name === 'tags' ? setTags(e.target.value) : null
 
     // HANDLE CHANGE FOR STUDENT PROFILE
     dispatch({
       type: 'UPDATE_STATE_STUDENT',
       payload: {name: e.target.name, value: e.target.value}
     })
+
     setSuccessMessage(null)
     setErrorMessage(null)
   }
@@ -104,27 +108,37 @@ const Dashboard = ({loggedIn, account, authorization, header, student}) => {
     }
   }
 
-  // Handle announcement form
+  // HANDLE ANNOUNCEMENT FORM MESSAGE
   const handleAnnouncementMessage = (e) => {
     setContent({...content, message: e})
     setSuccessMessage(null)
     setErrorMessage(null)
   }
 
-  const viewAll = () => {
+  // HANDLE PROFILE STUDENT BOXES
+  const handleStudentProfileBoxes = (e, content) => {
+    // HANDLE CHANGE FOR STUDENT PROFILE
+    dispatch({
+      type: 'UPDATE_STATE_STUDENT',
+      payload: {name: content, value: e}
+    })
+  }
+
+  const viewAll = (e) => {
     if(form == 'announcements') window.location.href = `/admin/view/${form}`
     if(form == 'meetings and activities') window.location.href = `/admin/view/${form}`
     if(form == 'opportunities for faculty') window.location.href = `/admin/view/${form}`
     if(form == 'opportunities for students') window.location.href = `/admin/view/${form}`
     if(form == 'header') window.location.href = `/admin/view/${form}`
+    if(form == 'student') window.location.href = `/admin/view/${form}`
   }
   
   const handleForms = (e) => {
-    e.target.classList.contains('form-selection-boxes') === true ? (setSelectedIndex(e.target.options.selectedIndex), setDropDowns('boxes', e.target.options.selectedIndex)) : null
+    e.target.classList.contains('form-selection-boxes') === true ? setDropDowns('boxes', e.target.options.selectedIndex) : null
 
-    e.target.classList.contains('form-selection-components') === true ? (setSelectedIndexComponent(e.target.options.selectedIndex), setDropDowns('components', e.target.options.selectedIndex)) : null
+    e.target.classList.contains('form-selection-components') === true ? setDropDowns('components', e.target.options.selectedIndex) : null
 
-    e.target.classList.contains('form-selection-profiles') === true ? (setSelectedIndexProfile(e.target.options.selectedIndex), setDropDowns('profiles', e.target.options.selectedIndex)) : null
+    e.target.classList.contains('form-selection-profiles') === true ? setDropDowns('profiles', e.target.options.selectedIndex) : null
 
     setForm(e.target.value.toLowerCase())
 
@@ -221,7 +235,7 @@ const Dashboard = ({loggedIn, account, authorization, header, student}) => {
     }
   }
 
-  // Update Header
+  // CREATE HEADER
   const createHeader = async (e) => {
     e.preventDefault()
     try {
@@ -236,6 +250,32 @@ const Dashboard = ({loggedIn, account, authorization, header, student}) => {
       })
       setSuccessMessage(response.data)
     } catch (error) {
+      setErrorMessage(error.response.data)
+    }
+  }
+
+  // CREATE STUDENT PROFILE
+  const createStudentProfile = async (e) => {
+    e.preventDefault()
+    try {
+      const response = await axios.post(`${API}/student-profile/create`, {student}, {
+        headers: {
+          Authorization: `Bearer ${authorization}`,
+          contentType: `application/json`
+        }
+      })
+      dispatch({
+        type: 'RESET_STATE'
+      })
+
+      let closeIcon = document.querySelectorAll('.tag')
+      closeIcon.forEach( (e) => {
+        e.remove()
+      })
+
+      setSuccessMessage(response.data)
+    } catch (error) {
+      console.log(error)
       setErrorMessage(error.response.data)
     }
   }
@@ -470,25 +510,25 @@ const Dashboard = ({loggedIn, account, authorization, header, student}) => {
             <form className="form" action="POST" onSubmit={createHeader}>
               <div className="form-group-single">
                 <label htmlFor="headline">Headline</label>
-                <input type="text" name="headline" value={header.headline} onChange={handleChangeRedux} required/> 
+                <input type="text" name="headline" value={header.headline} onChange={handleChangeHeader} required/> 
 
                 <label htmlFor="subheading">Subheading</label>
-                <input type="text" name="subheading" value={header.subheading} onChange={handleChangeRedux} required/> 
+                <input type="text" name="subheading" value={header.subheading} onChange={handleChangeHeader} required/> 
 
                 <label htmlFor="button1">Button</label>
-                <input type="text" name="button" value={header.button} onChange={handleChangeRedux} required/> 
+                <input type="text" name="button" value={header.button} onChange={handleChangeHeader} required/> 
 
                 <label htmlFor="imageLeftColumn">Image Left Column</label>
-                <input type="text" name="imageLeftColumn" value={header.imageLeftColumn} onChange={handleChangeRedux} required/>
+                <input type="text" name="imageLeftColumn" value={header.imageLeftColumn} onChange={handleChangeHeader} required/>
 
                 <label htmlFor="imageRightColumn">Image Right Column</label>
-                <input type="text" name="imageRightColumn" value={header.imageRightColumn} onChange={handleChangeRedux} required/>
+                <input type="text" name="imageRightColumn" value={header.imageRightColumn} onChange={handleChangeHeader} required/>
 
                 <label htmlFor="captionOne">Caption 1</label>
-                <input type="text" name="captionOne" value={header.captionOne} onChange={handleChangeRedux} required/> 
+                <input type="text" name="captionOne" value={header.captionOne} onChange={handleChangeHeader} required/> 
 
                 <label htmlFor="captionTwo">Caption 2</label>
-                <input type="text" name="captionTwo" value={header.captionTwo} onChange={handleChangeRedux}/> 
+                <input type="text" name="captionTwo" value={header.captionTwo} onChange={handleChangeHeader}/> 
               </div>
               <button type="submit" className="submit-item">Create Header Slide</button>
             </form>
@@ -497,33 +537,7 @@ const Dashboard = ({loggedIn, account, authorization, header, student}) => {
           </div>
           }
           {form === 'student' &&
-          <div className="dashboard-right-panel">
-            <div className="dashboard-right-panel-toggle" onClick={viewAll}>View All Student Profiles</div>
-            <form className="form" action="POST" onSubmit={createSpotlight}>
-              <div className="form-group-single">
-                <label htmlFor="photo">Photo</label>
-                <input type="text" name="photo" value={student.photo} onChange={handleChangeRedux} required/>
-              </div>
-              <div className="form-group-double">
-                <label htmlFor="name">Name</label>
-                <input type="text" name="name" value={student.name} onChange={handleChangeRedux} required/>
-              </div>
-              <div className="form-group-double">
-                <label htmlFor="linkedin">LinkedIn</label>
-                <input type="text" name="linkedin" value={student.linkedin} onChange={handleChangeRedux} required/>
-              </div>
-              <div className="form-group-single">
-                <label htmlFor="tags">Research Interests</label>
-                <input type="hidden" name="tags" id="tagValue" value="" required></input>
-                <div className="form-tag-container">
-                  <input type="text" id="researchInterests" name="tags" ref={inputTags} value={tags} onKeyPress={handleKeyPress} onChange={handleChangeRedux} required/>
-                </div>
-              </div>
-              <button className="submit-item">Create Opportunity for Students</button>
-            </form>
-            {errorMessage !== null && <div className="form-errorMessage">{errorMessage}</div>}
-            {successMessage !== null && <div className="form-successMessage">{successMessage}</div>}
-          </div>
+            <StudentProfile viewAll={viewAll} createStudentProfile={createStudentProfile} errorMessage={errorMessage} successMessage={successMessage} student={student} handleKeyPress={handleKeyPress} handleChangeStudentProfile={handleChangeStudentProfile} handleStudentProfileBoxes={handleStudentProfileBoxes} tags={tags}/>
           }
         </div>
       </div>

@@ -40,9 +40,21 @@ export const sortByExpirationDate = (data) => {
   return newArray
 }
 
-export const removeHeaders = (data) => {
+export const removeHeadersSliderComponent = (data) => {
   data.forEach( (item, index) => {
     delete item.updatedAt
+  })
+}
+
+export const removeHeadersStudentProfile = (data) => {
+  data.forEach( (item, index) => {
+    delete item.updatedAt
+    delete item.biography
+    delete item.education
+    delete item.research
+    delete item.publication
+    delete item.researchInterests
+    delete item.photo
   })
 }
 

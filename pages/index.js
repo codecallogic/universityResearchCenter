@@ -37,6 +37,10 @@ const Home = ({announcements, meetings, facultyOpportunities, studentOpportuniti
     setModalType(e)
   }
 
+  useEffect(() => {
+    console.log(headerData)
+  }, [])
+
   return (
     <>
     <Nav></Nav>

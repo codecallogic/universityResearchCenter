@@ -4,20 +4,35 @@ import {API} from '../../../config'
 import withAdmin from '../../withAdmin'
 import {useRouter} from 'next/router'
 import AdminNav from '../../../components/admin/adminNav'
-import {getToken} from '../../../helpers/auth'
-import {parseCreatedAtDates, parseExpirationDates, removeHeaders} from '../../../helpers/sort'
+import {connect} from 'react-redux'
+import { useDispatch } from 'react-redux';
 import dynamic from 'next/dynamic'
 const ReactQuill = dynamic(() => import('react-quill'), {ssr: false, loading: () => <p>Loading ...</p>})
 import 'react-quill/dist/quill.snow.css'
 axios.defaults.withCredentials = true
 
-const ViewAll = ({account, allContent, authorization, current}) => {
+
+// HELPERS
+import {getToken} from '../../../helpers/auth'
+import {parseCreatedAtDates, parseExpirationDates, removeHeadersSliderComponent, removeHeadersStudentProfile} from '../../../helpers/sort'
+import {manageTags} from '../../../helpers/forms'
+
+// COMPONENTS
+import StudentProfile from '../../../components/admin/forms/edit/editStudentProfile'
+
+const ViewAll = ({account, allContent, authorization, current, studentList, pureStudentList, edit}) => {
 
   const router = useRouter()
+  const dispatch = useDispatch()
 
+  const [newContent, setNewContent] = useState(pureStudentList)
   const [user, setUser] = useState(JSON.parse(decodeURIComponent(account)))
-  const [content, setContent] = useState(allContent)
-  const [headers, setHeaders] = useState(allContent.length > 0 ? Object.keys(allContent[0]) : null)
+  const [content, setContent] = useState(
+    allContent ? allContent : studentList 
+  )
+  const [headers, setHeaders] = useState(
+    allContent ? Object.keys(allContent[0]) : studentList ? Object.keys(studentList[0]) : null
+  )
   const [selected, setSelected] = useState([])
   const [asc, setAsc] = useState(-1)
   const [desc, setDesc] = useState(1)
@@ -41,11 +56,11 @@ const ViewAll = ({account, allContent, authorization, current}) => {
     captionOne: '',
     captionTwo: '',
   })
+  const [tags, setTags] = useState('')
   const [messages, setMessage] = useState({
     error: null,
     success: null
   })
-
   const {error, success} = messages
   const {title, subtitle, imageURL, imageDescr, source, expiration, primary, enabled, message, headline, subheading, button, imageLeftColumn, imageRightColumn, captionOne, captionTwo} = updatedRow
 
@@ -223,7 +238,6 @@ const ViewAll = ({account, allContent, authorization, current}) => {
 
       }
     }
-    
   }
 
   // SET UP VIEW FOR EDITING AND UPDATING ROW DATA
@@ -233,6 +247,12 @@ const ViewAll = ({account, allContent, authorization, current}) => {
       if(content[i]._id == selected[0]){
         setEditRowForm(true)
         setUpdatedRow({...updatedRow, id: content[i]._id, title: content[i].title,  subtitle: content[i].subtitle, imageURL: content[i].imageURL, imageDescr: content[i].imageDescr, source: content[i].source, expiration: content[i].expiration, primary: content[i].primary, enabled: content[i].enabled, message: content[i].message, headline: content[i].headline, subheading: content[i].subheading, button: content[i].button, imageLeftColumn: content[i].imageLeftColumn, imageRightColumn: content[i].imageRightColumn, captionOne: content[i].captionOne, captionTwo: content[i].captionTwo})
+        current === 'student' ?
+          dispatch({
+            type: 'SET_EDIT_STUDENT',
+            payload: {content: newContent, selected: selected[0]}
+          })
+        : null
       }
     }
   }
@@ -249,6 +269,65 @@ const ViewAll = ({account, allContent, authorization, current}) => {
   const handleQuill = (e) => {
     setUpdatedRow({...updatedRow, message: e})
     setMessage({...messages, success: null, error: null})
+  }
+
+  // HANDLE CHANGE STUDENT PROFILE
+  const handleChangeStudentProfile = (e) => {
+    e.target.name === 'tags' ? setTags(e.target.value) : null
+
+    // HANDLE CHANGE FOR STUDENT PROFILE
+    dispatch({
+      type: 'EDIT_STATE_STUDENT',
+      payload: {name: e.target.name, value: e.target.value}
+    })
+
+    setMessage({...message, error: null, success: null})
+  }
+
+  // HANDLE KEY PRESS
+  const handleKeyPress = (e) => {    
+    if(e.key === 'Enter'){
+      e.preventDefault();
+      manageTags()
+      let closeIcon = document.querySelectorAll('.form-tag')
+      let postHidden = document.getElementById("tagValue")
+      let values = postHidden.getAttribute('value').split(',')
+
+      closeIcon.forEach( (e) => {
+        e.addEventListener('click', function(e){
+          let parent = e.target.parentNode
+          let parentOfParent = parent.parentNode
+          parentOfParent.remove()
+
+          let tagValues = document.querySelectorAll(".tag > span")
+          let newValues = []
+          
+          tagValues.forEach( e => {
+            newValues.push(e.innerHTML)
+          })
+
+          dispatch({
+            type: 'EDIT_RESEARCH_INTERESTS',
+            payload: newValues
+          })
+        })
+      })
+
+      dispatch({
+        type: 'EDIT_RESEARCH_INTERESTS',
+        payload: values
+      })
+      setTags('')
+    }
+  }
+
+  // HANDLE PROFILE STUDENT BOXES
+  const handleStudentProfileBoxes = (e, content) => {
+    // HANDLE CHANGE FOR STUDENT PROFILE
+    dispatch({
+      type: 'EDIT_STATE_STUDENT',
+      payload: {name: content, value: e}
+    })
   }
 
   // SUBMIT UPDATED FOR ANNOUNCEMENT ROW CONTENT
@@ -343,6 +422,34 @@ const ViewAll = ({account, allContent, authorization, current}) => {
       setMessage({...messages, error: error.response})
     }
   }
+
+  const submitUpdateStudentProfile = async (e) => {
+    e.preventDefault()
+    try {
+      const response = await axios.post(`${API}/student-profile/update`, edit, {
+        headers: {
+          Authorization: `Bearer ${authorization}`,
+          contentType: `application/json`
+        }
+      })
+
+      setContent(response.data)
+
+      const pureResponse = await axios.post(`${API}/student-profile/update`, edit, {
+        headers: {
+          Authorization: `Bearer ${authorization}`,
+          contentType: `application/json`
+        }
+      })
+      
+      setNewContent(pureResponse.data)
+      setMessage({...messages, success: 'Update was made successfully'})
+    } catch (error) {
+      console.log(error.response)
+      if(error.response.statusText === 'Unauthorized') window.location.href = '/admin/login'
+      setMessage({...messages, error: error.response})
+    }
+  }
   
   const deleteRow = async (e) => {
     e.preventDefault()
@@ -401,7 +508,6 @@ const ViewAll = ({account, allContent, authorization, current}) => {
             contentType: `application/json`
           }
         })
-        console.log(responseHeader)
         parseCreatedAtDates(responseHeader.data)
         removeHeaders(responseHeader.data)
         setContent(responseHeader.data)
@@ -437,7 +543,8 @@ const ViewAll = ({account, allContent, authorization, current}) => {
     current !== 'announcements' || current !== 'header' ? parseExpirationDates(content) : null
 
     // REMOVE HEADERS
-    current === 'header' ? removeHeaders(content): null
+    current === 'header' ? removeHeadersSliderComponent(content): null
+    current === 'student' ? removeHeadersStudentProfile(content) : null
 
     // DON'T SHOW UPDATE ROW FORM
     setEditRowForm(false)
@@ -775,6 +882,10 @@ const ViewAll = ({account, allContent, authorization, current}) => {
           </form>
         }
 
+        {editRowForm == true && current == 'student' && 
+          <StudentProfile submitUpdateStudentProfile={submitUpdateStudentProfile} student={edit} handleKeyPress={handleKeyPress} handleChangeStudentProfile={handleChangeStudentProfile} handleStudentProfileBoxes={handleStudentProfileBoxes} tags={tags}/>
+        }
+
         {success !== null && editRowForm == true && <div className="form-successMessage">{success}</div>}
         {error !== null && editRowForm == true && <div className="form-errorMessage">{error}</div>}
         
@@ -784,8 +895,13 @@ const ViewAll = ({account, allContent, authorization, current}) => {
   )
 }
 
+const mapStateToProps = state => {
+  return {
+      edit: state.editRow
+  }
+}
+
 ViewAll.getInitialProps = async ({query, req}) => {
-  console.log(query.viewAll)
   const token = getToken('accessToken', req)
   let accessToken = null
   if(token){
@@ -874,10 +990,36 @@ ViewAll.getInitialProps = async ({query, req}) => {
 
       // CHANGE CREATEDAT DATE FORMAT TO YYYY-MM-DD
       parseCreatedAtDates(headerComponentResponse.data)
-      removeHeaders(headerComponentResponse.data)
+      removeHeadersSliderComponent(headerComponentResponse.data)
 
       return {
         allContent: headerComponentResponse.data,
+        current: query.viewAll
+      }
+      break;
+    
+    case 'student':
+      let studentListResponse = await axios.get(`${API}/student-profile/list`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          contentType: `application/json`
+        }
+      })
+
+      let pureStudentListResponse = await axios.get(`${API}/student-profile/list`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          contentType: `application/json`
+        }
+      })
+
+      // CHANGE CREATEDAT DATE FORMAT TO YYYY-MM-DD
+      parseCreatedAtDates(studentListResponse.data)
+      removeHeadersStudentProfile(studentListResponse.data)
+
+      return {
+        studentList: studentListResponse.data,
+        pureStudentList: pureStudentListResponse.data,
         current: query.viewAll
       }
       break;
@@ -887,4 +1029,4 @@ ViewAll.getInitialProps = async ({query, req}) => {
   }
 }
 
-export default withAdmin(ViewAll)
+export default connect(mapStateToProps)(withAdmin(ViewAll))

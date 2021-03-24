@@ -1,13 +1,22 @@
 import { useDispatch } from 'react-redux';
 
-export const manageTags = () => {
+export const manageTags = (initialize) => {
   const input = document.getElementById('researchInterests')
   const tagContainer = document.querySelector('.form-tag-container')
-  
+  const database = document.getElementById('database')
+
   let tags = []
 
+  if(initialize === 'init'){
+    if (database) {
+      let split = database.value.split(',')
+      tags = split
+    }
+  }
+
   // ADD INPUT VALUE TO ARRAY TAGS
-  tags.push(input.value)
+  
+  input.value.length > 0 ? tags.push(input.value) : null
   addTags()
   input.value = '';
   input.focus()
@@ -44,7 +53,7 @@ export const manageTags = () => {
     closeIcon.setAttribute('data-item', label)
 
     let use = document.createElementNS(SVG_NS, 'use');
-    use.setAttributeNS(SVG_XLINK, 'xlink:href', 'sprite.svg#icon-cross');
+    use.setAttributeNS(SVG_XLINK, 'xlink:href', '/sprite.svg#icon-cross');
     use.setAttribute('data-item', label)
     use.setAttribute('class', 'form-tag')
     closeIcon.appendChild(use)

@@ -749,7 +749,7 @@ svg {
       transition: all 0.5s; }
   .content-table-headers {
     display: grid;
-    grid-template-columns: repeat(8, minmax(10rem, 1fr));
+    grid-template-columns: repeat(9, minmax(10rem, 1fr));
     align-items: center;
     padding: 2rem 0;
     border-bottom: 0.1rem solid #4056a1; }
@@ -806,7 +806,7 @@ svg {
         display: none; }
   .content-table-rows {
     display: grid;
-    grid-template-columns: max-content repeat(8, minmax(10rem, 1fr));
+    grid-template-columns: max-content repeat(9, minmax(10rem, 1fr));
     align-items: center;
     padding: 1.5rem 1rem;
     transition: all 1s; }
