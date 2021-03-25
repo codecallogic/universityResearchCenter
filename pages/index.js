@@ -152,7 +152,7 @@ const Home = ({announcements, meetings, facultyOpportunities, studentOpportuniti
                     </svg>
                     </div>
                     <div className="home-student-spotlight-item-group">
-                      <h6>{item.firstName} {item.lastName} ({item.institution}), Department of ({item.department})</h6>
+                      <h6>{item.firstName} {item.lastName} ({item.institution}), Department of {item.department}</h6>
                       <span>{item.activity} for {item.areaOfStudy}</span>
                     </div>
                   </div>

@@ -14,6 +14,23 @@ const StudentProfile = ({submitUpdateStudentProfile, student, handleKeyPress, ha
 
   const dispatch = useDispatch()
 
+  const modules = {
+    toolbar: [
+      [{ 'header': [1, 2, 3, false] }],
+      ['bold', 'italic', 'underline','strike', 'blockquote'],
+      [{'list': 'ordered'}, {'list': 'bullet'}, {'indent': '-1'}, {'indent': '+1'}],
+      ['link', 'image', 'video'],
+      ['clean']
+    ],
+  }
+ 
+  const formats = [
+    'header',
+    'bold', 'italic', 'underline', 'strike', 'blockquote',
+    'list', 'bullet', 'indent',
+    'link', 'image'
+  ]
+
   useEffect(() => {
     manageTags('init')
     let closeIcon = document.querySelectorAll('.form-tag')
@@ -94,6 +111,8 @@ const StudentProfile = ({submitUpdateStudentProfile, student, handleKeyPress, ha
                 name="biography"
                 onChange={(e) => handleStudentProfileBoxes(e, 'biography')}
                 value={student.biography}
+                modules={modules}
+                formats={formats}
                 required
             />
         </div>

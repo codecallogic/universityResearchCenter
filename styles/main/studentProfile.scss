@@ -1,7 +1,7 @@
 .student-profile {
   grid-column: 3/11;
   padding: 2rem;
-  height: 100%;
+  height: auto;
 
   &-container {
     display: grid;
@@ -9,7 +9,6 @@
   }
 
   &-record {
-    margin: 0 auto;
     // box-shadow: 0 3rem 6rem rgba(black, 0.1);
     background-color: $color-scheme-4;
     color: white;
@@ -77,9 +76,53 @@
         }
       }
     }
+  }
 
-    &-bio {
+  &-toggle {
+    margin-top: 10rem;
+
+    &-button {
       clear: both;
+      display: flex;
+      align-items: center;
+      font-size: 1.4rem;
+      padding: 2rem 0;
+      margin-top: 2rem;
+      background-color: $color-scheme-1;
+      border-radius: 1rem;
+      color: $color-scheme-2;
+      transition: all 0.5s;
+
+      &:hover {
+        cursor: pointer;
+        opacity: 0.8;
+      }
+
+      &:hover > span {
+        text-decoration: underline;
+      }
+
+      svg {
+        margin-left: 3rem;
+        width: 3rem;
+        height: 3rem;
+        fill: $color-scheme-5;
+      }
+
+      span {
+        margin-left: 3rem;
+        font-size: 3.2rem;
+        text-transform: capitalize;
+        font-weight: 800;
+        fill: inherit;
+      }
+    }
+
+    &-content {
+      font-size: 1.6rem;
+      padding: 2rem 5rem;
+      transition: all 1s;
+      animation: fadeIn 0.5s ease-in-out;
     }
   }
 }

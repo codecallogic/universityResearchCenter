@@ -6,10 +6,12 @@ import {API} from '../../config'
 import Nav from '../../components/nav'
 
 const StudentProfile = ({studentProfile}) => {
+
+  const [activeBox, setActiveBox] = useState('')
   
-  useEffect(() => {
-    console.log(studentProfile)
-  }, [])
+  const expandBox = (text) => {
+    text === activeBox ? setActiveBox('') : setActiveBox(text)
+  }
   
   return (
     <>
@@ -28,7 +30,7 @@ const StudentProfile = ({studentProfile}) => {
                 <svg>
                   <use xlinkHref="/sprite.svg#icon-mail"></use>
                 </svg>
-                <div>Email: {studentProfile.email}</div>
+                <div>Email: <a href={`mailto: ${studentProfile.email}`}>{studentProfile.email}</a></div>
               </div>
               <div>
                 <svg>
@@ -41,18 +43,38 @@ const StudentProfile = ({studentProfile}) => {
                   <use xlinkHref="/sprite.svg#icon-label_outline"></use>
                 </svg>
                 <div>Research Interests:
-                  {studentProfile.researchInterests.map( (item) => (
-                    <a href="#">{item}</a>
+                  {studentProfile.researchInterests.map( (item, i) => (
+                    <a key={i} href="#">{item}</a>
                   ))}
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div className="student-profile-record-bio">
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolorem nulla voluptatibus adipisci fugit earum hic iure omnis delectus ducimus ea magni possimus rerum veritatis minus deserunt, et nesciunt, cupiditate voluptates?
+        <div className="student-profile-toggle">
+          {Object.keys(studentProfile).map( (item) => 
+            {return item == 'biography' || item == 'education' || item == 'research' || item == 'publication'
+              ?
+              <>
+              <div className="student-profile-toggle-button" onClick={() => expandBox(item)}>
+                <svg>
+                  <use xlinkHref={`/sprite.svg#icon-` + (item == activeBox ? 'minus-solid' : 'add-solid')}></use>
+                </svg>
+                <span className={item == activeBox ? 'underline' : ''}>{item}</span>
+              </div>
+              {item == activeBox
+                ? 
+                <div className="student-profile-toggle-content" dangerouslySetInnerHTML={ { __html: studentProfile[item]} }></div>
+                :
+                null
+              }
+              </>
+              :
+              null
+            }
+          )}
         </div>
-        </div>
+      </div>
     </div>
     </>
   )

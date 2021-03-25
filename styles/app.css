@@ -54,6 +54,14 @@ svg {
   100% {
     transform: perspective(400px) translateY(0); } }
 
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateX(100%); }
+  100% {
+    opacity: 1;
+    transform: translateX(0); } }
+
 .form-group {
   display: flex;
   align-items: center; }
@@ -127,6 +135,9 @@ svg {
     border: 0.1rem solid #c5cbe3;
     background-color: white !important;
     color: #c5cbe3; }
+
+.underline {
+  text-decoration: underline; }
 
 .form {
   display: grid;
@@ -1178,12 +1189,11 @@ svg {
 .student-profile {
   grid-column: 3/11;
   padding: 2rem;
-  height: 100%; }
+  height: auto; }
   .student-profile-container {
     display: grid;
     grid-template-columns: repeat(12, 1fr); }
   .student-profile-record {
-    margin: 0 auto;
     background-color: #342e37;
     color: white;
     padding: 2rem;
@@ -1231,5 +1241,37 @@ svg {
           width: 3rem;
           height: 3rem;
           fill: #d79922; }
-    .student-profile-record-bio {
-      clear: both; }
+  .student-profile-toggle {
+    margin-top: 10rem; }
+    .student-profile-toggle-button {
+      clear: both;
+      display: flex;
+      align-items: center;
+      font-size: 1.4rem;
+      padding: 2rem 0;
+      margin-top: 2rem;
+      background-color: #4056a1;
+      border-radius: 1rem;
+      color: #c5cbe3;
+      transition: all 0.5s; }
+      .student-profile-toggle-button:hover {
+        cursor: pointer;
+        opacity: 0.8; }
+      .student-profile-toggle-button:hover > span {
+        text-decoration: underline; }
+      .student-profile-toggle-button svg {
+        margin-left: 3rem;
+        width: 3rem;
+        height: 3rem;
+        fill: #d79922; }
+      .student-profile-toggle-button span {
+        margin-left: 3rem;
+        font-size: 3.2rem;
+        text-transform: capitalize;
+        font-weight: 800;
+        fill: inherit; }
+    .student-profile-toggle-content {
+      font-size: 1.6rem;
+      padding: 2rem 5rem;
+      transition: all 1s;
+      animation: fadeIn 0.5s ease-in-out; }
