@@ -75,6 +75,20 @@ const StudentProfile = ({submitUpdateStudentProfile, student, handleKeyPress, ha
           <input type="text" name="linkedIn" value={student.linkedIn} onChange={(e) => handleChangeStudentProfile(e)} required/>
         </div>
         <div className="form-group-single">
+          <div className="form-group-checkbox">
+            <label htmlFor="enabled">
+              <input type="checkbox" name="enabled" checked={!student.enabled} onChange={(e) => handleChangeStudentProfile(e)}/>
+              <span></span>
+              <div>
+                <svg>
+                  <use xlinkHref="/sprite.svg#icon-checkmark"></use>
+                </svg>
+              </div>
+            </label>
+            Disable Student
+          </div>
+        </div>
+        <div className="form-group-single">
           <label htmlFor="tags">Research Interests (Press enter to add)</label>
           <input type="hidden" id="database" value={student.researchInterests.join(',')} required></input>
           <input type="hidden" name="tags" id="tagValue" value="" required></input>

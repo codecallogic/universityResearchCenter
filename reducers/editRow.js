@@ -3,6 +3,7 @@ const initialState = {
   firstName: '',
   lastName: '',
   linkedIn: '',
+  enabled: '',
   researchInterests: '',
   institution: '',
   department: '',
@@ -39,6 +40,13 @@ export const editRow = (state = initialState, action)  => {
       return {
         ...state,
         researchInterests: action.payload
+      }
+      break;
+
+    case 'EDIT_STATE_ENABLED':
+      return {
+        ...state,
+        [action.payload.name]: action.payload.value
       }
       break;
       

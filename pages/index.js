@@ -40,7 +40,7 @@ const Home = ({announcements, meetings, facultyOpportunities, studentOpportuniti
   }
 
   const studentProfile = (query) => {
-    router.push(`/student/${query}`)
+    window.open(`/student/${query}`, '_blank');
   }
 
   return (
@@ -144,6 +144,7 @@ const Home = ({announcements, meetings, facultyOpportunities, studentOpportuniti
           <div>
             {studentProfiles !== null && 
               studentProfiles.map( (item, i) =>
+                item.enabled === true ? 
                 <div key={i} className="home-student-spotlight-item" onClick={() => studentProfile(item._id)}>
                   <div className="home-student-spotlight-item-students">
                     <div>
@@ -152,11 +153,42 @@ const Home = ({announcements, meetings, facultyOpportunities, studentOpportuniti
                     </svg>
                     </div>
                     <div className="home-student-spotlight-item-group">
-                      <h6>{item.firstName} {item.lastName} ({item.institution}), Department of {item.department}</h6>
-                      <span>{item.activity} for {item.areaOfStudy}</span>
+                      <div className="home-student-spotlight-item-group-image">
+                        <img src={item.photo} alt={item.firstName}/>
+                      </div>
+                      <div className="home-student-spotlight-item-group-info">
+                        <h6>{item.firstName} {item.lastName} ({item.institution}), Department of {item.department}</h6>
+                        <span>{item.activity} for {item.areaOfStudy}</span>
+                        <div className="home-student-spotlight-item-group-info-details">
+                          <div>
+                            <svg>
+                              <use xlinkHref="/sprite.svg#icon-mail"></use>
+                            </svg>
+                            <div>Email: <a href="#">{item.email}</a></div>
+                          </div>
+                          <div>
+                            <svg>
+                              <use xlinkHref="/sprite.svg#icon-linkedin"></use>
+                            </svg>
+                            <div>LinkedIn: <a href="#"> {item.linkedIn}</a></div>
+                          </div>
+                          <div>
+                            <svg>
+                              <use xlinkHref="/sprite.svg#icon-label_outline"></use>
+                            </svg>
+                            <div>Research Interests:
+                              {item.researchInterests.map( (item, i) => (
+                                <a key={i} href="#">{item}</a>
+                              ))}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
+                :
+                null
               )
             }
           </div>
@@ -271,7 +303,7 @@ const Home = ({announcements, meetings, facultyOpportunities, studentOpportuniti
           <use xlinkHref="sprite.svg#icon-cross"></use>
         </svg>
       </div>
-    }
+      }
     </div>
     </>
   )

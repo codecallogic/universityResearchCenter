@@ -300,6 +300,14 @@ const ViewAll = ({account, allContent, authorization, current, studentList, pure
   const handleChangeStudentProfile = (e) => {
     e.target.name === 'tags' ? setTags(e.target.value) : null
 
+    e.target.name === 'enabled' ? 
+    dispatch({
+      type: 'EDIT_STATE_ENABLED',
+      payload: {name: e.target.name, value: !e.target.checked}
+    })
+    
+    :
+
     // HANDLE CHANGE FOR STUDENT PROFILE
     dispatch({
       type: 'EDIT_STATE_STUDENT',
