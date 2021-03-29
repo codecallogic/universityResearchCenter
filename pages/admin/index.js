@@ -527,7 +527,7 @@ const Dashboard = ({loggedIn, account, authorization, header, student}) => {
                 <label htmlFor="captionOne">Caption 1</label>
                 <input type="text" name="captionOne" value={header.captionOne} onChange={handleChangeHeader} required/> 
 
-                <label htmlFor="captionTwo">Caption 2</label>
+                <label htmlFor="captionTwo">Caption 2 (Optional)</label>
                 <input type="text" name="captionTwo" value={header.captionTwo} onChange={handleChangeHeader}/> 
               </div>
               <button type="submit" className="submit-item">Create Header Slide</button>

@@ -171,6 +171,31 @@ const ViewAll = ({account, allContent, authorization, current, studentList, pure
         )
           
         break;
+      
+      case 'enabled':
+        let filterEnabled = content.sort( (a, b) => {
+          let textA = a.enabled;
+          let textB = b.enabled;
+          return textA < textB ? asc : desc
+        })
+
+        elGetAttribute.indexOf('desc') > -1 
+        ? 
+        (elGetElement.setAttribute('xlink:href', '/sprite.svg#icon-chevron-thin-asc'),
+        newArray = [...filterEnabled],
+        setContent(newArray),
+        setAsc(1),
+        setDesc(-1)
+        )
+        : 
+        (elGetElement.setAttribute('xlink:href', '/sprite.svg#icon-chevron-thin-desc'),
+        newArray = [...filterEnabled],
+        setContent(newArray),
+        setAsc(-1),
+        setDesc(1)
+        )
+          
+        break;
     
       default:
         break;
@@ -553,7 +578,7 @@ const ViewAll = ({account, allContent, authorization, current, studentList, pure
     parseCreatedAtDates(content)
 
     // IF NOT ANNOUNCEMENTS DATA LIST FORMAT ISO DATE FORMAT TO YYYY/MM/DD FOR EXPIRATION OBJECT PROPERTY
-    current !== 'announcements' || current !== 'header' ? parseExpirationDates(content) : null
+    parseExpirationDates(content, current)
 
     // REMOVE HEADERS
     current === 'header' ? removeHeadersSliderComponent(content): null
@@ -597,14 +622,14 @@ const ViewAll = ({account, allContent, authorization, current, studentList, pure
           </div>
           } */}
           {headers !== null && editRowForm == false && headers.map( (header, i) => (
-          header !== 'primary' && header !== 'enabled' && header !== '__v' && header !== '_id'? 
+          header !== 'primary' && header !== '__v' && header !== '_id'? 
             <div key={i} className="content-table-headers-heading">
               {header}
               {/* 
               TODO: Add filtering if client needs its 
               FIXME: Change which column can be filtered in ternary operator
               */}
-              {header == 'title' || header == 'subtitle' || header == 'createdAt' || header == 'expiration'?
+              {header == 'title' || header == 'subtitle' || header == 'createdAt' || header == 'expiration' || header == 'enabled'?
               <svg onClick={ () => handleFilter(header, i)}>
                 <use id={header + i} xlinkHref={`/sprite.svg#icon-chevron-thin-desc`}></use>
               </svg>
@@ -630,7 +655,7 @@ const ViewAll = ({account, allContent, authorization, current, studentList, pure
             </label>
           </div>
           {Object.keys(item).map( (keyName, keyIndex) => (
-          keyName !== '__v' && keyName !== 'primary' && keyName !== 'enabled' && keyName !== '_id'?  
+          keyName !== '__v' && keyName !== 'primary' && keyName !== '_id'?  
             <div key={keyIndex} className="content-table-rows-content">
               <span>
               {item[keyName].toString().length > 50 ?

@@ -6,16 +6,22 @@ export const parseCreatedAtDates = (data) => {
   })
 }
 
-export const parseExpirationDates = (data) => {
+export const parseExpirationDates = (data, current) => {
   let newResultsExpirationDates = data.map( item => {
-    if(item.expiration){
-      if(item.expiration !== null){
-        let now = new Date(item.expiration)
-        item.expiration = now.toISOString().slice(0,10)
+    if(item.expiration !== undefined){
+      if(item.expiration == '1970-01-01'){
+        item.expiration = 'no expiration'
         return item
       }
+
       if(item.expiration === null){
         item.expiration = 'no expiration'
+        return item
+      }
+
+      if(item.expiration !== 'no expiration'){
+        let now = new Date(item.expiration)
+        item.expiration = now.toISOString().slice(0,10)
         return item
       }
     }
@@ -55,6 +61,7 @@ export const removeHeadersStudentProfile = (data) => {
     delete item.publication
     delete item.researchInterests
     delete item.photo
+    delete item.email
   })
 }
 
