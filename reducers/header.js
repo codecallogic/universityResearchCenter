@@ -2,6 +2,7 @@ const initialState = {
   headline: '',
   subheading: '',
   button: '',
+  buttonLink: '',
   imageLeftColumn: '',
   imageRightColumn: '',
   captionOne: '',

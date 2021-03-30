@@ -516,7 +516,10 @@ const Dashboard = ({loggedIn, account, authorization, header, student}) => {
                 <input type="text" name="subheading" value={header.subheading} onChange={handleChangeHeader} required/> 
 
                 <label htmlFor="button1">Button</label>
-                <input type="text" name="button" value={header.button} onChange={handleChangeHeader} required/> 
+                <input type="text" name="button" value={header.button} onChange={handleChangeHeader} required/>
+
+                <label htmlFor="buttonLink">Button Link</label>
+                <input type="text" name="buttonLink" value={header.buttonLink} onChange={handleChangeHeader} required/> 
 
                 <label htmlFor="imageLeftColumn">Image Left Column</label>
                 <input type="text" name="imageLeftColumn" value={header.imageLeftColumn} onChange={handleChangeHeader} required/>

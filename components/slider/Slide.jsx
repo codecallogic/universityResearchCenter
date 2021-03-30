@@ -12,7 +12,7 @@ const Slide = ({content, slides, activeIndex, active}) => (
       <div>
         <h1 className="slider-left-column-title">{content.headline}</h1>
         <div className="slider-left-column-description">{content.subheading}</div>
-        <button className="slider-left-column-button">{content.button}</button>
+        <a href={content.buttonLink} target="_blank" className="slider-left-column-button">{content.button}</a>
       </div>
       <Dots slides={slides} activeIndex={activeIndex}/>
     </div>

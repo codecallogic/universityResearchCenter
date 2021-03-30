@@ -5,7 +5,7 @@ import Nav from '../components/nav'
 import Slider from '../components/slider/slider'
 import axios from 'axios'
 import {API} from '../config'
-import {parseCreatedAtDates, parseExpirationDates, sortByCreationDate, sortByExpirationDate, sortByEnableAndCreationDate} from '../helpers/sort'
+import {parseCreatedAtDates, parseExpirationDates, sortByCreationDate, sortByExpirationDate, sortByEnableAndCreationDate, selectOne} from '../helpers/sort'
 
 const Home = ({announcements, meetings, facultyOpportunities, studentOpportunities, headerData, studentProfiles}) => {
   
@@ -39,8 +39,8 @@ const Home = ({announcements, meetings, facultyOpportunities, studentOpportuniti
     setModalType(e)
   }
 
-  const studentProfile = (query) => {
-    window.open(`/student/${query}`, '_blank');
+  const studentProfile = (e, item) => {
+    window.open(`/student/${item}`, '_blank');
   }
 
   return (
@@ -145,13 +145,13 @@ const Home = ({announcements, meetings, facultyOpportunities, studentOpportuniti
             {studentProfiles !== null && 
               studentProfiles.map( (item, i) =>
                 item.enabled === true ? 
-                <div key={i} className="home-student-spotlight-item" onClick={() => studentProfile(item._id)}>
+                <div key={i} className="home-student-spotlight-item" onClick={(e) => studentProfile(e, item._id)}>
                   <div className="home-student-spotlight-item-students">
-                    <div>
+                    {/* <div>
                     <svg>
                       <use xlinkHref="/sprite.svg#icon-user-tie"></use>
                     </svg>
-                    </div>
+                    </div> */}
                     <div className="home-student-spotlight-item-group">
                       <div className="home-student-spotlight-item-group-image">
                         <img src={item.photo} alt={item.firstName}/>
@@ -170,7 +170,7 @@ const Home = ({announcements, meetings, facultyOpportunities, studentOpportuniti
                             <svg>
                               <use xlinkHref="/sprite.svg#icon-linkedin"></use>
                             </svg>
-                            <div>LinkedIn: <a href="#"> {item.linkedIn}</a></div>
+                            <div>LinkedIn: <a href="#"> {item.linkedIn.substring(0, 30)}</a></div>
                           </div>
                           <div>
                             <svg>
@@ -335,13 +335,16 @@ Home.getInitialProps = async () => {
   // SORT HEADER SLIDER BY ENABLED AND DATE
   let newHeaderComponent = sortByEnableAndCreationDate(headerComponent.data)
 
+  // SELECT DATA
+  let randomSelectedStudent = selectOne(studentProfiles.data)
+
   return {
     announcements: newAnnouncements,
     meetings: newMeetings,
     facultyOpportunities: newFacultyOpportunties,
     studentOpportunities: newStudentOpportunties,
     headerData: newHeaderComponent,
-    studentProfiles: studentProfiles.data
+    studentProfiles: randomSelectedStudent
   }
 }
 

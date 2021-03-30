@@ -51,6 +51,7 @@ const ViewAll = ({account, allContent, authorization, current, studentList, pure
     headline: '',
     subheading: '',
     button: '',
+    buttonLink: '',
     imageLeftColumn: '',
     imageRightColumn: '',
     captionOne: '',
@@ -62,7 +63,7 @@ const ViewAll = ({account, allContent, authorization, current, studentList, pure
     success: null
   })
   const {error, success} = messages
-  const {title, subtitle, imageURL, imageDescr, source, expiration, primary, enabled, message, headline, subheading, button, imageLeftColumn, imageRightColumn, captionOne, captionTwo} = updatedRow
+  const {title, subtitle, imageURL, imageDescr, source, expiration, primary, enabled, message, headline, subheading, button, buttonLink, imageLeftColumn, imageRightColumn, captionOne, captionTwo} = updatedRow
 
   const handleFilter = (header, key) => {
     // GET SVG XLINK:HREF ATTRITUTE BY ELEMENT BY ID 
@@ -271,7 +272,7 @@ const ViewAll = ({account, allContent, authorization, current, studentList, pure
     for(let i = 0; i < content.length; i++){
       if(content[i]._id == selected[0]){
         setEditRowForm(true)
-        setUpdatedRow({...updatedRow, id: content[i]._id, title: content[i].title,  subtitle: content[i].subtitle, imageURL: content[i].imageURL, imageDescr: content[i].imageDescr, source: content[i].source, expiration: content[i].expiration, primary: content[i].primary, enabled: content[i].enabled, message: content[i].message, headline: content[i].headline, subheading: content[i].subheading, button: content[i].button, imageLeftColumn: content[i].imageLeftColumn, imageRightColumn: content[i].imageRightColumn, captionOne: content[i].captionOne, captionTwo: content[i].captionTwo})
+        setUpdatedRow({...updatedRow, id: content[i]._id, title: content[i].title,  subtitle: content[i].subtitle, imageURL: content[i].imageURL, imageDescr: content[i].imageDescr, source: content[i].source, expiration: content[i].expiration, primary: content[i].primary, enabled: content[i].enabled, message: content[i].message, headline: content[i].headline, subheading: content[i].subheading, button: content[i].button, buttonLink: content[i].buttonLink,imageLeftColumn: content[i].imageLeftColumn, imageRightColumn: content[i].imageRightColumn, captionOne: content[i].captionOne, captionTwo: content[i].captionTwo})
         current === 'student' ?
           dispatch({
             type: 'SET_EDIT_STUDENT',
@@ -305,7 +306,7 @@ const ViewAll = ({account, allContent, authorization, current, studentList, pure
       type: 'EDIT_STATE_ENABLED',
       payload: {name: e.target.name, value: !e.target.checked}
     })
-    
+
     :
 
     // HANDLE CHANGE FOR STUDENT PROFILE
@@ -630,7 +631,7 @@ const ViewAll = ({account, allContent, authorization, current, studentList, pure
           </div>
           } */}
           {headers !== null && editRowForm == false && headers.map( (header, i) => (
-          header !== 'primary' && header !== '__v' && header !== '_id'? 
+          header !== 'primary' && header !== '__v' && header !== '_id' && header !== 'buttonLink' ? 
             <div key={i} className="content-table-headers-heading">
               {header}
               {/* 
@@ -663,7 +664,7 @@ const ViewAll = ({account, allContent, authorization, current, studentList, pure
             </label>
           </div>
           {Object.keys(item).map( (keyName, keyIndex) => (
-          keyName !== '__v' && keyName !== 'primary' && keyName !== '_id'?  
+          keyName !== '__v' && keyName !== 'primary' && keyName !== '_id' && keyName !== 'buttonLink' ?  
             <div key={keyIndex} className="content-table-rows-content">
               <span>
               {item[keyName].toString().length > 50 ?
@@ -894,6 +895,10 @@ const ViewAll = ({account, allContent, authorization, current, studentList, pure
               <label htmlFor="button">Button</label>
               <input type="text" name="button" value={button} onChange={handleChange} required/>
             </div>
+            <div className="form-group-single">
+              <label htmlFor="buttonLink">Button Link</label>
+              <input type="text" name="buttonLink" value={buttonLink} onChange={handleChange} required/>
+            </div>
             <div className="form-group-double">
               <div className="form-group-checkbox">
                   <label htmlFor="enabled">
@@ -1037,6 +1042,8 @@ ViewAll.getInitialProps = async ({query, req}) => {
       // CHANGE CREATEDAT DATE FORMAT TO YYYY-MM-DD
       parseCreatedAtDates(headerComponentResponse.data)
       removeHeadersSliderComponent(headerComponentResponse.data)
+
+      console.log(headerComponentResponse.data)
 
       return {
         allContent: headerComponentResponse.data,

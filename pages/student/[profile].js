@@ -36,7 +36,7 @@ const StudentProfile = ({studentProfile}) => {
                 <svg>
                   <use xlinkHref="/sprite.svg#icon-linkedin"></use>
                 </svg>
-                <div>LinkedIn: <a href={studentProfile.linkedIn}> {studentProfile.linkedIn}</a></div>
+                <div>LinkedIn: <a href={studentProfile.linkedIn}> {studentProfile.linkedIn.substring(0, 50)}</a></div>
               </div>
               <div>
                 <svg>
@@ -52,10 +52,10 @@ const StudentProfile = ({studentProfile}) => {
           </div>
         </div>
         <div className="student-profile-toggle">
-          {Object.keys(studentProfile).map( (item) => 
+          {Object.keys(studentProfile).map( (item, i) => 
             {return item == 'biography' || item == 'education' || item == 'research' || item == 'publication'
               ?
-              <>
+              <div key={i}>
               <div className="student-profile-toggle-button" onClick={() => expandBox(item)}>
                 <svg>
                   <use xlinkHref={`/sprite.svg#icon-` + (item == activeBox ? 'minus-solid' : 'add-solid')}></use>
@@ -68,7 +68,7 @@ const StudentProfile = ({studentProfile}) => {
                 :
                 null
               }
-              </>
+              </div>
               :
               null
             }
@@ -81,6 +81,7 @@ const StudentProfile = ({studentProfile}) => {
 }
 
 StudentProfile.getInitialProps = async ({query, req}) => {
+
   const studentProfileResponse = await axios.get(`${API}/student-profile/${query.profile}`)
 
   return {

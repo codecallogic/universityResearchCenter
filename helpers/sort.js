@@ -110,3 +110,17 @@ export const rightColumnImages = (data) => {
 
   return filter
 }
+
+export const selectOne = (students) => {
+  let enabledStudents = students.map( (person) => {
+    if(person.enabled){
+      return person
+    }
+  })
+
+  let randomIndex = Math.floor(Math.random() * enabledStudents.length)
+
+  let selectedStudent = new Array(enabledStudents[randomIndex])
+
+  return selectedStudent
+}
