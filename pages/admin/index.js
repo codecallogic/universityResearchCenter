@@ -521,10 +521,10 @@ const Dashboard = ({loggedIn, account, authorization, header, student}) => {
                 <label htmlFor="buttonLink">Button Link</label>
                 <input type="text" name="buttonLink" value={header.buttonLink} onChange={handleChangeHeader} required/> 
 
-                <label htmlFor="imageLeftColumn">Image Left Column</label>
+                <label htmlFor="imageLeftColumn">Image Left Column (600 x 500 px minimum)</label>
                 <input type="text" name="imageLeftColumn" value={header.imageLeftColumn} onChange={handleChangeHeader} required/>
 
-                <label htmlFor="imageRightColumn">Image Right Column</label>
+                <label htmlFor="imageRightColumn">Image Right Column (1280 x 500 px minimum)</label>
                 <input type="text" name="imageRightColumn" value={header.imageRightColumn} onChange={handleChangeHeader} required/>
 
                 <label htmlFor="captionOne">Caption 1</label>

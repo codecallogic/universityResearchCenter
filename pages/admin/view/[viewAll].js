@@ -914,11 +914,11 @@ const ViewAll = ({account, allContent, authorization, current, studentList, pure
               </div>
             </div>
             <div className="form-group-single">
-              <label htmlFor="imageLeftColumn">Image Left Column</label>
+              <label htmlFor="imageLeftColumn">Image Left Column (600 x 500 px minimum)</label>
               <input type="text" name="imageLeftColumn" value={imageLeftColumn} onChange={handleChange}/>
             </div>
             <div className="form-group-single">
-              <label htmlFor="imageRightColumn">Image Right Column</label>
+              <label htmlFor="imageRightColumn">Image Right Column (1280 x 500 px minimum)</label>
               <input type="text" name="imageRightColumn" value={imageRightColumn} onChange={handleChange}/>
             </div>
             <div className="form-group-single">

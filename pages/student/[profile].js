@@ -23,8 +23,9 @@ const StudentProfile = ({studentProfile}) => {
             <img src={studentProfile.photo} alt={studentProfile.areaOfStudy}/>
           </div>
           <div className="student-profile-record-details">
-            <h1>{studentProfile.firstName} {studentProfile.lastName}, {studentProfile.activity}</h1>
-            <h2>{studentProfile.institution}, Department of {studentProfile.department}, {studentProfile.areaOfStudy}</h2>
+            <h1>{studentProfile.firstName} {studentProfile.lastName}, {studentProfile.areaOfStudy}</h1>
+            <h2>{studentProfile.activity} at {studentProfile.institution}</h2>
+            <h3>Department of {studentProfile.department}</h3>
             <div className="student-profile-record-details-info">
               <div>
                 <svg>
