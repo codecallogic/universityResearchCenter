@@ -250,7 +250,6 @@ const ViewAll = ({account, allContent, authorization, current, studentList, pure
       }
 
       setSelected(allSelected)
-
     }
 
     if(getRow.checked == false){
@@ -267,18 +266,43 @@ const ViewAll = ({account, allContent, authorization, current, studentList, pure
   }
 
   // SET UP VIEW FOR EDITING AND UPDATING ROW DATA
-  const editRow = () => {
+  const editRow = async () => {
     setMessage({...messages, error: '', success: ''})
     for(let i = 0; i < content.length; i++){
       if(content[i]._id == selected[0]){
         setEditRowForm(true)
         setUpdatedRow({...updatedRow, id: content[i]._id, title: content[i].title,  subtitle: content[i].subtitle, imageURL: content[i].imageURL, imageDescr: content[i].imageDescr, source: content[i].source, expiration: content[i].expiration, primary: content[i].primary, enabled: content[i].enabled, message: content[i].message, headline: content[i].headline, subheading: content[i].subheading, button: content[i].button, buttonLink: content[i].buttonLink,imageLeftColumn: content[i].imageLeftColumn, imageRightColumn: content[i].imageRightColumn, captionOne: content[i].captionOne, captionTwo: content[i].captionTwo})
-        current === 'student' ?
-          dispatch({
-            type: 'SET_EDIT_STUDENT',
-            payload: {content: newContent, selected: selected[0]}
-          })
-        : null
+
+        let id = selected[0]
+        let studentProfile = []
+
+        try {
+          current === 'student' ?
+          ( 
+            studentProfile = await axios.post(`${API}/student-profile/find`, {id}, {
+              headers: {
+                Authorization: `Bearer ${authorization}`,
+                contentType: `application/json`
+              }
+            }),
+
+            manageTags('interests', studentProfile.data.researchInterests),
+            handleKeyPress(null, 'init'),
+
+            studentProfile.data ?
+              (
+              studentProfile.data.researchInterests = [],
+              dispatch({
+                type: 'SET_EDIT_STUDENT',
+                payload: {content: studentProfile.data, selected: selected[0]}
+              })
+              )
+            : window.location.reload()
+          )
+          : null
+        } catch (error) {
+          console.log(error)
+        }
       }
     }
   }
@@ -319,10 +343,11 @@ const ViewAll = ({account, allContent, authorization, current, studentList, pure
   }
 
   // HANDLE KEY PRESS
-  const handleKeyPress = (e) => {    
-    if(e.key === 'Enter'){
+  const handleKeyPress = (e, run) => {    
+    if(e){
+      if(e.key === 'Enter'){
       e.preventDefault();
-      manageTags()
+      manageTags('addTag')
       let closeIcon = document.querySelectorAll('.form-tag')
       let postHidden = document.getElementById("tagValue")
       let values = postHidden.getAttribute('value').split(',')
@@ -352,7 +377,39 @@ const ViewAll = ({account, allContent, authorization, current, studentList, pure
         payload: values
       })
       setTags('')
+      }
     }
+
+    if(run == 'init'){
+      let closeIcon = document.querySelectorAll('.form-tag')
+      closeIcon.forEach( (e) => {
+        e.addEventListener('click', function(e){
+          let parent = e.target.parentNode
+          let parentOfParent = parent.parentNode
+          parentOfParent.remove()
+
+          let tagValues = document.querySelectorAll(".tag > span")
+          let newValues = []
+          
+          tagValues.forEach( e => {
+            newValues.push(e.innerHTML)
+          })
+
+          let tagsToDelete = new Array(parent.getAttribute('data-item'))
+
+          dispatch({
+            type: 'RESEARCH_INTERESTS_TO_BE_REMOVED',
+            payload: tagsToDelete
+          })
+
+          dispatch({
+            type: 'EDIT_RESEARCH_INTERESTS',
+            payload: newValues
+          })
+        })
+      })
+    }
+
   }
 
   // HANDLE PROFILE STUDENT BOXES
@@ -467,21 +524,33 @@ const ViewAll = ({account, allContent, authorization, current, studentList, pure
         }
       })
 
-      setContent(response.data)
+      let updatedContent = content.map( (item, i) => {
+        if(item._id == response.data._id) item = response.data
+        return item
+      })
+      setContent(updatedContent)
 
-      const pureResponse = await axios.post(`${API}/student-profile/update`, edit, {
+      let id = edit._id
+
+      // DATA WITHOUT JSON KEY PROPERTIES REMOVED
+      const pureResponse = await axios.post(`${API}/student-profile/find`, {id}, {
         headers: {
           Authorization: `Bearer ${authorization}`,
           contentType: `application/json`
         }
       })
+
+      let updatedPureContent = newContent.map( (item, i) => {
+        if(item._id == pureResponse.data._id) item['researchInterests'] = pureResponse.data.researchInterests
+        return item
+      })
       
-      setNewContent(pureResponse.data)
+      setNewContent(updatedPureContent)
       setMessage({...messages, success: 'Update was made successfully'})
     } catch (error) {
-      console.log(error.response)
+      console.log(error)
       if(error.response.statusText === 'Unauthorized') window.location.href = '/admin/login'
-      setMessage({...messages, error: error.response})
+      setMessage({...messages, error: error.response ? error.response : error})
     }
   }
   
@@ -1042,8 +1111,6 @@ ViewAll.getInitialProps = async ({query, req}) => {
       // CHANGE CREATEDAT DATE FORMAT TO YYYY-MM-DD
       parseCreatedAtDates(headerComponentResponse.data)
       removeHeadersSliderComponent(headerComponentResponse.data)
-
-      console.log(headerComponentResponse.data)
 
       return {
         allContent: headerComponentResponse.data,

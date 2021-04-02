@@ -1,25 +1,27 @@
-import { useDispatch } from 'react-redux';
-
-export const manageTags = (initialize) => {
+export const manageTags = (initialize, data) => {
   const input = document.getElementById('researchInterests')
   const tagContainer = document.querySelector('.form-tag-container')
-  const database = document.getElementById('database')
 
   let tags = []
 
-  if(initialize === 'init'){
-    if (database) {
-      let split = database.value.split(',')
-      tags = split
+  // LOAD TAGS FROM DATABASE
+  if(initialize === 'interests'){
+    if(data){
+      tags = data.map( (item) => {
+        return item.tag
+      })
+      addTags()
     }
   }
 
   // ADD INPUT VALUE TO ARRAY TAGS
   
-  input.value.length > 0 ? tags.push(input.value) : null
-  addTags()
-  input.value = '';
-  input.focus()
+  if(initialize === 'addTag'){
+    input.value.length > 0 ? tags.push(input.value) : null
+    addTags()
+    input.value = '';
+    input.focus()
+  }
 
   function addTags(){
     tags.slice().reverse().forEach( t => {

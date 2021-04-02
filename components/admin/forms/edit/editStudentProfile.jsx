@@ -1,4 +1,4 @@
-import {useEffect} from 'react'
+import {useEffect, useState} from 'react'
 import dynamic from 'next/dynamic'
 const ReactQuill = dynamic(() => import('react-quill'), {ssr: false, loading: () => <p>Loading ...</p>})
 import 'react-quill/dist/quill.snow.css'
@@ -13,6 +13,12 @@ import { useDispatch } from 'react-redux';
 const StudentProfile = ({submitUpdateStudentProfile, student, handleKeyPress, handleChangeStudentProfile, handleStudentProfileBoxes, tags}) => {
 
   const dispatch = useDispatch()
+
+
+  // useEffect( () => {
+  //   // SEND TAGS FROM DATABASE TO ELEMENT TAG GENERATOR
+  //   manageTags('interests', student.researchInterests)
+  // }, [student.researchInterests])
 
   const modules = {
     toolbar: [
@@ -32,6 +38,7 @@ const StudentProfile = ({submitUpdateStudentProfile, student, handleKeyPress, ha
   ]
 
   useEffect(() => {
+    
     manageTags('init')
     let closeIcon = document.querySelectorAll('.form-tag')
 
@@ -90,8 +97,8 @@ const StudentProfile = ({submitUpdateStudentProfile, student, handleKeyPress, ha
         </div>
         <div className="form-group-single">
           <label htmlFor="tags">Research Interests (Press enter to add)</label>
-          <input type="hidden" id="database" value={student.researchInterests.join(',')} required></input>
-          <input type="hidden" name="tags" id="tagValue" value="" required></input>
+          <input type="hidden" id="database" data-json={JSON.stringify(student.researchInterests)} required></input>
+          <input type="hidden" name="tags" id="tagValue" required></input>
           <div className="form-tag-container">
             <input type="text" id="researchInterests" name="tags" value={tags} onKeyPress={(e) => handleKeyPress(e)} onChange={(e) => handleChangeStudentProfile(e)}/>
           </div>

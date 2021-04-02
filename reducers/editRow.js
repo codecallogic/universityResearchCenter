@@ -14,18 +14,17 @@ const initialState = {
   education: '',
   research: '',
   publication: '',
+  tagsToRemove: [],
 }
 
-export const editRow = (state = initialState, action)  => {  
+export const editRow = (state = initialState, action)  => { 
   switch (action.type) {
     case 'RESET_STATE':
     return initialState
 
     case 'SET_EDIT_STUDENT':
-      for(let i = 0; i < action.payload.content.length; i++){
-        if(action.payload.content[i]._id == action.payload.selected){
-          return action.payload.content[i]
-        }
+      if(action.payload.content._id == action.payload.selected){
+        return action.payload.content
       }
       break;
     
@@ -40,6 +39,13 @@ export const editRow = (state = initialState, action)  => {
       return {
         ...state,
         researchInterests: action.payload
+      }
+      break;
+
+    case 'RESEARCH_INTERESTS_TO_BE_REMOVED':
+      return {
+        ...state,
+        tagsToRemove: state.tagsToRemove ? state.tagsToRemove.concat(action.payload) : action.payload
       }
       break;
 
