@@ -285,7 +285,6 @@ const ViewAll = ({account, allContent, authorization, current, studentList, pure
                 contentType: `application/json`
               }
             }),
-
             manageTags('interests', studentProfile.data.researchInterests),
             handleKeyPress(null, 'init'),
 
@@ -301,7 +300,7 @@ const ViewAll = ({account, allContent, authorization, current, studentList, pure
           )
           : null
         } catch (error) {
-          console.log(error)
+          window.location.reload()
         }
       }
     }
@@ -346,37 +345,39 @@ const ViewAll = ({account, allContent, authorization, current, studentList, pure
   const handleKeyPress = (e, run) => {    
     if(e){
       if(e.key === 'Enter'){
-      e.preventDefault();
-      manageTags('addTag')
-      let closeIcon = document.querySelectorAll('.form-tag')
-      let postHidden = document.getElementById("tagValue")
-      let values = postHidden.getAttribute('value').split(',')
+        // CHECK IF NEW TAG EXISTS IN DELETE TAG STATE. IF SO REMOVE TAG FROM tagsToRemove ARRAY
+        console.log(e.target.value)
+        e.preventDefault();
+        manageTags('addTag')
+        let closeIcon = document.querySelectorAll('.form-tag')
+        let postHidden = document.getElementById("tagValue")
+        let values = postHidden.getAttribute('value').split(',')
 
-      closeIcon.forEach( (e) => {
-        e.addEventListener('click', function(e){
-          let parent = e.target.parentNode
-          let parentOfParent = parent.parentNode
-          parentOfParent.remove()
+        closeIcon.forEach( (e) => {
+          e.addEventListener('click', function(e){
+            let parent = e.target.parentNode
+            let parentOfParent = parent.parentNode
+            parentOfParent.remove()
 
-          let tagValues = document.querySelectorAll(".tag > span")
-          let newValues = []
-          
-          tagValues.forEach( e => {
-            newValues.push(e.innerHTML)
-          })
+            let tagValues = document.querySelectorAll(".tag > span")
+            let newValues = []
+            
+            tagValues.forEach( e => {
+              newValues.push(e.innerHTML)
+            })
 
-          dispatch({
-            type: 'EDIT_RESEARCH_INTERESTS',
-            payload: newValues
+            dispatch({
+              type: 'EDIT_RESEARCH_INTERESTS',
+              payload: newValues
+            })
           })
         })
-      })
 
-      dispatch({
-        type: 'EDIT_RESEARCH_INTERESTS',
-        payload: values
-      })
-      setTags('')
+        dispatch({
+          type: 'EDIT_RESEARCH_INTERESTS',
+          payload: values
+        })
+        setTags('')
       }
     }
 

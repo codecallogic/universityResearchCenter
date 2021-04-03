@@ -134,7 +134,8 @@ const Home = ({announcements, meetings, facultyOpportunities, studentOpportuniti
             }
           </div> 
         </div>
-        <div className="home-student-spotlight">
+        {studentProfiles[0] && 
+          <div className="home-student-spotlight">
           <div className="home-student-spotlight-header">
             <svg>
               <use xlinkHref="/sprite.svg#icon-user-tie"></use>
@@ -142,9 +143,9 @@ const Home = ({announcements, meetings, facultyOpportunities, studentOpportuniti
             <span>Student Spotlight</span>
           </div>
           <div>
-            {studentProfiles !== null && 
+            {studentProfiles[0] && 
               studentProfiles.map( (item, i) =>
-                item.enabled === true ? 
+                item.enabled == true ? 
                 <div key={i} className="home-student-spotlight-item" onClick={(e) => studentProfile(e, item._id)}>
                   <div className="home-student-spotlight-item-students">
                     {/* <div>
@@ -193,6 +194,7 @@ const Home = ({announcements, meetings, facultyOpportunities, studentOpportuniti
             }
           </div>
         </div>
+      }
       </div>
 
       <div className="home-box-right">

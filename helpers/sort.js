@@ -112,8 +112,8 @@ export const rightColumnImages = (data) => {
 }
 
 export const selectOne = (students) => {
-  let enabledStudents = students.map( (person) => {
-    if(person.enabled){
+  let enabledStudents = students.filter( (person) => {
+    if(person.enabled == true){
       return person
     }
   })

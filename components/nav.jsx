@@ -6,7 +6,11 @@ const Nav = ({}) => {
   
   const handleNav = (e) => {
     e.target.textContent.toLowerCase() == 'admin' ? window.open('/admin', '_blank', 'noopener,noreferrer') : null
-  } 
+  }
+
+  const goToPage = (var1) => {
+    window.open(`/${var1}`, '_blank', 'noopener,noreferrer')
+  }
   
   return (
     <>
