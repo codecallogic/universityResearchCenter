@@ -55,6 +55,20 @@ export const editRow = (state = initialState, action)  => {
         [action.payload.name]: action.payload.value
       }
       break;
+
+    case 'REMOVE_TAG_FROM_TAGS_TO_REMOVE_ARRAY':
+      console.log(action.payload)
+      const newArray = [...state.tagsToRemove]
+      console.log(newArray.indexOf(action.payload))
+      if(newArray.indexOf(action.payload) !== -1){
+        newArray.splice(newArray.indexOf(action.payload), 1)
+      }
+      
+      return {
+        ...state,
+        tagsToRemove: newArray
+      }
+      break;
       
     default:
       return state

@@ -9,13 +9,14 @@ import axios from 'axios'
 import {setDropDowns} from '../../helpers/sort'
 import {manageTags} from '../../helpers/forms'
 import StudentProfile from '../../components/admin/forms/studentProfile'
+import Webpage from '../../components/admin/forms/webpage'
 import dynamic from 'next/dynamic'
 const ReactQuill = dynamic(() => import('react-quill'), {ssr: false, loading: () => <p>Loading ...</p>})
 import 'react-quill/dist/quill.snow.css'
 
 // TODO: Create front end protected url routes using SSR for Admin
 
-const Dashboard = ({loggedIn, account, authorization, header, student}) => {
+const Dashboard = ({loggedIn, account, authorization, header, student, webpage}) => {
 
   const dispatch = useDispatch()
   const router = useRouter()
@@ -113,6 +114,24 @@ const Dashboard = ({loggedIn, account, authorization, header, student}) => {
     setContent({...content, message: e})
     setSuccessMessage(null)
     setErrorMessage(null)
+  }
+
+  // HANDLE WEBPAGE STATE
+  const handleWebpage = (e, type) => {
+    type === 'heading' ? 
+      dispatch({
+        type: 'UPDATE_STATE_CONTENT',
+        name: type,
+        payload: e.target.value
+      })
+
+      :
+
+      dispatch({
+        type: 'UPDATE_STATE_CONTENT',
+        name: type,
+        payload: e
+      })
   }
 
   // HANDLE PROFILE STUDENT BOXES
@@ -280,6 +299,10 @@ const Dashboard = ({loggedIn, account, authorization, header, student}) => {
     }
   }
 
+  const createWebpage = (e) => {
+    e.preventDefault()
+  }
+
   useEffect( () => {
     setDropDowns(null, null)
   }, [])
@@ -306,6 +329,7 @@ const Dashboard = ({loggedIn, account, authorization, header, student}) => {
               <select className="dashboard-control form-selection-components" onChange={handleForms}>
                 <option value="select a component" disabled>Select a component</option>
                 <option value="header">Header</option>
+                <option value="webpage">Webpage</option>
               </select>             
             </div>
             <div className="dashboard-left-panel-title">Profiles</div>
@@ -539,6 +563,9 @@ const Dashboard = ({loggedIn, account, authorization, header, student}) => {
             {successMessage !== null && <div className="form-successMessage">{successMessage}</div>}
           </div>
           }
+          {form === 'webpage' &&
+            <Webpage viewAll={viewAll} createWepage={createWebpage} errorMessage={errorMessage} successMessage={successMessage} webpage={webpage} handleWebpage={handleWebpage}/>
+          }
           {form === 'student' &&
             <StudentProfile viewAll={viewAll} createStudentProfile={createStudentProfile} errorMessage={errorMessage} successMessage={successMessage} student={student} handleKeyPress={handleKeyPress} handleChangeStudentProfile={handleChangeStudentProfile} handleStudentProfileBoxes={handleStudentProfileBoxes} tags={tags}/>
           }
@@ -552,7 +579,8 @@ const Dashboard = ({loggedIn, account, authorization, header, student}) => {
 const mapStateToProps = state => {
   return {
       header: state.header,
-      student: state.studentProfile
+      student: state.studentProfile,
+      webpage: state.webpage
   }
 }
 

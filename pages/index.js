@@ -179,7 +179,7 @@ const Home = ({announcements, meetings, facultyOpportunities, studentOpportuniti
                             </svg>
                             <div>Research Interests:
                               {item.researchInterests.map( (item, i) => (
-                                <a key={i} href="#">{item}</a>
+                                <a key={i} href="#">{item.tag}</a>
                               ))}
                             </div>
                           </div>
@@ -339,6 +339,10 @@ Home.getInitialProps = async () => {
 
   // SELECT DATA
   let randomSelectedStudent = selectOne(studentProfiles.data)
+  let id = randomSelectedStudent[0]._id
+  
+  const student = await axios.post(`${API}/student-profile/find/public`, {id})
+  let studentArray = new Array(student.data)
 
   return {
     announcements: newAnnouncements,
@@ -346,7 +350,7 @@ Home.getInitialProps = async () => {
     facultyOpportunities: newFacultyOpportunties,
     studentOpportunities: newStudentOpportunties,
     headerData: newHeaderComponent,
-    studentProfiles: randomSelectedStudent
+    studentProfiles: studentArray
   }
 }
 

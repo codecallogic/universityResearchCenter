@@ -346,8 +346,15 @@ const ViewAll = ({account, allContent, authorization, current, studentList, pure
     if(e){
       if(e.key === 'Enter'){
         // CHECK IF NEW TAG EXISTS IN DELETE TAG STATE. IF SO REMOVE TAG FROM tagsToRemove ARRAY
-        console.log(e.target.value)
         e.preventDefault();
+
+        if(edit.tagsToRemove){
+          dispatch({
+            type: 'REMOVE_TAG_FROM_TAGS_TO_REMOVE_ARRAY',
+            payload: e.target.value
+          })
+        }
+        
         manageTags('addTag')
         let closeIcon = document.querySelectorAll('.form-tag')
         let postHidden = document.getElementById("tagValue")

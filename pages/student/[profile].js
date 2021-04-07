@@ -45,7 +45,7 @@ const StudentProfile = ({studentProfile}) => {
                 </svg>
                 <div>Research Interests:
                   {studentProfile.researchInterests.map( (item, i) => (
-                    <a key={i} href="#">{item}</a>
+                    <a key={i} href="#">{item.tag}</a>
                   ))}
                 </div>
               </div>
@@ -84,6 +84,7 @@ const StudentProfile = ({studentProfile}) => {
 StudentProfile.getInitialProps = async ({query, req}) => {
 
   const studentProfileResponse = await axios.get(`${API}/student-profile/${query.profile}`)
+  console.log(studentProfileResponse)
 
   return {
     studentProfile: studentProfileResponse.data
