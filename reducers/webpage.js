@@ -8,7 +8,7 @@ export const webpageReducer = (state = initialState, action)  => {
     case 'RESET_STATE':
     return initialState
     
-    case 'UPDATE_STATE_CONTENT':
+    case 'UPDATE_STATE_WEBPAGE':
       return {
         ...state,
         [action.name]: action.payload

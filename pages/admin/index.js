@@ -118,18 +118,18 @@ const Dashboard = ({loggedIn, account, authorization, header, student, webpage})
 
   // HANDLE WEBPAGE STATE
   const handleWebpage = (e, type) => {
-    type === 'heading' ? 
+    type === 'regular' ? 
       dispatch({
-        type: 'UPDATE_STATE_CONTENT',
-        name: type,
+        type: 'UPDATE_STATE_WEBPAGE',
+        name: 'heading',
         payload: e.target.value
       })
 
       :
 
       dispatch({
-        type: 'UPDATE_STATE_CONTENT',
-        name: type,
+        type: 'UPDATE_STATE_WEBPAGE',
+        name: 'content',
         payload: e
       })
   }

@@ -680,10 +680,27 @@ const ViewAll = ({account, allContent, authorization, current, studentList, pure
         setContent(responseStudentProfile.data)
         
         break;
+
+      case 'webpage':
+        const webpageResponse = await axios.post(`${API}/webpage/delete`, selected, {
+          headers: {
+            Authorization: `Bearer ${authorization}`,
+            contentType: `application/json`
+          }
+        })
+
+        // CHANGE CREATEDAT AND UPDATEDAT FORMAT TO YYYY-MM-DD
+        parseCreatedAtDates(webpageResponse.data)
+        parseUpdatedAtDates(webpageResponse.data)
+        generateURL(webpageResponse.data)
+        setContent(webpageResponse.data)
+        break;
       
         default:
           break;
       }
+
+      
       
       setSelected([])
       const allCheckBoxes = document.querySelectorAll('input[type="checkbox"]')
@@ -1210,7 +1227,7 @@ ViewAll.getInitialProps = async ({query, req}) => {
         }
       })
 
-      // CHANGE CREATEDAT DATE FORMAT TO YYYY-MM-DD
+      // CHANGE CREATEDAT AND UPDATEDAT FORMAT TO YYYY-MM-DD
       parseCreatedAtDates(webpageResponse.data)
       parseUpdatedAtDates(webpageResponse.data)
       generateURL(webpageResponse.data)

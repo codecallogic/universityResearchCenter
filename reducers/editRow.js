@@ -20,7 +20,7 @@ const initialState = {
 }
 
 export const editRow = (state = initialState, action)  => { 
-  if(action.payload) console.log(action.payload.value)
+  // if(action.payload) console.log(action.payload.value)
   switch (action.type) {
     case 'RESET_STATE':
     return initialState
