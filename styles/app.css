@@ -1315,3 +1315,12 @@ svg {
       padding: 2rem 5rem;
       transition: all 1s;
       animation: fadeIn 0.5s ease-in-out; }
+
+.webpage {
+  grid-column: 3/11;
+  padding: 2rem;
+  margin: 1rem 0;
+  font-size: 1.6rem; }
+  .webpage-container {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr); }

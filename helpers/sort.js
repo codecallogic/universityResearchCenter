@@ -6,6 +6,14 @@ export const parseCreatedAtDates = (data) => {
   })
 }
 
+export const parseUpdatedAtDates = (data) => {
+  let newResultsUpdatedAtDates = data.map( item => {
+    let now = new Date(item.updatedAt)
+    item.updatedAt = now.toISOString().slice(0,10)
+    return item
+  })
+}
+
 export const parseExpirationDates = (data, current) => {
   let newResultsExpirationDates = data.map( item => {
     if(item.expiration !== undefined){
@@ -123,4 +131,12 @@ export const selectOne = (students) => {
   let selectedStudent = new Array(enabledStudents[randomIndex])
 
   return selectedStudent
+}
+
+export const generateURL = (data) => {
+  let newArray = data.filter( (item) => {
+    return item.url = `/${item.heading}/${(item._id)}`
+  })
+
+ return newArray
 }

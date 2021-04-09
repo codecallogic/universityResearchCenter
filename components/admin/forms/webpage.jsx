@@ -3,7 +3,7 @@ import dynamic from 'next/dynamic'
 const ReactQuill = dynamic(() => import('react-quill'), {ssr: false, loading: () => <p>Loading ...</p>})
 import 'react-quill/dist/quill.snow.css'
 
-const Webpage = ({createWebpage, handleWebpage, errorMessage, successMessage, webpage}) => {
+const Webpage = ({viewAll, createWebpage, handleWebpage, errorMessage, successMessage, webpage}) => {
 
   const modules = {
     toolbar: [
@@ -28,7 +28,7 @@ const Webpage = ({createWebpage, handleWebpage, errorMessage, successMessage, we
     <form className="form" action="POST" onSubmit={(e) => createWebpage(e)}>
       <div className="form-group-single">
         <label htmlFor="heading">Heading</label>
-        <input type="text" name="heading" value={webpage.heading} onChange={(e) => handleWebpage(e, 'heading')} required/>
+        <input type="text" name="heading" value={webpage.heading} onChange={(e) => handleWebpage(e, 'regular')} required/>
       </div>
       <div className="form-group-single">
           <label htmlFor="content">Content</label>

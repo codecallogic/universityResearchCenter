@@ -1,0 +1,11 @@
+.webpage {
+  grid-column: 3/11;
+  padding: 2rem;
+  margin: 1rem 0;
+  font-size: 1.6rem;
+
+  &-container {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+  }
+}

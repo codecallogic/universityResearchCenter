@@ -14,11 +14,12 @@ axios.defaults.withCredentials = true
 
 // HELPERS
 import {getToken} from '../../../helpers/auth'
-import {parseCreatedAtDates, parseExpirationDates, removeHeadersSliderComponent, removeHeadersStudentProfile} from '../../../helpers/sort'
+import {parseCreatedAtDates, parseUpdatedAtDates, parseExpirationDates, removeHeadersSliderComponent, removeHeadersStudentProfile, generateURL} from '../../../helpers/sort'
 import {manageTags} from '../../../helpers/forms'
 
 // COMPONENTS
 import StudentProfile from '../../../components/admin/forms/edit/editStudentProfile'
+import Webpage from '../../../components/admin/forms/edit/editWebpage'
 
 const ViewAll = ({account, allContent, authorization, current, studentList, pureStudentList, edit}) => {
 
@@ -31,7 +32,7 @@ const ViewAll = ({account, allContent, authorization, current, studentList, pure
     allContent ? allContent : studentList 
   )
   const [headers, setHeaders] = useState(
-    allContent ? Object.keys(allContent[0]) : studentList ? Object.keys(studentList[0]) : null
+    allContent && allContent.length > 0 ? Object.keys(allContent[0]) : studentList ? Object.keys(studentList[0]) : null
   )
   const [selected, setSelected] = useState([])
   const [asc, setAsc] = useState(-1)
@@ -302,6 +303,14 @@ const ViewAll = ({account, allContent, authorization, current, studentList, pure
         } catch (error) {
           window.location.reload()
         }
+
+        current === 'webpage' ? 
+          dispatch({
+            type: 'SET_EDIT_WEBPAGE',
+            payload: {content: content[i], selected: selected[0]}
+          })
+          :
+          null
       }
     }
   }
@@ -427,6 +436,22 @@ const ViewAll = ({account, allContent, authorization, current, studentList, pure
       type: 'EDIT_STATE_STUDENT',
       payload: {name: content, value: e}
     })
+  }
+
+  const handleWebpage = (e, type) => {
+    // HANDLE CHANGE FOR WEBPAGE STATE
+    type == 'regular' ? 
+      dispatch({
+        type: 'EDIT_STATE_WEBPAGE',
+        payload: {name: e.target.name, value: e.target.value}
+      }) : null
+
+    // HANDLE CHANGE FOR WEBPAGE CONTENT
+    type == 'content' ? 
+      dispatch({
+        type: 'EDIT_STATE_WEBPAGE_CONTENT',
+        payload: {name: 'content', value: e}
+      }) : null
   }
 
   // SUBMIT UPDATED FOR ANNOUNCEMENT ROW CONTENT
@@ -559,6 +584,25 @@ const ViewAll = ({account, allContent, authorization, current, studentList, pure
       console.log(error)
       if(error.response.statusText === 'Unauthorized') window.location.href = '/admin/login'
       setMessage({...messages, error: error.response ? error.response : error})
+    }
+  }
+
+  const submitUpdateWebpage = async (e) => {
+    e.preventDefault()
+    try {
+      const response = await axios.post(`${API}/webpage/update`, {edit}, {
+        headers: {
+          Authorization: `Bearer ${authorization}`,
+          contentType: `application/json`
+        }
+      })
+      setMessage({...messages, success: 'Update was made successfully'})
+      generateURL(response.data)
+      setContent(response.data)
+    } catch (error) {
+      console.log(error.response)
+      if(error.response.statusText === 'Unauthorized') window.location.href = '/admin/login'
+      setMessage({...messages, error: error.response})
     }
   }
   
@@ -744,10 +788,12 @@ const ViewAll = ({account, allContent, authorization, current, studentList, pure
           keyName !== '__v' && keyName !== 'primary' && keyName !== '_id' && keyName !== 'buttonLink' ?  
             <div key={keyIndex} className="content-table-rows-content">
               <span>
-              {item[keyName].toString().length > 50 ?
-              item[keyName].toString().substring(0, 50): 
-              item[keyName].toString()
-              } 
+              {
+              keyName == 'url' ? <a target="_blank" href={item['url']}>{item['url'].toString().substring(0, 50)}</a> : 
+                item[keyName].toString().length > 50 ?
+                item[keyName].toString().substring(0, 50): 
+                item[keyName].toString()
+              }
               </span>
             </div>
           : null
@@ -1014,6 +1060,10 @@ const ViewAll = ({account, allContent, authorization, current, studentList, pure
           <StudentProfile submitUpdateStudentProfile={submitUpdateStudentProfile} student={edit} handleKeyPress={handleKeyPress} handleChangeStudentProfile={handleChangeStudentProfile} handleStudentProfileBoxes={handleStudentProfileBoxes} tags={tags}/>
         }
 
+        {editRowForm == true && current == 'webpage' && 
+          <Webpage submitUpdateWebpage={submitUpdateWebpage} webpage={edit} handleWebpage={handleWebpage}/>
+        }
+
         {success !== null && editRowForm == true && <div className="form-successMessage">{success}</div>}
         {error !== null && editRowForm == true && <div className="form-errorMessage">{error}</div>}
         
@@ -1150,6 +1200,26 @@ ViewAll.getInitialProps = async ({query, req}) => {
         pureStudentList: pureStudentListResponse.data,
         current: query.viewAll
       }
+      break;
+
+    case 'webpage':
+      let webpageResponse = await axios.get(`${API}/webpage/list`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          contentType: `application/json`
+        }
+      })
+
+      // CHANGE CREATEDAT DATE FORMAT TO YYYY-MM-DD
+      parseCreatedAtDates(webpageResponse.data)
+      parseUpdatedAtDates(webpageResponse.data)
+      generateURL(webpageResponse.data)
+      
+      return {
+        allContent: webpageResponse.data,
+        current: query.viewAll
+      }
+
       break;
 
     default:

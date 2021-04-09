@@ -150,6 +150,7 @@ const Dashboard = ({loggedIn, account, authorization, header, student, webpage})
     if(form == 'opportunities for students') window.location.href = `/admin/view/${form}`
     if(form == 'header') window.location.href = `/admin/view/${form}`
     if(form == 'student') window.location.href = `/admin/view/${form}`
+    if(form == 'webpage') window.location.href = `/admin/view/${form}`
   }
   
   const handleForms = (e) => {
@@ -299,8 +300,21 @@ const Dashboard = ({loggedIn, account, authorization, header, student, webpage})
     }
   }
 
-  const createWebpage = (e) => {
+  const createWebpage = async (e) => {
+    console.log('Hello')
     e.preventDefault()
+    try {
+      const response = await axios.post(`${API}/webpage/create`, {webpage}, {
+        headers: {
+          Authorization: `Bearer ${authorization}`,
+          contenType: `application/json`
+        }
+      })
+      setSuccessMessage(response.data)
+    } catch (error) {
+      console.log(error)
+      setErrorMessage(error.response.data)
+    }
   }
 
   useEffect( () => {
@@ -564,7 +578,7 @@ const Dashboard = ({loggedIn, account, authorization, header, student, webpage})
           </div>
           }
           {form === 'webpage' &&
-            <Webpage viewAll={viewAll} createWepage={createWebpage} errorMessage={errorMessage} successMessage={successMessage} webpage={webpage} handleWebpage={handleWebpage}/>
+            <Webpage viewAll={viewAll} createWebpage={createWebpage} errorMessage={errorMessage} successMessage={successMessage} webpage={webpage} handleWebpage={handleWebpage}/>
           }
           {form === 'student' &&
             <StudentProfile viewAll={viewAll} createStudentProfile={createStudentProfile} errorMessage={errorMessage} successMessage={successMessage} student={student} handleKeyPress={handleKeyPress} handleChangeStudentProfile={handleChangeStudentProfile} handleStudentProfileBoxes={handleStudentProfileBoxes} tags={tags}/>

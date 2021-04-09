@@ -1,0 +1,50 @@
+import {useEffect, useState} from 'react'
+import dynamic from 'next/dynamic'
+const ReactQuill = dynamic(() => import('react-quill'), {ssr: false, loading: () => <p>Loading ...</p>})
+import 'react-quill/dist/quill.snow.css'
+
+const Webpage = ({submitUpdateWebpage, webpage, handleWebpage}) => {
+
+  const modules = {
+    toolbar: [
+      [{ 'header': [1, 2, 3, false] }],
+      ['bold', 'italic', 'underline','strike', 'blockquote'],
+      [{'list': 'ordered'}, {'list': 'bullet'}, {'indent': '-1'}, {'indent': '+1'}],
+      ['link', 'image', 'video'],
+      ['clean']
+    ],
+  }
+ 
+  const formats = [
+    'header',
+    'bold', 'italic', 'underline', 'strike', 'blockquote',
+    'list', 'bullet', 'indent',
+    'link', 'image'
+  ]
+  
+  return (
+    <form className="form editing" action="POST" onSubmit={(e) => submitUpdateWebpage(e)}>
+        <div className="form-group-single">
+          <label htmlFor="heading">Heading</label>
+          <input type="text" name="heading" value={webpage.heading} onChange={(e) => handleWebpage(e, 'regular')} required/>
+        </div>
+        <div className="form-group-single">
+            <label htmlFor="content">Content</label>
+            <ReactQuill
+                placeholder="Write something..."
+                className="form-group-quill"
+                theme="snow"
+                name="content"
+                onChange={(e) => handleWebpage(e, 'content')}
+                value={webpage.content}
+                modules={modules}
+                formats={formats}
+                required
+            />
+        </div>
+        <button className="submit-item">Update Webpage</button>
+      </form>
+  )
+}
+
+export default Webpage

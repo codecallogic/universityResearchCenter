@@ -15,14 +15,23 @@ const initialState = {
   research: '',
   publication: '',
   tagsToRemove: [],
+  heading: '',
+  content: ''
 }
 
 export const editRow = (state = initialState, action)  => { 
+  if(action.payload) console.log(action.payload.value)
   switch (action.type) {
     case 'RESET_STATE':
     return initialState
 
     case 'SET_EDIT_STUDENT':
+      if(action.payload.content._id == action.payload.selected){
+        return action.payload.content
+      }
+      break;
+
+    case 'SET_EDIT_WEBPAGE':
       if(action.payload.content._id == action.payload.selected){
         return action.payload.content
       }
@@ -67,6 +76,20 @@ export const editRow = (state = initialState, action)  => {
       return {
         ...state,
         tagsToRemove: newArray
+      }
+      break;
+
+    case 'EDIT_STATE_WEBPAGE':
+      return {
+        ...state,
+        [action.payload.name]: action.payload.value
+      }
+      break;
+
+    case 'EDIT_STATE_WEBPAGE_CONTENT':
+      return {
+        ...state,
+        content: action.payload.value
       }
       break;
       
