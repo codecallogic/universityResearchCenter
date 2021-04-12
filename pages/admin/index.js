@@ -75,8 +75,9 @@ const Dashboard = ({loggedIn, account, authorization, header, student, webpage})
   // HANDLE KEY PRESS
   const handleKeyPress = (e) => {    
     if(e.key === 'Enter'){
+      console.log('Hello')
       e.preventDefault();
-      manageTags()
+      manageTags('addTag')
       let closeIcon = document.querySelectorAll('.form-tag')
       let postHidden = document.getElementById("tagValue")
       let values = postHidden.getAttribute('value').split(',')
