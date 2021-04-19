@@ -383,8 +383,6 @@ svg {
     grid-template-columns: repeat(12, 1fr);
     background-image: linear-gradient(90deg, #00b7ec, #1c1c1b);
     color: white; }
-    .nav-container:hover {
-      background-image: linear-gradient(90deg, #1c1c1b, #00b7ec); }
   .nav-logo {
     font-size: 3rem;
     text-decoration: none;
