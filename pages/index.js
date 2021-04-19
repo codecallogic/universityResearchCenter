@@ -264,15 +264,15 @@ const Home = ({announcements, meetings, facultyOpportunities, studentOpportuniti
       <div className="bg-modal" onClick={handleClickOutside}>
         <div className="modal-content" ref={ref}>
           <div className="modal-content-heading">
-            <div className="modal-content-heading-breadcrumb">
+            <div className="modal-content-heading-breadcrumb announcements-heading">
               <svg>
                 <use xlinkHref="/sprite.svg#icon-message"></use>
               </svg>
               <span>Announcements</span>
             </div>
-            <h2 className="modal-content-heading-subtitle">{announcementModal.subtitle}</h2>
-            <h1 className="modal-content-heading-title">{announcementModal.title}</h1>
-            <div className="modal-content-heading-date">Posted: <span>{announcementModal.createdAt}</span></div>
+            <h2 className="modal-content-heading-subtitle announcements-heading">{announcementModal.subtitle}</h2>
+            <h1 className="modal-content-heading-title announcements-heading">{announcementModal.title}</h1>
+            <div className="modal-content-heading-date announcements-heading">Posted: <span>{announcementModal.createdAt}</span></div>
           </div>
           <div className="modal-content-constant">Message from the Director:</div>
           <div className="modal-content-message" dangerouslySetInnerHTML={ { __html: announcementModal.message} }></div>

@@ -44,12 +44,12 @@
       padding: 2rem 10rem;
       display: flex;
       align-items: center;
-      color: white;
+      color: $color-scheme-1;
 
       svg {
         height: 2rem;
         width: 2rem;
-        fill: white;
+        fill: $color-scheme-1;
       }
 
       span {
@@ -63,20 +63,20 @@
     h2 {
       font-weight: 300;
       padding: 0rem 10rem;
-      color: white;
+      color: $color-scheme-1;
       font-size: 2rem;
     }
 
     h1 {
       font-weight: 600;
       padding: 0rem 10rem;
-      color: white;
+      color: $color-scheme-1;
       font-size: 2.5rem;
     }
 
     &-date {
       padding: 1rem 10rem 2rem 10rem;
-      color: white;
+      color: $color-scheme-1;
       font-size: 1.6rem;
 
       span {
@@ -111,6 +111,12 @@
 
 .small-padding {
   padding: 2rem 10rem 2rem 10rem !important;
+}
+
+.announcements {
+  &-heading {
+    color: $color-scheme-5 !important;
+  }
 }
 
 .meetings {

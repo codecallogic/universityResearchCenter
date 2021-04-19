@@ -71,17 +71,17 @@ svg {
     outline: none; }
     .form-group input:focus {
       outline: none;
-      border: 0.1rem solid #c5cbe3;
+      border: 0.1rem solid #00b7ec;
       text-indent: 1rem; }
     .form-group input::placeholder {
-      color: #4056a1;
+      color: #1c1c1b;
       text-indent: 1rem; }
   .form-group svg {
     width: 2rem;
     height: 2rem;
     border: none;
     margin-left: -3rem;
-    fill: #4056a1; }
+    fill: #1c1c1b; }
     .form-group svg:active {
       transform: translateY(-0.2rem); }
     .form-group svg:hover {
@@ -95,7 +95,7 @@ svg {
   left: 0;
   min-width: max-content;
   height: max-content;
-  background-color: #4056a1;
+  background-color: #1c1c1b;
   visibility: hidden;
   opacity: 0;
   transition: all 0.8s cubic-bezier(0.81, 0.13, 0.93, 1.21); }
@@ -103,7 +103,7 @@ svg {
     padding: 0 1rem; }
   .nav-menu-dropdown li:hover {
     cursor: pointer;
-    background-color: #f13c20;
+    background-color: #f0ae21;
     pointer-events: auto; }
 
 .nav-sticky {
@@ -111,30 +111,30 @@ svg {
   top: 0;
   right: 0;
   height: 8rem;
-  background-image: linear-gradient(90deg, #4056a1, #c5cbe3); }
+  background-image: linear-gradient(90deg, #1c1c1b, #00b7ec); }
 
 .active-control {
   background-color: white !important;
-  border: 0.1rem solid #c5cbe3 !important;
-  color: #c5cbe3 !important; }
+  border: 0.1rem solid #00b7ec !important;
+  color: #00b7ec !important; }
   .active-control:hover {
     cursor: auto !important;
     box-shadow: none !important; }
 
 .submit-item {
   padding: 1rem 2rem;
-  background-color: #f13c20;
+  background-color: #f0ae21;
   outline: none;
-  border: 0.1rem solid #f13c20;
+  border: 0.1rem solid #f0ae21;
   margin: 1rem 0;
   color: white;
   font-size: 1.6rem;
   transition: all 0.2s ease-in; }
   .submit-item:hover {
     cursor: pointer;
-    border: 0.1rem solid #c5cbe3;
+    border: 0.1rem solid #00b7ec;
     background-color: white !important;
-    color: #c5cbe3; }
+    color: #00b7ec; }
 
 .underline {
   text-decoration: underline; }
@@ -158,7 +158,7 @@ svg {
       transition: all 0.5s; }
       .form-group-double input:focus {
         outline: none;
-        border: 0.1rem solid #d79922; }
+        border: 0.1rem solid white; }
   .form-group-single {
     padding: 1.5rem 0 0 0;
     margin-right: 2rem;
@@ -176,17 +176,17 @@ svg {
       transition: all 0.5s; }
       .form-group-single input:focus {
         outline: none;
-        border: 0.1rem solid #d79922; }
+        border: 0.1rem solid white; }
     .form-group-single-quill {
       color: black !important; }
   .form-errorMessage {
     font-size: 1.6rem;
     padding: 2rem 0;
-    color: #d79922; }
+    color: white; }
   .form-successMessage {
     font-size: 1.6rem;
     padding: 2rem 0;
-    color: #c5cbe3; }
+    color: #00b7ec; }
   .form-group-checkbox {
     display: flex;
     padding: 1rem 0;
@@ -202,7 +202,7 @@ svg {
         height: 2.5rem;
         width: 2.5rem;
         border-radius: 0.5rem;
-        border: 0.1rem solid #4056a1;
+        border: 0.1rem solid #1c1c1b;
         cursor: pointer;
         opacity: 0;
         z-index: 10; }
@@ -215,7 +215,7 @@ svg {
         height: 2.5rem;
         width: 2.5rem;
         border-radius: 0.5rem;
-        border: 0.1rem solid #4056a1; }
+        border: 0.1rem solid #1c1c1b; }
       .form-group-checkbox label div {
         position: absolute;
         top: 0;
@@ -228,7 +228,7 @@ svg {
         .form-group-checkbox label div svg {
           height: 2rem;
           width: 2rem;
-          fill: #4056a1;
+          fill: #1c1c1b;
           display: none; }
   .form-tag-container {
     border: 0.1rem solid #a1a1a1;
@@ -242,7 +242,7 @@ svg {
       height: 100%;
       color: black;
       padding: 0.5rem 1rem;
-      border: 0.1rem solid #4056a1;
+      border: 0.1rem solid #1c1c1b;
       border-radius: 1rem;
       font-size: 1.4rem;
       margin-right: 1rem;
@@ -252,7 +252,7 @@ svg {
         height: 1rem;
         width: 1rem;
         margin-left: 1rem;
-        fill: #4056a1; }
+        fill: #1c1c1b; }
     .form-tag-container input {
       flex: 1;
       width: auto;
@@ -265,10 +265,10 @@ svg {
         outline: none;
         border: none; }
     .form-tag-container:hover {
-      border: 0.1rem solid #d79922; }
+      border: 0.1rem solid white; }
 
 .enabled {
-  background-color: #4056a1;
+  background-color: #1c1c1b;
   color: white; }
   .enabled:hover {
     cursor: pointer;
@@ -298,7 +298,7 @@ svg {
     height: 6rem;
     width: 6rem;
     border-radius: 3rem;
-    fill: #c5cbe3; }
+    fill: #00b7ec; }
     .bg-modal-icon:hover {
       cursor: pointer; }
 
@@ -308,18 +308,18 @@ svg {
   background-color: white;
   border-radius: 2rem; }
   .modal-content-heading {
-    background-color: #4056a1;
+    background-color: #1c1c1b;
     border-top-right-radius: 2rem;
     border-top-left-radius: 2rem; }
     .modal-content-heading-breadcrumb {
       padding: 2rem 10rem;
       display: flex;
       align-items: center;
-      color: white; }
+      color: #1c1c1b; }
       .modal-content-heading-breadcrumb svg {
         height: 2rem;
         width: 2rem;
-        fill: white; }
+        fill: #1c1c1b; }
       .modal-content-heading-breadcrumb span {
         display: block;
         font-size: 2rem;
@@ -328,16 +328,16 @@ svg {
     .modal-content-heading h2 {
       font-weight: 300;
       padding: 0rem 10rem;
-      color: white;
+      color: #1c1c1b;
       font-size: 2rem; }
     .modal-content-heading h1 {
       font-weight: 600;
       padding: 0rem 10rem;
-      color: white;
+      color: #1c1c1b;
       font-size: 2.5rem; }
     .modal-content-heading-date {
       padding: 1rem 10rem 2rem 10rem;
-      color: white;
+      color: #1c1c1b;
       font-size: 1.6rem; }
       .modal-content-heading-date span {
         font-weight: 800; }
@@ -353,21 +353,24 @@ svg {
     font-size: 1.8rem;
     font-weight: 800; }
     .modal-content-source a {
-      color: #4056a1;
+      color: #1c1c1b;
       font-size: 1.6rem;
       font-weight: 400; }
 
 .small-padding {
   padding: 2rem 10rem 2rem 10rem !important; }
 
+.announcements-heading {
+  color: white !important; }
+
 .meetings {
-  background-color: #d79922; }
+  background-color: white; }
 
 .opportunities {
-  background-color: #f13c20; }
+  background-color: #f0ae21; }
 
 .students {
-  background-color: #342e37; }
+  background-color: #fbd268; }
 
 .nav {
   grid-column: 1/-1;
@@ -378,10 +381,10 @@ svg {
   .nav-container {
     display: grid;
     grid-template-columns: repeat(12, 1fr);
-    background-image: linear-gradient(90deg, #4056a1, #c5cbe3);
+    background-image: linear-gradient(90deg, #00b7ec, #1c1c1b);
     color: white; }
     .nav-container:hover {
-      background-image: linear-gradient(90deg, #4056a1, #c5cbe3); }
+      background-image: linear-gradient(90deg, #1c1c1b, #00b7ec); }
   .nav-logo {
     font-size: 3rem;
     text-decoration: none;
@@ -402,7 +405,7 @@ svg {
         width: 0;
         bottom: -0.5rem;
         left: 0;
-        border-bottom: 2px solid #342e37;
+        border-bottom: 2px solid #fbd268;
         transition: all 1s; }
       .nav-menu-item:hover:before {
         width: 100%;
@@ -425,7 +428,7 @@ svg {
     font-size: 2.8rem; }
     .activate-title span {
       display: inline-block;
-      color: #4056a1;
+      color: #1c1c1b;
       font-size: 4rem !important;
       text-transform: capitalize;
       animation: bounce 2s linear infinite; }
@@ -436,7 +439,7 @@ svg {
     width: auto;
     padding: 1rem 2rem;
     border: none;
-    background-image: linear-gradient(90deg, #4056a1, #c5cbe3);
+    background-image: linear-gradient(90deg, #1c1c1b, #00b7ec);
     color: white;
     font-size: 1.8rem;
     outline: none;
@@ -458,10 +461,10 @@ svg {
   .adminNav-container {
     display: grid;
     grid-template-columns: repeat(12, 1fr);
-    background-image: linear-gradient(90deg, #4056a1, #c5cbe3);
+    background-image: linear-gradient(90deg, #1c1c1b, #00b7ec);
     color: white; }
     .adminNav-container:hover {
-      background-image: linear-gradient(90deg, #4056a1, #c5cbe3); }
+      background-image: linear-gradient(90deg, #1c1c1b, #00b7ec); }
 
 .slider {
   background-color: red;
@@ -492,7 +495,7 @@ svg {
       outline: none;
       border: none;
       text-decoration: none;
-      background-color: #d79922;
+      background-color: white;
       color: white;
       font-size: 1.4rem;
       text-transform: capitalize; }
@@ -530,7 +533,7 @@ svg {
         margin-right: 1rem; }
 
 .admin {
-  background-image: linear-gradient(40deg, #4056a1, #c5cbe3);
+  background-image: linear-gradient(40deg, #1c1c1b, #00b7ec);
   height: 100vh;
   display: grid;
   grid-template-columns: [full-start] minmax(min-content, 1fr) [center-start] repeat(8, [col-start] minmax(min-content, 1fr) [col-end]) [center-end] minmax(min-content, 1fr) [full-end];
@@ -597,7 +600,7 @@ svg {
       outline: none; }
       .admin-form-group input:focus {
         outline: none;
-        border: 0.1rem solid #4056a1;
+        border: 0.1rem solid #1c1c1b;
         text-indent: 1rem; }
     .admin-form-group-password {
       display: flex;
@@ -621,7 +624,7 @@ svg {
         .admin-form-group-password span svg {
           width: 2rem;
           height: 2rem;
-          fill: #4056a1;
+          fill: #1c1c1b;
           margin-right: 2rem; }
     .admin-form-group-validation-username ul {
       list-style: none;
@@ -629,7 +632,7 @@ svg {
       padding: 0.5rem 0 0 0; }
     .admin-form-group-validation-username ul li::before {
       content: '\2022';
-      color: #4056a1;
+      color: #1c1c1b;
       font-weight: bold;
       display: inline-block;
       width: 1rem;
@@ -642,13 +645,13 @@ svg {
       padding: 1rem 0; }
     .admin-form-group-validation-password ul li::before {
       content: '\2022';
-      color: #4056a1;
+      color: #1c1c1b;
       font-weight: bold;
       display: inline-block;
       width: 1rem;
       margin-left: 0.5rem; }
     .admin-form-button {
-      background-image: linear-gradient(90deg, #4056a1, #c5cbe3);
+      background-image: linear-gradient(90deg, #1c1c1b, #00b7ec);
       padding: 1rem 4rem;
       font-size: 1.8rem;
       margin-top: 2rem;
@@ -667,7 +670,7 @@ svg {
   height: 100vh; }
   .dashboard-control {
     padding: 1rem 2rem;
-    background-color: #d79922;
+    background-color: white;
     font-size: 1.6rem;
     color: white;
     border-radius: 1rem;
@@ -679,14 +682,14 @@ svg {
       box-shadow: 0.3rem 0.8rem 2rem 0.4rem rgba(7, 7, 7, 0.2); }
   .dashboard-left-panel {
     grid-column: 1/6;
-    border-right: 0.1rem solid #d79922;
+    border-right: 0.1rem solid white;
     padding: 0 5rem 3rem 5rem;
     width: 100%; }
     .dashboard-left-panel-title {
       padding: 2rem 0;
       font-size: 2.5rem; }
     .dashboard-left-panel-group {
-      border: 0.1rem solid #342e37;
+      border: 0.1rem solid #fbd268;
       padding: 2rem;
       border-radius: 1rem;
       width: 100%; }
@@ -696,8 +699,8 @@ svg {
     width: 100%; }
     .dashboard-right-panel-toggle {
       padding: 1rem 3rem;
-      background-color: #c5cbe3;
-      color: #342e37;
+      background-color: #00b7ec;
+      color: #fbd268;
       width: max-content;
       font-size: 1.8rem;
       transition: all 0.5s ease-in; }
@@ -723,7 +726,7 @@ svg {
         transition: all 0.5s; }
         .dashboard-form-group-double input:focus {
           outline: none;
-          border: 0.1rem solid #d79922; }
+          border: 0.1rem solid white; }
     .dashboard-form-group-single {
       padding: 1.5rem 0 0 0;
       margin-right: 2rem;
@@ -741,7 +744,7 @@ svg {
         transition: all 0.5s; }
         .dashboard-form-group-single input:focus {
           outline: none;
-          border: 0.1rem solid #d79922; }
+          border: 0.1rem solid white; }
       .dashboard-form-group-single-quill {
         color: black !important; }
 
@@ -766,7 +769,7 @@ svg {
     grid-template-columns: repeat(9, minmax(10rem, 1fr));
     align-items: center;
     padding: 2rem 0;
-    border-bottom: 0.1rem solid #4056a1; }
+    border-bottom: 0.1rem solid #1c1c1b; }
     .content-table-headers-heading {
       display: flex;
       align-items: center;
@@ -775,7 +778,7 @@ svg {
       .content-table-headers-heading svg {
         height: 2rem;
         width: 2rem;
-        fill: #4056a1;
+        fill: #1c1c1b;
         margin-left: 1.5rem; }
         .content-table-headers-heading svg:hover {
           cursor: pointer; }
@@ -790,7 +793,7 @@ svg {
       height: 2.5rem;
       width: 2.5rem;
       border-radius: 0.5rem;
-      border: 0.1rem solid #4056a1;
+      border: 0.1rem solid #1c1c1b;
       cursor: pointer;
       opacity: 0;
       z-index: 10; }
@@ -803,7 +806,7 @@ svg {
       height: 2.5rem;
       width: 2.5rem;
       border-radius: 0.5rem;
-      border: 0.1rem solid #4056a1; }
+      border: 0.1rem solid #1c1c1b; }
     .content-table-group label div {
       position: absolute;
       top: 0;
@@ -816,7 +819,7 @@ svg {
       .content-table-group label div svg {
         height: 2rem;
         width: 2rem;
-        fill: #4056a1;
+        fill: #1c1c1b;
         display: none; }
   .content-table-rows {
     display: grid;
@@ -838,7 +841,7 @@ svg {
       .content-table-rows-content svg {
         height: 2rem;
         width: 2rem;
-        fill: #4056a1;
+        fill: #1c1c1b;
         margin-left: 1.5rem; }
         .content-table-rows-content svg:hover {
           cursor: pointer; }
@@ -846,7 +849,7 @@ svg {
 .home-container {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
-  background-image: linear-gradient(90deg, #c5cbe3, #342e37);
+  background-image: linear-gradient(90deg, #fbd268, #00b7ec);
   padding: 0 0 2rem 0; }
 
 .home-header {
@@ -870,7 +873,7 @@ svg {
     align-items: center;
     padding: 2rem 0;
     margin: 0 0 1rem 0;
-    background-color: #4056a1;
+    background-color: #1c1c1b;
     border-top-right-radius: 2rem;
     border-top-left-radius: 2rem;
     color: white; }
@@ -939,13 +942,13 @@ svg {
       width: 1.5rem;
       height: 1.5rem;
       margin-right: 2rem;
-      fill: #c5cbe3 !important; }
+      fill: #00b7ec !important; }
     .home-announcements-item-title-group {
       display: grid; }
       .home-announcements-item-title-group h6 {
         font-size: 2rem;
         font-weight: 500;
-        color: #4056a1; }
+        color: #1c1c1b; }
       .home-announcements-item-title-group span {
         font-size: 1.8rem; }
   .home-announcements-item:hover {
@@ -974,7 +977,7 @@ svg {
     align-items: center;
     padding: 2rem 0;
     margin: 0 0 1rem 0;
-    background-color: #d79922;
+    background-color: #1c1c1b;
     border-top-right-radius: 2rem;
     border-top-left-radius: 2rem;
     color: white; }
@@ -995,13 +998,13 @@ svg {
       width: 1.5rem;
       height: 1.5rem;
       margin-right: 2rem;
-      fill: #d79922 !important; }
+      fill: #1c1c1b !important; }
     .home-meetings-item-title-group {
       display: grid; }
       .home-meetings-item-title-group h6 {
         font-size: 2rem;
         font-weight: 500;
-        color: #4056a1; }
+        color: #1c1c1b; }
       .home-meetings-item-title-group span {
         font-size: 1.8rem; }
   .home-meetings-item:hover {
@@ -1024,7 +1027,7 @@ svg {
     align-items: center;
     padding: 2rem 0;
     margin: 0 0 1rem 0;
-    background-color: #f13c20;
+    background-color: #f0ae21;
     border-top-right-radius: 2rem;
     border-top-left-radius: 2rem;
     color: white; }
@@ -1042,29 +1045,29 @@ svg {
   align-items: center;
   padding: 3rem 2rem;
   border-top: 0.5px solid #e5e5e5;
-  color: #f13c20; }
+  color: #f0ae21; }
   .home-opportunities-item-title-students {
     display: flex;
     align-items: center;
     padding: 3rem 2rem;
     border-top: 0.5px solid #e5e5e5;
-    color: #f13c20; }
+    color: #f0ae21; }
     .home-opportunities-item-title-students svg {
       width: 1.5rem;
       height: 1.5rem;
       margin-right: 2rem;
-      fill: #342e37; }
+      fill: #fbd268; }
   .home-opportunities-item-title svg {
     width: 1.5rem;
     height: 1.5rem;
     margin-right: 2rem;
-    fill: #f13c20; }
+    fill: #f0ae21; }
   .home-opportunities-item-title-group {
     display: grid; }
     .home-opportunities-item-title-group h6 {
       font-size: 2rem;
       font-weight: 500;
-      color: #4056a1; }
+      color: #1c1c1b; }
     .home-opportunities-item-title-group span {
       font-size: 1.8rem;
       color: black; }
@@ -1089,7 +1092,7 @@ svg {
     align-items: center;
     padding: 2rem 0;
     margin: 0 0 1rem 0;
-    background-color: #342e37;
+    background-color: #fbd268;
     border-top-right-radius: 2rem;
     border-top-left-radius: 2rem;
     color: white; }
@@ -1118,7 +1121,7 @@ svg {
     align-items: center;
     padding: 2rem 0;
     margin: 0 0 1rem 0;
-    background-color: #c5cbe3;
+    background-color: #00b7ec;
     border-top-right-radius: 2rem;
     border-top-left-radius: 2rem;
     color: white; }
@@ -1135,17 +1138,17 @@ svg {
     align-items: center;
     padding: 3rem 2rem;
     border-top: 0.5px solid #e5e5e5;
-    color: #f13c20; }
+    color: #f0ae21; }
     .home-student-spotlight-item-students svg {
       width: 1.5rem;
       height: 1.5rem;
       margin-right: 2rem;
-      fill: #c5cbe3; }
+      fill: #1c1c1b !important; }
   .home-student-spotlight-item svg {
     width: 1.5rem;
     height: 1.5rem;
     margin-right: 2rem;
-    fill: #c5cbe3; }
+    fill: #00b7ec; }
   .home-student-spotlight-item-group {
     display: grid;
     grid-template-columns: 15rem 1fr;
@@ -1169,7 +1172,7 @@ svg {
       .home-student-spotlight-item-group-info h6 {
         font-size: 2rem;
         font-weight: 500;
-        color: #4056a1; }
+        color: #1c1c1b; }
       .home-student-spotlight-item-group-info span {
         font-size: 1.8rem;
         color: black; }
@@ -1181,16 +1184,16 @@ svg {
           .home-student-spotlight-item-group-info-details div div {
             margin-left: 1rem;
             font-size: 1.6rem;
-            color: #342e37; }
+            color: #fbd268; }
             .home-student-spotlight-item-group-info-details div div a {
               margin-left: 0.5rem;
               text-decoration: none;
-              color: #f13c20; }
+              color: #f0ae21; }
         .home-student-spotlight-item-group-info-details svg {
           margin-left: 3rem;
           width: 2rem;
           height: 2rem;
-          fill: #d79922; }
+          fill: white; }
   .home-student-spotlight-item:hover {
     background-color: #e5e5e5;
     cursor: pointer; }
@@ -1210,7 +1213,7 @@ svg {
       align-items: center;
       padding: 2rem 0;
       margin: 0 0 1rem 0;
-      background-color: #342e37;
+      background-color: #fbd268;
       border-top-right-radius: 2rem;
       border-top-left-radius: 2rem;
       color: white; }
@@ -1231,7 +1234,7 @@ svg {
     display: grid;
     grid-template-columns: repeat(12, 1fr); }
   .student-profile-record {
-    background-color: #342e37;
+    background-color: #fbd268;
     color: white;
     padding: 2rem;
     border-radius: 1rem; }
@@ -1275,12 +1278,12 @@ svg {
           .student-profile-record-details-info div div a {
             margin-left: 0.5rem;
             text-decoration: none;
-            color: #f13c20; }
+            color: #f0ae21; }
         .student-profile-record-details-info div svg {
           margin-left: 3rem;
           width: 3rem;
           height: 3rem;
-          fill: #d79922; }
+          fill: white; }
   .student-profile-toggle {
     margin-top: 10rem; }
     .student-profile-toggle-button {
@@ -1290,9 +1293,9 @@ svg {
       font-size: 1.4rem;
       padding: 2rem 0;
       margin-top: 2rem;
-      background-color: #4056a1;
+      background-color: #1c1c1b;
       border-radius: 1rem;
-      color: #c5cbe3;
+      color: #00b7ec;
       transition: all 0.5s; }
       .student-profile-toggle-button:hover {
         cursor: pointer;
@@ -1303,7 +1306,7 @@ svg {
         margin-left: 3rem;
         width: 3rem;
         height: 3rem;
-        fill: #d79922; }
+        fill: white; }
       .student-profile-toggle-button span {
         margin-left: 3rem;
         font-size: 3.2rem;
