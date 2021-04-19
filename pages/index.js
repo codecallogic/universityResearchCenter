@@ -70,8 +70,7 @@ const Home = ({announcements, meetings, facultyOpportunities, studentOpportuniti
                 </div>
                 <div className="home-announcements-post-container">
                   <div className="home-announcements-post-left-column">
-                  <span className="home-announcements-post-left-column-date">Posted: <span>{item.createdAt}</span></span>
-                    <h6>Message from the director:</h6>
+                    <span className="home-announcements-post-left-column-date">Posted: <span>{item.createdAt}</span></span>
                     <img src={`${item.imageURL}`} alt={`${item.imageDescr}`}/>
                     <span className="home-announcements-post-left-column-imageSubtitle">{item.imageDescr}</span>
                     <div className="home-announcements-post-left-column-description" dangerouslySetInnerHTML={ { __html: item.message.substring(0, 700) } }></div>

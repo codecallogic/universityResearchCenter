@@ -2,7 +2,12 @@
   &-container {
     display: grid;
     grid-template-columns: repeat(12, 1fr);
-    background-image: linear-gradient(90deg, $color-scheme-4, $color-scheme-2);
+    // background-image: linear-gradient(
+    //   90deg,
+    //   $color-shade-light-gray,
+    //   $color-shade-gray
+    // );
+    background-color: $color-shade-light-gray;
     padding: 0 0 2rem 0;
   }
 
@@ -31,7 +36,7 @@
       align-items: center;
       padding: 2rem 0;
       margin: 0 0 1rem 0;
-      background-color: $color-scheme-1;
+      background-color: $color-scheme-2;
       border-top-right-radius: 2rem;
       border-top-left-radius: 2rem;
       color: white;
@@ -52,6 +57,7 @@
       display: flex;
       align-items: center;
       padding: 1rem 2rem;
+      color: $color-scheme-2 !important;
 
       svg {
         width: 1.5rem;
@@ -62,6 +68,7 @@
       span {
         font-size: 3.2rem;
         font-weight: 300;
+        color: black;
       }
     }
 
@@ -94,6 +101,7 @@
         img {
           width: 100%;
           object-fit: cover;
+          margin: 2rem 0 0 0;
         }
 
         &-imageSubtitle {

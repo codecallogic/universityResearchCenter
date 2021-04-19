@@ -16,7 +16,7 @@ const Nav = ({}) => {
     <>
     <div className="nav-container">
       <nav className="nav">
-        <a href="/" className="nav-logo">Student Research Center</a>
+        <img src="/media/logo-colorido.png" className="nav-logo"/>
         <div className="nav-menu">
           <a className="nav-menu-item">About
             <ul className="nav-menu-dropdown">

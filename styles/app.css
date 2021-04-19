@@ -374,19 +374,20 @@ svg {
 
 .nav {
   grid-column: 1/-1;
-  padding: 3rem;
+  padding: 1rem 2rem;
   display: flex;
   align-items: center;
   justify-content: space-between; }
   .nav-container {
     display: grid;
     grid-template-columns: repeat(12, 1fr);
-    background-image: linear-gradient(90deg, #00b7ec, #1c1c1b);
+    background-color: white;
     color: white; }
   .nav-logo {
     font-size: 3rem;
     text-decoration: none;
-    color: white; }
+    color: white;
+    width: 48rem; }
     .nav-logo:hover {
       cursor: pointer; }
   .nav-menu {
@@ -396,6 +397,7 @@ svg {
       font-size: 2rem;
       margin-right: 2rem;
       position: relative;
+      color: #1c1c1b;
       z-index: 10; }
       .nav-menu-item:before {
         content: '';
@@ -847,7 +849,7 @@ svg {
 .home-container {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
-  background-image: linear-gradient(90deg, #fbd268, #00b7ec);
+  background-color: #e5e5e5;
   padding: 0 0 2rem 0; }
 
 .home-header {
@@ -871,7 +873,7 @@ svg {
     align-items: center;
     padding: 2rem 0;
     margin: 0 0 1rem 0;
-    background-color: #1c1c1b;
+    background-color: #00b7ec;
     border-top-right-radius: 2rem;
     border-top-left-radius: 2rem;
     color: white; }
@@ -885,14 +887,16 @@ svg {
   .home-announcements-title {
     display: flex;
     align-items: center;
-    padding: 1rem 2rem; }
+    padding: 1rem 2rem;
+    color: #00b7ec !important; }
     .home-announcements-title svg {
       width: 1.5rem;
       height: 1.5rem;
       margin-right: 2rem; }
     .home-announcements-title span {
       font-size: 3.2rem;
-      font-weight: 300; }
+      font-weight: 300;
+      color: black; }
   .home-announcements-post-container {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -912,7 +916,8 @@ svg {
       padding: 2rem 0; }
     .home-announcements-post-left-column img {
       width: 100%;
-      object-fit: cover; }
+      object-fit: cover;
+      margin: 2rem 0 0 0; }
     .home-announcements-post-left-column-imageSubtitle {
       display: block;
       font-size: 1.5rem;
@@ -1318,10 +1323,15 @@ svg {
       animation: fadeIn 0.5s ease-in-out; }
 
 .webpage {
-  grid-column: 3/11;
-  padding: 2rem;
-  margin: 1rem 0;
-  font-size: 1.6rem; }
+  grid-column: 1/-1;
+  padding: 3rem 3rem;
+  margin: 3rem 0;
+  font-size: 1.6rem;
+  background-color: white;
+  border-radius: 3rem;
+  box-shadow: 0.2rem 0.5rem 3rem 0.3rem rgba(0, 0, 0, 0.3); }
   .webpage-container {
     display: grid;
-    grid-template-columns: repeat(12, 1fr); }
+    grid-template-columns: repeat(12, 1fr);
+    background-color: #e5e5e5;
+    padding: 0 3rem; }

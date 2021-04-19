@@ -1,6 +1,6 @@
 .nav {
   grid-column: 1/-1;
-  padding: 3rem;
+  padding: 1rem 2rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -8,7 +8,12 @@
   &-container {
     display: grid;
     grid-template-columns: repeat(12, 1fr);
-    background-image: linear-gradient(90deg, $color-scheme-2, $color-scheme-1);
+    // background-image: linear-gradient(
+    //   90deg,
+    //   $color-shade-light-gray,
+    //   $color-shade-gray
+    // );
+    background-color: white;
     color: white;
 
     // &:hover {
@@ -24,6 +29,7 @@
     font-size: 3rem;
     text-decoration: none;
     color: white;
+    width: 48rem;
 
     &:hover {
       cursor: pointer;
@@ -38,6 +44,7 @@
       font-size: 2rem;
       margin-right: 2rem;
       position: relative;
+      color: $color-scheme-1;
       z-index: 10;
 
       &:before {

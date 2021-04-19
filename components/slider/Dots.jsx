@@ -19,7 +19,7 @@ const Dot = ({ active, index }) => {
       margin-right: 3rem;
       cursor: pointer;
       border-radius: 50%;
-      background: ${active ? '#4056a1' : 'white'};
+      background: ${active ? 'rgb(0, 183, 236)' : 'white'};
     `)}
     />)
 }
