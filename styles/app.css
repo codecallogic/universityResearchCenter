@@ -496,7 +496,7 @@ svg {
       border: none;
       text-decoration: none;
       background-color: white;
-      color: white;
+      color: #1c1c1b;
       font-size: 1.4rem;
       text-transform: capitalize; }
       .slider-left-column-button:hover {
