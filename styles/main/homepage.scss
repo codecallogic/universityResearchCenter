@@ -171,10 +171,7 @@
       &:hover {
         background-color: $color-shade-dark-gray;
         cursor: pointer;
-
-        svg {
-          fill: $color-scheme-5;
-        }
+        color: $color-scheme-5;
 
         .home-announcements-item-title-group {
           h6 {

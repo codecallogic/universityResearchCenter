@@ -93,8 +93,8 @@ const Home = ({announcements, meetings, facultyOpportunities, studentOpportuniti
                   <div className="home-announcements-item-title-group">
                     <h6>{item.title}</h6>
                     <span>Posted: <strong>{item.createdAt}</strong></span>
-                    </div>
                   </div>
+                </div>
               </div>
             :
             null

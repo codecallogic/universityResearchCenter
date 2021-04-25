@@ -985,9 +985,8 @@ svg {
           font-size: 1.8rem; }
     .home-announcements-item:hover {
       background-color: #4b4f4d;
-      cursor: pointer; }
-      .home-announcements-item:hover svg {
-        fill: white; }
+      cursor: pointer;
+      color: white; }
       .home-announcements-item:hover .home-announcements-item-title-group h6 {
         color: white; }
       .home-announcements-item:hover .home-announcements-item-title-group span {
