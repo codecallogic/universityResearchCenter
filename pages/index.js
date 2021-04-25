@@ -116,11 +116,9 @@ const Home = ({announcements, meetings, facultyOpportunities, studentOpportuniti
                 item.enabled === true ? 
                 <div key={i} className="home-meetings-item" onClick={() => { createGeneralModal(item); modal('meetings and activities');}}>
                   <div className="home-meetings-item-title">
-                    <div>
                     <svg>
                       <use xlinkHref="/sprite.svg#icon-calendar"></use>
                     </svg>
-                    </div>
                     <div className="home-meetings-item-title-group">
                       <h6>{item.title}</h6>
                       {item.expiration !== 'no expiration' ? <span>Expires: <strong>{item.expiration}</strong></span> : <span>Posted: <strong>{item.createdAt}</strong></span>}

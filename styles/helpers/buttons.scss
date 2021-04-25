@@ -18,15 +18,15 @@
     outline: none;
     border: 0.1rem solid $color-scheme-3;
     margin: 1rem 0;
-    color: white;
+    color: $color-scheme-5;
     font-size: 1.6rem;
     transition: all 0.2s ease-in;
 
     &:hover {
       cursor: pointer;
-      border: 0.1rem solid $color-scheme-2;
-      background-color: white !important;
-      color: $color-scheme-2;
+      border: 0.1rem solid $color-scheme-4;
+      background-color: $color-scheme-4;
+      color: $color-scheme-5;
       // box-shadow: 0.2rem 0.3rem 1rem 0.2rem rgba(0, 0, 0, 0.3);
     }
   }

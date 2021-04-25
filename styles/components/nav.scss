@@ -8,27 +8,14 @@
   &-container {
     display: grid;
     grid-template-columns: repeat(12, 1fr);
-    // background-image: linear-gradient(
-    //   90deg,
-    //   $color-shade-light-gray,
-    //   $color-shade-gray
-    // );
-    background-color: white;
-    color: white;
-
-    // &:hover {
-    //   background-image: linear-gradient(
-    //     90deg,
-    //     $color-scheme-1,
-    //     $color-scheme-2
-    //   );
-    // }
+    background-color: $color-scheme-5;
+    color: $color-scheme-5;
   }
 
   &-logo {
     font-size: 3rem;
     text-decoration: none;
-    color: white;
+    color: $color-scheme-5;
     width: 48rem;
 
     &:hover {
@@ -45,6 +32,44 @@
       margin-right: 2rem;
       position: relative;
       color: $color-scheme-1;
+      z-index: 10;
+
+      &:before {
+        content: '';
+        position: absolute;
+        width: 0;
+        bottom: -0.5rem;
+        left: 0;
+        border-bottom: 2px solid $color-scheme-4;
+        transition: all 1s;
+      }
+
+      &:hover:before {
+        width: 100%;
+        height: 2rem;
+      }
+
+      &:hover {
+        cursor: pointer;
+      }
+
+      // Display dropdown on hover
+      &:hover > ul {
+        visibility: visible;
+        opacity: 1;
+      }
+    }
+  }
+
+  &-admin-menu {
+    display: flex;
+    align-items: center;
+
+    &-item {
+      font-size: 2rem;
+      margin-right: 2rem;
+      position: relative;
+      color: $color-scheme-5;
       z-index: 10;
 
       &:before {

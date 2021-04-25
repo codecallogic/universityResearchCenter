@@ -6,7 +6,8 @@
   left: 0;
   min-width: max-content;
   height: max-content;
-  background-color: $color-scheme-1;
+  background-color: $color-scheme-3;
+  color: $color-scheme-5;
   visibility: hidden;
   opacity: 0;
   transition: all 0.8s cubic-bezier(0.81, 0.13, 0.93, 1.21);
@@ -17,7 +18,7 @@
 
   li:hover {
     cursor: pointer;
-    background-color: $color-scheme-3;
+    background-color: $color-scheme-4;
     pointer-events: auto;
   }
 }
