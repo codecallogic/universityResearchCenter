@@ -99,13 +99,17 @@ svg {
   color: white;
   visibility: hidden;
   opacity: 0;
+  width: 0;
+  height: 0;
   transition: all 0.8s cubic-bezier(0.81, 0.13, 0.93, 1.21); }
   .nav-menu-dropdown li {
     padding: 0 1rem; }
   .nav-menu-dropdown li:hover {
     cursor: pointer;
     background-color: #fbd268;
-    pointer-events: auto; }
+    pointer-events: auto;
+    width: 100%;
+    height: 100%; }
 
 .nav-sticky {
   position: fixed;
@@ -277,6 +281,15 @@ svg {
 
 .editing {
   animation: slide-from-bottom 0.5s; }
+
+.center {
+  text-align: center;
+  padding: 0 10rem; }
+
+.public-image {
+  text-align: center;
+  width: 100rem;
+  height: 100%; }
 
 .bg-modal {
   grid-column: 1/-1;
