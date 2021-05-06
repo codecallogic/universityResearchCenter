@@ -38,7 +38,7 @@ const FileUpload = ({}) => {
           <button type="submit" className="submit-item">Upload</button>
         </form>
       </div>
-      {url ? <img className="public-image" src={`${PUBLIC_FILES}/files/${url}`} alt=""/> : null }
+      {url ? <img className="public-image" src={`${PUBLIC_FILES}/${url}`} alt=""/> : null }
     </div>
   )
 }
