@@ -20,6 +20,7 @@ const FileUpload = ({}) => {
         }
       })
       setURL(responseUpload.data.filename)
+      console.log(responseUpload)
     } catch (error) {
       console.log(error)
     }
@@ -37,7 +38,7 @@ const FileUpload = ({}) => {
           <button type="submit" className="submit-item">Upload</button>
         </form>
       </div>
-      {url ? <img className="public-image" src={`${PUBLIC_FILES}/${url}`} alt=""/> : null }
+      {url ? <img className="public-image" src={`${PUBLIC_FILES}/files/${url}`} alt=""/> : null }
     </div>
   )
 }
