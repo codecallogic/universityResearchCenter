@@ -16,6 +16,7 @@ const Dot = ({ active, index }) => {
     onClick={goToSlide} 
     className={cx(css`
       padding: 10px;
+      margin: 3rem 0 0 0;
       margin-right: 3rem;
       cursor: pointer;
       border-radius: 50%;

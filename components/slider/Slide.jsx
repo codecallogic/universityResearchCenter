@@ -1,4 +1,5 @@
 import React from 'react'
+import {PUBLIC_FILES} from '../../config'
 import { css, cx } from '@emotion/css'
 import Dots from './Dots'
 
@@ -6,7 +7,7 @@ const Slide = ({content, slides, activeIndex, active}) => (
     <>
     <div
       className={cx(css`
-        background-image: url('${content.imageLeftColumn}');
+        background-image: url('${PUBLIC_FILES}/${content.imageLeftColumn}');
       ` + ` slider-left-column`)}
     >
       <div>
@@ -18,7 +19,7 @@ const Slide = ({content, slides, activeIndex, active}) => (
     </div>
     <div
       className={cx(css`
-        background-image: url('${content.imageRightColumn}');
+        background-image: url('${PUBLIC_FILES}/${content.imageRightColumn}');
       ` + ` slider-right-column`)}
     >
       {content.captionOne ? <div className={cx(css`

@@ -1,15 +1,16 @@
 const initialState = {
-  headline: '',
-  subheading: '',
-  button: '',
-  buttonLink: '',
+  headline: 'adfa',
+  subheading: 'asdfsa',
+  button: 'asdfas',
+  buttonLink: 'asdfas',
+  captionOne: '1',
+  captionTwo: '2',
   imageLeftColumn: '',
-  imageRightColumn: '',
-  captionOne: '',
-  captionTwo: '',
+  imageRightColumn: ''
 }
 
 export const headerReducer = (state = initialState, action)  => {
+  // if(action.payload) console.log(action.payload.value)
   switch (action.type) {
     case 'RESET_STATE':
     return initialState

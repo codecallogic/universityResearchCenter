@@ -1,6 +1,5 @@
 export const parseCreatedAtDates = (data) => {
   let newResultsCreatedAtDates = data.map( item => {
-    console.log(item)
     let now = new Date(item.createdAt)
     item.createdAt = now.toISOString().slice(0,10)
     return item

@@ -35,7 +35,7 @@ const withAdmin = Page => {
 
     } catch(err){
       if(err){
-        message = err.response.data
+        message = err.response ? err.response.data : err
         account = null
         loggedIn = false
         authorization = null

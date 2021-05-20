@@ -4,7 +4,7 @@ import {useRouter} from 'next/router'
 import AdminNav from '../../components/admin/adminNav'
 import {API} from '../../config'
 import {connect} from 'react-redux'
-import { useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux'
 import axios from 'axios'
 import {setDropDowns} from '../../helpers/sort'
 import {manageTags} from '../../helpers/forms'
@@ -48,9 +48,10 @@ const Dashboard = ({loggedIn, account, authorization, header, student, webpage})
 
   // HANDLE CHANGE FOR HEADER
   const handleChangeHeader = (e) => {
+    // console.log(e.target.files[0])
     dispatch({
       type: 'UPDATE_STATE_HEADER',
-      payload: {name: e.target.name, value: e.target.value}
+      payload: {name: e.target.name, value: e.target.files ? e.target.files[0] : e.target.value}
     })
 
     setSuccessMessage(null)
@@ -252,11 +253,18 @@ const Dashboard = ({loggedIn, account, authorization, header, student, webpage})
   // CREATE HEADER
   const createHeader = async (e) => {
     e.preventDefault()
+    const data = new FormData()
+    data.append('imageLeftColumn', header.imageLeftColumn)
+    // data.append('file', header.imageRightColumn)
+    for( const key in header){
+      if(key !== 'imageLeftColumn' || key !== 'imageRightColumn')data.append(key, header[key])
+    }
+    
     try {
-      const response = await axios.post(`${API}/header-component/create`, {header}, {
+      const response = await axios.post(`${API}/header-component/create`, data, {
         headers: {
           Authorization: `Bearer ${authorization}`,
-          contentType: `application/json`
+          contentType: `multipart/form-data`
         }
       })
       dispatch({
@@ -264,7 +272,8 @@ const Dashboard = ({loggedIn, account, authorization, header, student, webpage})
       })
       setSuccessMessage(response.data)
     } catch (error) {
-      setErrorMessage(error.response.data)
+      console.log(error.response.data)
+      if(error.response ? error.response.status == 500 : false) setErrorMessage(error.response.data ? `${error.response.data.message}` : null)
     }
   }
 
@@ -561,10 +570,10 @@ const Dashboard = ({loggedIn, account, authorization, header, student, webpage})
                 <input type="text" name="buttonLink" value={header.buttonLink} onChange={handleChangeHeader} required/> 
 
                 <label htmlFor="imageLeftColumn">Image Left Column (600 x 500 px minimum)</label>
-                <input type="text" name="imageLeftColumn" value={header.imageLeftColumn} onChange={handleChangeHeader} required/>
+                <input type="file" name="imageLeftColumn" className="form-group-file" onChange={(e) => handleChangeHeader(e)} required/>
 
                 <label htmlFor="imageRightColumn">Image Right Column (1280 x 500 px minimum)</label>
-                <input type="text" name="imageRightColumn" value={header.imageRightColumn} onChange={handleChangeHeader} required/>
+                <input type="file" name="imageRightColumn" className="form-group-file" onChange={(e) => handleChangeHeader(e)} required/>
 
                 <label htmlFor="captionOne">Caption 1</label>
                 <input type="text" name="captionOne" value={header.captionOne} onChange={handleChangeHeader} required/> 

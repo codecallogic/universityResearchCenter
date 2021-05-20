@@ -458,6 +458,12 @@ const ViewAll = ({account, allContent, authorization, current, studentList, pure
   // SUBMIT UPDATED FOR ANNOUNCEMENT ROW CONTENT
   const submitUpdateAnnouncement = async (e) => {
     e.preventDefault()
+    const data = new FormData()
+    data.append('file', updatedRow.file)
+    for( let key in updatedRow){
+      if(key !== 'file') data.append(key, updatedRow[key])
+    }
+
     try {
       const response = await axios.post(`${API}/announcement/update`, data, {
         headers: {
@@ -469,7 +475,6 @@ const ViewAll = ({account, allContent, authorization, current, studentList, pure
       setMessage({...messages, success: 'Update was made successfully'})
     } catch (error) {
       console.log(error)
-      console.log(error.response.data)
       error.response ? error.response.data ? setMessage({...messages, error: error.response.data}) : null : null
       if(error.response) error.response.statusText ? error.response.statusText == 'Unauthorizeed' ? window.location.href = '/admin/login' : null : null
     }
@@ -534,20 +539,21 @@ const ViewAll = ({account, allContent, authorization, current, studentList, pure
 
   const submitUpdateHeader = async (e) => {
     e.preventDefault()
-    try {
-      const response = await axios.post(`${API}/header-component/update`, updatedRow, {
-        headers: {
-          Authorization: `Bearer ${authorization}`,
-          contentType: `application/json`
-        }
-      })
-      setMessage({...messages, success: 'Update was made successfully'})
-      setContent(response.data)
-    } catch (error) {
-      console.log(error.response)
-      if(error.response.statusText === 'Unauthorized') window.location.href = '/admin/login'
-      setMessage({...messages, error: error.response})
-    }
+    console.log(updatedRow)
+    // try {
+    //   const response = await axios.post(`${API}/header-component/update`, updatedRow, {
+    //     headers: {
+    //       Authorization: `Bearer ${authorization}`,
+    //       contentType: `application/json`
+    //     }
+    //   })
+    //   setMessage({...messages, success: 'Update was made successfully'})
+    //   setContent(response.data)
+    // } catch (error) {
+    //   console.log(error.response)
+    //   if(error.response.statusText === 'Unauthorized') window.location.href = '/admin/login'
+    //   setMessage({...messages, error: error.response})
+    // }
   }
 
   const submitUpdateStudentProfile = async (e) => {
@@ -1066,12 +1072,12 @@ const ViewAll = ({account, allContent, authorization, current, studentList, pure
               </div>
             </div>
             <div className="form-group-single">
-              <label htmlFor="imageLeftColumn">Image Left Column (600 x 500 px minimum)</label>
-              <input type="text" name="imageLeftColumn" value={imageLeftColumn} onChange={handleChange}/>
+              <label htmlFor="file">Image Left Column (600 x 500 px minimum)</label>
+              <input type="file" name="imageLeftColumn" className="form-group-file" onChange={(e) => handleChange(e)}/>
             </div>
             <div className="form-group-single">
-              <label htmlFor="imageRightColumn">Image Right Column (1280 x 500 px minimum)</label>
-              <input type="text" name="imageRightColumn" value={imageRightColumn} onChange={handleChange}/>
+              <label htmlFor="file">Image Right Column (1280 x 500 px minimum)</label>
+              <input type="file" name="imageRightColumn" className="form-group-file" onChange={(e) => handleChange(e)}/>
             </div>
             <div className="form-group-single">
               <label htmlFor="captionOne">Caption One</label>
