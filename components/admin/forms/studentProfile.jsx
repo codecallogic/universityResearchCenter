@@ -10,8 +10,8 @@ const StudentProfile = ({viewAll, createStudentProfile, errorMessage, successMes
       <div className="dashboard-right-panel-toggle" onClick={() => viewAll()}>View All Student Profiles</div>
       <form className="form" action="POST" onSubmit={(e) => createStudentProfile(e)}>
         <div className="form-group-single">
-          <label htmlFor="photo">Photo URL</label>
-          <input type="text" name="photo" value={student.photo} onChange={(e) => handleChangeStudentProfile(e)} required/>
+          <label htmlFor="file">Profile Photo</label>
+          <input type="file" name="file" className="form-group-file" onChange={(e) => handleChangeStudentProfile(e)}/>
         </div>
         <div className="form-group-double">
           <label htmlFor="firstName">First Name</label>

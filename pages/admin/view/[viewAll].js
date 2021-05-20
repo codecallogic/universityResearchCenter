@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import axios from 'axios'
-import {API} from '../../../config'
+import {API, PUBLIC_FILES} from '../../../config'
 import withAdmin from '../../withAdmin'
 import {useRouter} from 'next/router'
 import AdminNav from '../../../components/admin/adminNav'
@@ -43,6 +43,7 @@ const ViewAll = ({account, allContent, authorization, current, studentList, pure
     title: '',
     subtitle: '',
     imageURL: '',
+    file: '',
     imageDescr: '',
     source: '',
     expiration: '',
@@ -344,7 +345,7 @@ const ViewAll = ({account, allContent, authorization, current, studentList, pure
     // HANDLE CHANGE FOR STUDENT PROFILE
     dispatch({
       type: 'EDIT_STATE_STUDENT',
-      payload: {name: e.target.name, value: e.target.value}
+      payload: {name: e.target.name, value: e.target.files ? e.target.files[0] : e.target.value}
     })
 
     setMessage({...message, error: null, success: null})
@@ -458,7 +459,7 @@ const ViewAll = ({account, allContent, authorization, current, studentList, pure
   const submitUpdateAnnouncement = async (e) => {
     e.preventDefault()
     try {
-      const response = await axios.post(`${API}/announcement/update`, updatedRow, {
+      const response = await axios.post(`${API}/announcement/update`, data, {
         headers: {
           Authorization: `Bearer ${authorization}`,
           contentType: `application/json`
@@ -467,8 +468,10 @@ const ViewAll = ({account, allContent, authorization, current, studentList, pure
       setContent(response.data)
       setMessage({...messages, success: 'Update was made successfully'})
     } catch (error) {
-      if(error.response.statusText === 'Unauthorized') window.location.href = '/admin/login'
-      setMessage({...messages, error: error.response})
+      console.log(error)
+      console.log(error.response.data)
+      error.response ? error.response.data ? setMessage({...messages, error: error.response.data}) : null : null
+      if(error.response) error.response.statusText ? error.response.statusText == 'Unauthorizeed' ? window.location.href = '/admin/login' : null : null
     }
   }
 
@@ -549,8 +552,13 @@ const ViewAll = ({account, allContent, authorization, current, studentList, pure
 
   const submitUpdateStudentProfile = async (e) => {
     e.preventDefault()
+    const data = new FormData()
+    data.append('file', edit.file)
+    for( let key in edit){
+      if(key !== 'file') data.append(key, edit[key])
+    }
     try {
-      const response = await axios.post(`${API}/student-profile/update`, edit, {
+      const response = await axios.post(`${API}/student-profile/update`, data, {
         headers: {
           Authorization: `Bearer ${authorization}`,
           contentType: `application/json`
@@ -583,7 +591,7 @@ const ViewAll = ({account, allContent, authorization, current, studentList, pure
     } catch (error) {
       console.log(error)
       if(error.response.statusText === 'Unauthorized') window.location.href = '/admin/login'
-      setMessage({...messages, error: error.response ? error.response : error})
+      setMessage({...messages, error: error.response ? error.response.data : error})
     }
   }
 
@@ -803,15 +811,15 @@ const ViewAll = ({account, allContent, authorization, current, studentList, pure
           </div>
           {Object.keys(item).map( (keyName, keyIndex) => (
           keyName !== '__v' && keyName !== 'primary' && keyName !== '_id' && keyName !== 'buttonLink' ?  
+            // (console.log(item),
+            // console.log(keyName))
             <div key={keyIndex} className="content-table-rows-content">
               <span>
-              {
-              keyName == 'url' ? <a target="_blank" href={item['url']}>{item['url'].toString().substring(0, 50)}</a> : 
+                {keyName == 'url' ? <a target="_blank" href={item['url']}>{item['url'].toString().substring(0, 50)}</a> : 
                 item[keyName].toString().length > 50 ?
                 item[keyName].toString().substring(0, 50): 
-                item[keyName].toString()
-              }
-              </span>
+                item[keyName].toString()}
+            </span>
             </div>
           : null
           ))}
@@ -858,10 +866,14 @@ const ViewAll = ({account, allContent, authorization, current, studentList, pure
               </div>
             </div>
             <div className="form-group-double">
-              <label htmlFor="image">Image URL</label>
-              <input type="text" name="imageURL" value={imageURL} required onChange={handleChange}/>
+                <label htmlFor="file">Image</label>
+                <input type="file" name="file" className="form-group-file" onChange={(e) => setUpdatedRow({...updatedRow, file: e.target.files[0]})}/>
             </div>
-            <div className="form-group-double">
+            <div className="form-group-double form-group-double-image">
+                <label htmlFor="file">Current Image</label>
+                <img src={`${PUBLIC_FILES}/${imageURL}`} alt=""/>
+            </div>
+            <div className="form-group-single">
               <label htmlFor="title">Image Short Description</label>
               <input type="text" name="imageDescr" value={imageDescr} required onChange={handleChange}/>
             </div>

@@ -1,4 +1,5 @@
 import {useEffect, useState} from 'react'
+import {PUBLIC_FILES} from '../../../../config'
 import dynamic from 'next/dynamic'
 const ReactQuill = dynamic(() => import('react-quill'), {ssr: false, loading: () => <p>Loading ...</p>})
 import 'react-quill/dist/quill.snow.css'
@@ -65,9 +66,13 @@ const StudentProfile = ({submitUpdateStudentProfile, student, handleKeyPress, ha
   
   return (
       <form className="form editing" action="POST" onSubmit={(e) => submitUpdateStudentProfile(e)}>
-        <div className="form-group-single">
-          <label htmlFor="photo">Photo URL</label>
-          <input type="text" name="photo" value={student.photo} onChange={(e) => handleChangeStudentProfile(e)} required/>
+        <div className="form-group-double">
+          <label htmlFor="file">Profile Photo</label>
+          <input type="file" name="file" className="form-group-file" onChange={(e) => handleChangeStudentProfile(e)}/>
+        </div>
+        <div className="form-group-double form-group-double-image">
+            <label htmlFor="current-image">Current Image</label>
+            <img src={`${PUBLIC_FILES}/${student.photo}`} alt=""/>
         </div>
         <div className="form-group-double">
           <label htmlFor="firstName">First Name</label>

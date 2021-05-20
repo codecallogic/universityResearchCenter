@@ -65,7 +65,7 @@ const Dashboard = ({loggedIn, account, authorization, header, student, webpage})
     // HANDLE CHANGE FOR STUDENT PROFILE
     dispatch({
       type: 'UPDATE_STATE_STUDENT',
-      payload: {name: e.target.name, value: e.target.value}
+      payload: {name: e.target.name, value: e.target.files ? e.target.files[0] : e.target.value}
     })
 
     setSuccessMessage(null)
@@ -75,7 +75,6 @@ const Dashboard = ({loggedIn, account, authorization, header, student, webpage})
   // HANDLE KEY PRESS
   const handleKeyPress = (e) => {    
     if(e.key === 'Enter'){
-      console.log('Hello')
       e.preventDefault();
       manageTags('addTag')
       let closeIcon = document.querySelectorAll('.form-tag')
@@ -166,14 +165,21 @@ const Dashboard = ({loggedIn, account, authorization, header, student, webpage})
     setContent({...content, title: '', subtitle: '', imageURL: '', imageDescr: '', primary: false, source: '', message: ''})
   }
 
-  // Submit form to create an announcement
+  // CREATE AN ANNOUNCEMENT
   const createAnnouncement = async (e) => {
     e.preventDefault()
+    const data = new FormData()
+    data.append('file', content.imageURL)
+
+    for( const key in content){
+      if(key !== 'imageURL') data.append(key, content[key])
+    }
+    
     try {
-      const response = await axios.post(`${API}/announcement/create`, {content}, {
+      const response = await axios.post(`${API}/announcement/create`, data, {
         headers: {
           Authorization: `Bearer ${authorization}`,
-          contentType: `application/json`
+          contentType: `multipart/form-data`
         }
       })
       setContent({...content, title:"", subtitle:"", imageURL:"", imageDescr:""})
@@ -184,7 +190,7 @@ const Dashboard = ({loggedIn, account, authorization, header, student, webpage})
     } 
   }
 
-  // Submit form to create an meeting
+  // CREATE A MEETING
   const createMeeting = async (e) => {
     e.preventDefault()
     try {
@@ -202,7 +208,7 @@ const Dashboard = ({loggedIn, account, authorization, header, student, webpage})
     }
   }
   
-  // Submit form to create an opportunity for faculty
+  // CREATE OPPORTUNITY FOR FACULTY
   const createOpportunityForFaculty = async (e) => {
     e.preventDefault()
     try {
@@ -220,7 +226,7 @@ const Dashboard = ({loggedIn, account, authorization, header, student, webpage})
     }
   }
 
-  // Submit form to create an opportunity for student
+  // CREATE OPPORTUNITY FOR STUDENT
   const createOpportunityForStudent = async (e) => {
     e.preventDefault()
     try {
@@ -238,22 +244,9 @@ const Dashboard = ({loggedIn, account, authorization, header, student, webpage})
     }
   }
 
-  // Submit form to create an opportunity for student
+  // CREATE SPOTLIGHT ANNOUNCEMENT
   const createSpotlight = async (e) => {
-    e.preventDefault()
-    try {
-      const response = await axios.post(`${API}/opportunity-students/create`, {content}, {
-        headers: {
-          Authorization: `Bearer ${authorization}`,
-          contentType: `application/json`
-        }
-      })
-      setContent({...content, title: '', subtitle: '', expiration: '', source: ''})
-      setContent({...content, message:""})
-      setSuccessMessage(response.data)
-    } catch (error) {
-      setErrorMessage(error.response.data)
-    }
+    //
   }
 
   // CREATE HEADER
@@ -278,11 +271,18 @@ const Dashboard = ({loggedIn, account, authorization, header, student, webpage})
   // CREATE STUDENT PROFILE
   const createStudentProfile = async (e) => {
     e.preventDefault()
+    console.log(student)
+    const data = new FormData()
+    data.append('file', student.file)
+    for( let key in student){
+      if(key !== 'file') data.append(key, student[key])
+    }
+    
     try {
-      const response = await axios.post(`${API}/student-profile/create`, {student}, {
+      const response = await axios.post(`${API}/student-profile/create`, data, {
         headers: {
           Authorization: `Bearer ${authorization}`,
-          contentType: `application/json`
+          contentType: `multipart/form-data`
         }
       })
       dispatch({
@@ -336,7 +336,7 @@ const Dashboard = ({loggedIn, account, authorization, header, student, webpage})
                 <option value="meetings and activities">Meetings and Activities</option>
                 <option value="opportunities for faculty">Opportunities for Faculty</option>
                 <option value="opportunities for students">Opportunities for Students</option>
-                <option value="spotlight">Spotlight</option>
+                {/* <option value="spotlight">Spotlight</option> */}
               </select>             
             </div>
             <div className="dashboard-left-panel-title">Components</div>
@@ -381,9 +381,9 @@ const Dashboard = ({loggedIn, account, authorization, header, student, webpage})
                   Display as Primary Announcement
                 </div>
               </div>
-              <div className="form-group-double">
-                <label htmlFor="image">Image URL</label>
-                <input type="text" name="imageURL" value={imageURL} onChange={handleChange} required/>
+              <div className="form-group-single">
+                <label htmlFor="file">Image</label>
+                <input type="file" name="file" className="form-group-file" onChange={(e) => setContent({...content, imageURL: e.target.files[0]})}/>
               </div>
               <div className="form-group-double">
                 <label htmlFor="title">Image Short Description</label>
@@ -521,7 +521,7 @@ const Dashboard = ({loggedIn, account, authorization, header, student, webpage})
             {successMessage !== null && <div className="form-successMessage">{successMessage}</div>}
           </div>
           }
-          {form === 'spotlight' &&
+          {/* {form === 'spotlight' &&
           <div className="dashboard-right-panel">
             <div className="dashboard-right-panel-toggle" onClick={viewAll}>View All Spotlight Announcements</div>
             <form className="form" action="POST" onSubmit={createSpotlight}>
@@ -542,7 +542,7 @@ const Dashboard = ({loggedIn, account, authorization, header, student, webpage})
             {errorMessage !== null && <div className="form-errorMessage">{errorMessage}</div>}
             {successMessage !== null && <div className="form-successMessage">{successMessage}</div>}
           </div>
-          }
+          } */}
           {form === 'header' &&
           <div className="dashboard-right-panel">
             <div className="dashboard-right-panel-toggle" onClick={viewAll}>View All Header Slides</div>

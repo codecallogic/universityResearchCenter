@@ -55,6 +55,7 @@
 
       // Display dropdown on hover
       &:hover > ul {
+        background-color: $color-scheme-4;
         visibility: visible;
         opacity: 1;
       }

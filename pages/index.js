@@ -4,7 +4,7 @@ import Head from 'next/head'
 import Nav from '../components/nav'
 import Slider from '../components/slider/slider'
 import axios from 'axios'
-import {API} from '../config'
+import {API, PUBLIC_FILES} from '../config'
 import {parseCreatedAtDates, parseExpirationDates, sortByCreationDate, sortByExpirationDate, sortByEnableAndCreationDate, selectOne} from '../helpers/sort'
 
 const Home = ({announcements, meetings, facultyOpportunities, studentOpportunities, headerData, studentProfiles}) => {
@@ -58,7 +58,7 @@ const Home = ({announcements, meetings, facultyOpportunities, studentOpportuniti
           <span>Announcements</span>
         </div>
         <div className="home-announcements-container">
-          {announcementsList !== null && 
+          {announcementsList !== null &&
             announcementsList.map( (item, i) =>
               item.primary === true ? 
                 <div key={i}>
@@ -71,7 +71,7 @@ const Home = ({announcements, meetings, facultyOpportunities, studentOpportuniti
                 <div className="home-announcements-post-container">
                   <div className="home-announcements-post-left-column">
                     <span className="home-announcements-post-left-column-date">Posted: <span>{item.createdAt}</span></span>
-                    <img src={`${item.imageURL}`} alt={`${item.imageDescr}`}/>
+                    <img src={`${PUBLIC_FILES}/${item.imageURL}`} alt={`${item.imageDescr}`}/>
                     <span className="home-announcements-post-left-column-imageSubtitle">{item.imageDescr}</span>
                     <div className="home-announcements-post-left-column-description" dangerouslySetInnerHTML={ { __html: item.message.substring(0, 700) } }></div>
                   </div>
@@ -152,7 +152,7 @@ const Home = ({announcements, meetings, facultyOpportunities, studentOpportuniti
                     </div> */}
                     <div className="home-student-spotlight-item-group">
                       <div className="home-student-spotlight-item-group-image">
-                        <img src={item.photo} alt={item.firstName}/>
+                        <img src={`${PUBLIC_FILES}/${item.photo}`} alt={item.firstName}/>
                       </div>
                       <div className="home-student-spotlight-item-group-info">
                         <h6>{item.firstName} {item.lastName} ({item.institution}), Department of {item.department}</h6>

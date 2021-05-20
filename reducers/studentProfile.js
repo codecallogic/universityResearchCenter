@@ -1,5 +1,5 @@
 const initialState = {
-  photo: 'adfa',
+  file: '',
   firstName: 'asdf',
   lastName: 'asfa',
   linkedIn: 'asfda',

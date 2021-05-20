@@ -25,6 +25,19 @@
         border: 0.1rem solid $color-scheme-1;
       }
     }
+
+    &-image {
+      label {
+        display: block;
+      }
+
+      img {
+        object-fit: contain;
+        width: 25%;
+        height: auto;
+        image-rendering: pixelated;
+      }
+    }
   }
 
   &-group-single {
@@ -60,7 +73,7 @@
   &-errorMessage {
     font-size: 1.6rem;
     padding: 2rem 0;
-    color: $color-scheme-5;
+    color: red;
   }
 
   &-successMessage {
@@ -170,7 +183,7 @@
     }
 
     &:hover {
-      border: 0.1rem solid $color-scheme-5;
+      border: 0.1rem solid $color-scheme-1;
     }
   }
 }
