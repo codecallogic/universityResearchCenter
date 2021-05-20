@@ -54,10 +54,10 @@ const ViewAll = ({account, allContent, authorization, current, studentList, pure
     subheading: '',
     button: '',
     buttonLink: '',
-    imageLeftColumn: '',
-    imageRightColumn: '',
     captionOne: '',
     captionTwo: '',
+    imageLeftColumn: '',
+    imageRightColumn: ''
   })
   const [tags, setTags] = useState('')
   const [messages, setMessage] = useState({
@@ -320,7 +320,7 @@ const ViewAll = ({account, allContent, authorization, current, studentList, pure
   const handleChange = (e) => {
     e.target.name == 'primary' ? setUpdatedRow({...updatedRow, [e.target.name]: e.target.checked}) : null
     e.target.name == 'enabled' ? setUpdatedRow({...updatedRow, [e.target.name]: !e.target.checked}) : null
-    e.target.name !== 'primary' && e.target.name !== 'enabled' ? setUpdatedRow({...updatedRow, [e.target.name]: e.target.value}) : null
+    e.target.name !== 'primary' && e.target.name !== 'enabled' ? setUpdatedRow({...updatedRow, [e.target.name]: e.target.files ? e.target.files[0] : e.target.value}) : null
     setMessage({...messages, success: null, error: null})
   }
 
@@ -539,21 +539,26 @@ const ViewAll = ({account, allContent, authorization, current, studentList, pure
 
   const submitUpdateHeader = async (e) => {
     e.preventDefault()
-    console.log(updatedRow)
-    // try {
-    //   const response = await axios.post(`${API}/header-component/update`, updatedRow, {
-    //     headers: {
-    //       Authorization: `Bearer ${authorization}`,
-    //       contentType: `application/json`
-    //     }
-    //   })
-    //   setMessage({...messages, success: 'Update was made successfully'})
-    //   setContent(response.data)
-    // } catch (error) {
-    //   console.log(error.response)
-    //   if(error.response.statusText === 'Unauthorized') window.location.href = '/admin/login'
-    //   setMessage({...messages, error: error.response})
-    // }
+    const data = new FormData()
+    data.append('imageLeftColumn', updatedRow.imageLeftColumn)
+    data.append('imageRightColumn', updatedRow.imageRightColumn)
+    for( let key in updatedRow){
+      if(key !== 'imageLeftColumn' || key !== 'imageRightColumn') data.append(key, updatedRow[key])
+    }
+    try {
+      const response = await axios.post(`${API}/header-component/update`, data, {
+        headers: {
+          Authorization: `Bearer ${authorization}`,
+          contentType: `application/json`
+        }
+      })
+      setMessage({...messages, success: 'Update was made successfully'})
+      setContent(response.data)
+    } catch (error) {
+      console.log(error.response)
+      if(error.response.statusText === 'Unauthorized') window.location.href = '/admin/login'
+      setMessage({...messages, error: error.response.data})
+    }
   }
 
   const submitUpdateStudentProfile = async (e) => {
@@ -1075,9 +1080,15 @@ const ViewAll = ({account, allContent, authorization, current, studentList, pure
               <label htmlFor="file">Image Left Column (600 x 500 px minimum)</label>
               <input type="file" name="imageLeftColumn" className="form-group-file" onChange={(e) => handleChange(e)}/>
             </div>
+            <div className="form-group-single form-group-double-image">
+                <img src={`${PUBLIC_FILES}/${imageLeftColumn}`} alt=""/>
+            </div>
             <div className="form-group-single">
               <label htmlFor="file">Image Right Column (1280 x 500 px minimum)</label>
               <input type="file" name="imageRightColumn" className="form-group-file" onChange={(e) => handleChange(e)}/>
+            </div>
+            <div className="form-group-single form-group-double-image">
+                <img src={`${PUBLIC_FILES}/${imageRightColumn}`} alt=""/>
             </div>
             <div className="form-group-single">
               <label htmlFor="captionOne">Caption One</label>
