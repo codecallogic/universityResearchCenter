@@ -543,7 +543,7 @@ const ViewAll = ({account, allContent, authorization, current, studentList, pure
     data.append('imageLeftColumn', updatedRow.imageLeftColumn)
     data.append('imageRightColumn', updatedRow.imageRightColumn)
     for( let key in updatedRow){
-      if(key !== 'imageLeftColumn' || key !== 'imageRightColumn') data.append(key, updatedRow[key])
+      data.append(key, updatedRow[key])
     }
     try {
       const response = await axios.post(`${API}/header-component/update`, data, {
@@ -556,8 +556,8 @@ const ViewAll = ({account, allContent, authorization, current, studentList, pure
       setContent(response.data)
     } catch (error) {
       console.log(error.response)
-      if(error.response.statusText === 'Unauthorized') window.location.href = '/admin/login'
-      setMessage({...messages, error: error.response.data})
+      if(error.response.statusText ? error.response.statusText === 'Unauthorized' : false) window.location.href = '/admin/login'
+      if(error.response.status == 500) setMessage({...messages, error: error.response.data.message})
     }
   }
 
