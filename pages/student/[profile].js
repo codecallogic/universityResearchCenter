@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import axios from 'axios'
-import {API} from '../../config'
+import {API, PUBLIC_FILES} from '../../config'
 
 // COMPONENTS
 import Nav from '../../components/nav'
@@ -20,7 +20,7 @@ const StudentProfile = ({studentProfile}) => {
       <div className="student-profile">
         <div className="student-profile-record">
           <div className="student-profile-record-image">
-            <img src={studentProfile.photo} alt={studentProfile.areaOfStudy}/>
+            <img src={`${PUBLIC_FILES}/${studentProfile.photo}`} alt={studentProfile.areaOfStudy}/>
           </div>
           <div className="student-profile-record-details">
             <h1>{studentProfile.firstName} {studentProfile.lastName}, {studentProfile.areaOfStudy}</h1>
