@@ -62,29 +62,34 @@ svg {
     opacity: 1;
     transform: translateX(0); } }
 
-.form-group {
+.form-group-search {
   display: flex;
   align-items: center; }
-  .form-group input {
-    padding: 0.8rem 0;
+  .form-group-search input {
+    padding: 1rem 1rem;
     width: 20rem;
-    outline: none; }
-    .form-group input:focus {
+    outline: none;
+    border-radius: 1.2rem;
+    outline: none;
+    border: 0.1rem solid #1c1c1b;
+    transition: all 0.5s cubic-bezier(0.455, 0.03, 0.515, 0.955); }
+    .form-group-search input:focus {
+      width: 30rem;
       outline: none;
       border: 0.1rem solid #00b7ec;
       text-indent: 1rem; }
-    .form-group input::placeholder {
+    .form-group-search input::placeholder {
       color: #1c1c1b;
       text-indent: 1rem; }
-  .form-group svg {
+  .form-group-search svg {
     width: 2rem;
     height: 2rem;
     border: none;
     margin-left: -3rem;
     fill: #1c1c1b; }
-    .form-group svg:active {
+    .form-group-search svg:active {
       transform: translateY(-0.2rem); }
-    .form-group svg:hover {
+    .form-group-search svg:hover {
       cursor: pointer; }
 
 .nav-menu-dropdown {

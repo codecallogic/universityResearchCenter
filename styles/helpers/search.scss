@@ -1,14 +1,19 @@
 .form {
-  &-group {
+  &-group-search {
     display: flex;
     align-items: center;
 
     input {
-      padding: 0.8rem 0;
+      padding: 1rem 1rem;
       width: 20rem;
       outline: none;
+      border-radius: 1.2rem;
+      outline: none;
+      border: 0.1rem solid $color-scheme-1;
+      transition: all 0.5s cubic-bezier(0.455, 0.03, 0.515, 0.955);
 
       &:focus {
+        width: 30rem;
         outline: none;
         border: 0.1rem solid $color-scheme-2;
         text-indent: 1rem;
