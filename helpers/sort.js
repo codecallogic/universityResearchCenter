@@ -57,8 +57,8 @@ export const sortByExpirationDate = (data) => {
 export const removeHeadersSliderComponent = (data) => {
   data.forEach( (item, index) => {
     delete item.updatedAt
-    delete item.imageLeftColumn
-    delete item.imageRightColum
+    // delete item.imageLeftColumn
+    // delete item.imageRightColum
     delete item.imageLeftColumnID
     delete item.imageRightColumnID
   })

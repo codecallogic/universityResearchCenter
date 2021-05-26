@@ -275,6 +275,7 @@ const ViewAll = ({account, allContent, authorization, current, studentList, pure
     for(let i = 0; i < content.length; i++){
       if(content[i]._id == selected[0]){
         setEditRowForm(true)
+        console.log(content)
         setUpdatedRow({...updatedRow, id: content[i]._id, title: content[i].title,  subtitle: content[i].subtitle, imageURL: content[i].imageURL, imageDescr: content[i].imageDescr, source: content[i].source, expiration: content[i].expiration, primary: content[i].primary, enabled: content[i].enabled, message: content[i].message, headline: content[i].headline, subheading: content[i].subheading, button: content[i].button, buttonLink: content[i].buttonLink, imageLeftColumnURL: content[i].imageLeftColumn, imageRightColumnURL: content[i].imageRightColumn, captionOne: content[i].captionOne, captionTwo: content[i].captionTwo})
 
         let id = selected[0]
