@@ -11,6 +11,7 @@ import {manageTags} from '../../helpers/forms'
 import StudentProfile from '../../components/admin/forms/studentProfile'
 import Webpage from '../../components/admin/forms/webpage'
 import dynamic from 'next/dynamic'
+import {nanoid} from 'nanoid'
 const ReactQuill = dynamic(() => import('react-quill'), {ssr: false, loading: () => <p>Loading ...</p>})
 import 'react-quill/dist/quill.snow.css'
 
@@ -169,9 +170,11 @@ const Dashboard = ({loggedIn, account, authorization, header, student, webpage})
   // CREATE AN ANNOUNCEMENT
   const createAnnouncement = async (e) => {
     e.preventDefault()
+    let fileID = nanoid()
+    
     const data = new FormData()
-    data.append('file', content.imageURL)
-
+    data.append('file', content.imageURL, `announcement-${fileID}.${content.imageURL.name.split('.')[1]}`)
+    data.append('nanoid', fileID)
     for( const key in content){
       if(key !== 'imageURL') data.append(key, content[key])
     }
@@ -253,9 +256,17 @@ const Dashboard = ({loggedIn, account, authorization, header, student, webpage})
   // CREATE HEADER
   const createHeader = async (e) => {
     e.preventDefault()
+    let fileOneID = nanoid()
+    let fileTwoID = nanoid()
+
+    console.log(header)
+    
     const data = new FormData()
-    data.append('imageLeftColumn', header.imageLeftColumn)
-    // data.append('file', header.imageRightColumn)
+    data.append('imageLeftColumn', header.imageLeftColumn, `header-${fileOneID}.${header.imageLeftColumn.name.split('.')[1]}`)
+    data.append('imageRightColumn', header.imageRightColumn, `header-${fileTwoID}.${header.imageRightColumn.name.split('.')[1]}`)
+    data.append('imageLeftColumnID', fileOneID)
+    data.append('imageRightColumnID', fileTwoID)
+
     for( const key in header){
       if(key !== 'imageLeftColumn' || key !== 'imageRightColumn')data.append(key, header[key])
     }
@@ -280,9 +291,14 @@ const Dashboard = ({loggedIn, account, authorization, header, student, webpage})
   // CREATE STUDENT PROFILE
   const createStudentProfile = async (e) => {
     e.preventDefault()
+    let fileID = nanoid()
     console.log(student)
     const data = new FormData()
-    data.append('file', student.file)
+    student.file ? data.append('file', student.file, `student-${fileID}.${student.file.name.split('.')[1]}`) : dispatch({
+      type: 'RESET_STATE',
+    })
+    data.append('nanoid',fileID)
+
     for( let key in student){
       if(key !== 'file') data.append(key, student[key])
     }

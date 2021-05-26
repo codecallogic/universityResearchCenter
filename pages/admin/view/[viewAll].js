@@ -57,7 +57,9 @@ const ViewAll = ({account, allContent, authorization, current, studentList, pure
     captionOne: '',
     captionTwo: '',
     imageLeftColumn: '',
-    imageRightColumn: ''
+    imageRightColumn: '',
+    imageLeftColumnURL: '',
+    imageRightColumnURL: ''
   })
   const [tags, setTags] = useState('')
   const [messages, setMessage] = useState({
@@ -65,7 +67,7 @@ const ViewAll = ({account, allContent, authorization, current, studentList, pure
     success: null
   })
   const {error, success} = messages
-  const {title, subtitle, imageURL, imageDescr, source, expiration, primary, enabled, message, headline, subheading, button, buttonLink, imageLeftColumn, imageRightColumn, captionOne, captionTwo} = updatedRow
+  const {title, subtitle, imageURL, imageDescr, source, expiration, primary, enabled, message, headline, subheading, button, buttonLink, imageLeftColumn, imageRightColumn, imageLeftColumnURL, imageRightColumnURL,captionOne, captionTwo} = updatedRow
 
   const handleFilter = (header, key) => {
     // GET SVG XLINK:HREF ATTRITUTE BY ELEMENT BY ID 
@@ -273,7 +275,7 @@ const ViewAll = ({account, allContent, authorization, current, studentList, pure
     for(let i = 0; i < content.length; i++){
       if(content[i]._id == selected[0]){
         setEditRowForm(true)
-        setUpdatedRow({...updatedRow, id: content[i]._id, title: content[i].title,  subtitle: content[i].subtitle, imageURL: content[i].imageURL, imageDescr: content[i].imageDescr, source: content[i].source, expiration: content[i].expiration, primary: content[i].primary, enabled: content[i].enabled, message: content[i].message, headline: content[i].headline, subheading: content[i].subheading, button: content[i].button, buttonLink: content[i].buttonLink,imageLeftColumn: content[i].imageLeftColumn, imageRightColumn: content[i].imageRightColumn, captionOne: content[i].captionOne, captionTwo: content[i].captionTwo})
+        setUpdatedRow({...updatedRow, id: content[i]._id, title: content[i].title,  subtitle: content[i].subtitle, imageURL: content[i].imageURL, imageDescr: content[i].imageDescr, source: content[i].source, expiration: content[i].expiration, primary: content[i].primary, enabled: content[i].enabled, message: content[i].message, headline: content[i].headline, subheading: content[i].subheading, button: content[i].button, buttonLink: content[i].buttonLink, imageLeftColumnURL: content[i].imageLeftColumn, imageRightColumnURL: content[i].imageRightColumn, captionOne: content[i].captionOne, captionTwo: content[i].captionTwo})
 
         let id = selected[0]
         let studentProfile = []
@@ -459,7 +461,9 @@ const ViewAll = ({account, allContent, authorization, current, studentList, pure
   const submitUpdateAnnouncement = async (e) => {
     e.preventDefault()
     const data = new FormData()
-    data.append('file', updatedRow.file)
+
+    updatedRow.file ? data.append('file', updatedRow.file, imageURL) : null
+
     for( let key in updatedRow){
       if(key !== 'file') data.append(key, updatedRow[key])
     }
@@ -540,8 +544,9 @@ const ViewAll = ({account, allContent, authorization, current, studentList, pure
   const submitUpdateHeader = async (e) => {
     e.preventDefault()
     const data = new FormData()
-    data.append('imageLeftColumn', updatedRow.imageLeftColumn)
-    data.append('imageRightColumn', updatedRow.imageRightColumn)
+    // console.log(updatedRow)
+    updatedRow.imageLeftColumn ? data.append('imageLeftColumn', updatedRow.imageLeftColumn, updatedRow.imageLeftColumnURL) : null
+    updatedRow.imageRightColumn ? data.append('imageRightColumn', updatedRow.imageRightColumn, updatedRow.imageRightColumnURL) : null
     for( let key in updatedRow){
       data.append(key, updatedRow[key])
     }
@@ -554,6 +559,7 @@ const ViewAll = ({account, allContent, authorization, current, studentList, pure
       })
       setMessage({...messages, success: 'Update was made successfully'})
       setContent(response.data)
+      window.location.href = '/admin/view/header'
     } catch (error) {
       console.log(error.response)
       if(error.response.statusText ? error.response.statusText === 'Unauthorized' : false) window.location.href = '/admin/login'
@@ -564,7 +570,8 @@ const ViewAll = ({account, allContent, authorization, current, studentList, pure
   const submitUpdateStudentProfile = async (e) => {
     e.preventDefault()
     const data = new FormData()
-    data.append('file', edit.file)
+    console.log(edit)
+    edit.file ? data.append('file', edit.file, edit.photo) : null
     for( let key in edit){
       if(key !== 'file') data.append(key, edit[key])
     }
@@ -599,6 +606,7 @@ const ViewAll = ({account, allContent, authorization, current, studentList, pure
       
       setNewContent(updatedPureContent)
       setMessage({...messages, success: 'Update was made successfully'})
+      window.location.href = '/admin/view/student'
     } catch (error) {
       console.log(error)
       if(error.response.statusText === 'Unauthorized') window.location.href = '/admin/login'
@@ -683,7 +691,7 @@ const ViewAll = ({account, allContent, authorization, current, studentList, pure
           }
         })
         parseCreatedAtDates(responseHeader.data)
-        removeHeaders(responseHeader.data)
+        removeHeadersSliderComponent(responseHeader.data)
         setContent(responseHeader.data)
         break;
       
@@ -732,6 +740,7 @@ const ViewAll = ({account, allContent, authorization, current, studentList, pure
       }
       setMessage({...messages, success: 'Row was deleted successfully'})
     } catch (error) {
+      console.log(error)
       setMessage({...messages, error: error.response.error})
     }
   }
@@ -1081,14 +1090,14 @@ const ViewAll = ({account, allContent, authorization, current, studentList, pure
               <input type="file" name="imageLeftColumn" className="form-group-file" onChange={(e) => handleChange(e)}/>
             </div>
             <div className="form-group-single form-group-double-image">
-                <img src={`${PUBLIC_FILES}/${imageLeftColumn}`} alt=""/>
+                <img src={`${PUBLIC_FILES}/${imageLeftColumnURL}`} alt=""/>
             </div>
             <div className="form-group-single">
               <label htmlFor="file">Image Right Column (1280 x 500 px minimum)</label>
               <input type="file" name="imageRightColumn" className="form-group-file" onChange={(e) => handleChange(e)}/>
             </div>
             <div className="form-group-single form-group-double-image">
-                <img src={`${PUBLIC_FILES}/${imageRightColumn}`} alt=""/>
+                <img src={`${PUBLIC_FILES}/${imageRightColumnURL}`} alt=""/>
             </div>
             <div className="form-group-single">
               <label htmlFor="captionOne">Caption One</label>

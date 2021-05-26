@@ -57,6 +57,10 @@ export const sortByExpirationDate = (data) => {
 export const removeHeadersSliderComponent = (data) => {
   data.forEach( (item, index) => {
     delete item.updatedAt
+    delete item.imageLeftColumn
+    delete item.imageRightColum
+    delete item.imageLeftColumnID
+    delete item.imageRightColumnID
   })
 }
 
@@ -70,6 +74,7 @@ export const removeHeadersStudentProfile = (data) => {
     delete item.researchInterests
     delete item.photo
     delete item.email
+    delete item.nanoid
   })
 }
 

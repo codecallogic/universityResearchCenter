@@ -15,6 +15,7 @@
     "axios": "^0.21.1",
     "js-cookie": "^2.2.1",
     "jsonwebtoken": "^8.5.1",
+    "nanoid": "^3.1.23",
     "next": "10.0.7",
     "react": "17.0.1",
     "react-dom": "17.0.1",
