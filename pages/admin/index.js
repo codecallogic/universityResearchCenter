@@ -327,7 +327,6 @@ const Dashboard = ({loggedIn, account, authorization, header, student, webpage})
   }
 
   const createWebpage = async (e) => {
-    console.log('Hello')
     e.preventDefault()
     try {
       const response = await axios.post(`${API}/webpage/create`, {webpage}, {
