@@ -336,7 +336,7 @@ Home.getInitialProps = async () => {
 
   // SELECT DATA
   let randomSelectedStudent = selectOne(studentProfiles.data)
-  let id = randomSelectedStudent ? randomSelectedStudent[0]._id : null
+  let id = randomSelectedStudent[0] ? randomSelectedStudent[0]._id : null
   
   const student = await axios.post(`${API}/student-profile/find/public`, {id})
   let studentArray = new Array(student.data)
