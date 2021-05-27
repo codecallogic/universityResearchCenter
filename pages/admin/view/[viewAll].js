@@ -32,7 +32,7 @@ const ViewAll = ({account, allContent, authorization, current, studentList, pure
     allContent ? allContent : studentList 
   )
   const [headers, setHeaders] = useState(
-    allContent && allContent.length > 0 ? Object.keys(allContent[0]) : studentList ? Object.keys(studentList[0]) : null
+    allContent && allContent.length > 0 ? allContent[0] ? Object.keys(allContent[0]) : studentList ? Object.keys(studentList[0]) : null : null
   )
   const [selected, setSelected] = useState([])
   const [asc, setAsc] = useState(-1)
