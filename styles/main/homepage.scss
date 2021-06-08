@@ -13,7 +13,6 @@
 
   &-header {
     grid-column: 1/-1;
-    width: 100%;
   }
 
   &-announcements {
@@ -25,6 +24,10 @@
     border-bottom-right-radius: 2rem;
     border-bottom-left-radius: 2rem;
     margin: 2rem 0;
+
+    @media only screen and (max-width: $large) {
+      grid-column: 1/-1;
+    }
 
     &-container {
       padding: 1rem 0 0 0;
@@ -50,6 +53,10 @@
       span {
         font-size: 3.2rem;
         font-weight: 400;
+
+        @media only screen and (max-width: $large) {
+          font-size: 2.2rem;
+        }
       }
     }
 
@@ -69,6 +76,10 @@
         font-size: 3.2rem;
         font-weight: 300;
         color: black;
+
+        @media only screen and (max-width: $large) {
+          font-size: 2.2rem;
+        }
       }
     }
 
@@ -77,10 +88,17 @@
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         padding: 0 5rem;
+
+        @media only screen and (max-width: $large) {
+          padding: 0 2rem;
+        }
       }
       &-left-column {
         grid-column: 1/2;
-        grid-row: 1/-1;
+
+        @media only screen and (max-width: $large) {
+          grid-column: 1/-1;
+        }
 
         &-date {
           font-size: 1.8rem;
@@ -100,6 +118,7 @@
 
         img {
           width: 100%;
+          height: 50rem;
           object-fit: cover;
           margin: 2rem 0 0 0;
         }
@@ -114,6 +133,11 @@
           grid-column: 1/2;
           font-size: 1.8rem;
 
+          @media only screen and (max-width: $large) {
+            grid-column: 1/-1;
+            padding: 0;
+          }
+
           p {
             margin: 1rem 0;
           }
@@ -123,11 +147,19 @@
       &-right-column {
         grid-column: 2/-1;
 
+        @media only screen and (max-width: $large) {
+          grid-column: 1/-1;
+        }
+
         &-description {
           grid-column: 2/-1;
-          grid-row: 1/-1;
           font-size: 1.8rem;
           padding: 0 2rem;
+
+          @media only screen and (max-width: $large) {
+            grid-column: 1/-1;
+            padding: 0;
+          }
 
           p {
             margin: 1rem 0;
@@ -190,10 +222,19 @@
     &-left {
       grid-column: 2/7;
       margin: 2rem 1rem 0 0;
+
+      @media only screen and (max-width: $large) {
+        grid-column: 1/-1;
+        margin: 0;
+      }
     }
 
     &-right {
       grid-column: 7/12;
+
+      @media only screen and (max-width: $large) {
+        grid-column: 1/-1;
+      }
     }
   }
 
@@ -228,6 +269,10 @@
       span {
         font-size: 3.2rem;
         font-weight: 400;
+
+        @media only screen and (max-width: $large) {
+          font-size: 2.2rem;
+        }
       }
     }
 
@@ -316,6 +361,10 @@
         span {
           font-size: 3.2rem;
           font-weight: 400;
+
+          @media only screen and (max-width: $large) {
+            font-size: 2.2rem;
+          }
         }
       }
     }
@@ -410,6 +459,10 @@
         border-top-left-radius: 2rem;
         color: white;
 
+        @media only screen and (max-width: $large) {
+          padding: 2rem 2rem;
+        }
+
         svg {
           width: 3rem;
           height: 3rem;
@@ -420,6 +473,10 @@
         span {
           font-size: 3.2rem;
           font-weight: 400;
+
+          @media only screen and (max-width: $large) {
+            font-size: 2.2rem;
+          }
         }
       }
     }

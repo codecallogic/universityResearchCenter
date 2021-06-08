@@ -12,6 +12,13 @@
     padding: 0 5rem 5rem 10rem;
     height: 100%;
     width: 100%;
+    background-size: cover;
+    background-position-x: center;
+    background-position-y: center;
+
+    @media only screen and (max-width: $large) {
+      grid-column: 1/-1;
+    }
 
     &-title {
       align-self: start;
@@ -49,9 +56,16 @@
     height: 100%;
     width: 100%;
     background-size: cover;
-    background-repeat: no-repeat;
     background-position: center;
+    background-position-x: center;
+    background-position-y: center;
     position: relative;
+
+    @media only screen and (max-width: $large) {
+      grid-column: 1/-1;
+      padding: 0rem 5rem 5rem 0rem;
+      background-size: none;
+    }
 
     &-caption-one {
       font-size: 2rem;

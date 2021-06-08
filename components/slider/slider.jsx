@@ -77,6 +77,10 @@ const SliderCSS = css`
   width: 100%;
   margin: 0 auto;
   overflow: hidden;
+
+  @media only screen and (max-width: 992px) {
+    height: 100rem;
+  }
 `
 
 const mapStateToProps = state => {

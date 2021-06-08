@@ -18,6 +18,10 @@
       ),
       radial-gradient(ellipse at bottom, var(--color-primary), transparent);
 
+    @media only screen and (max-width: $large) {
+      grid-column: 1/-1;
+    }
+
     &-background {
       position: absolute;
       box-sizing: content-box;
@@ -35,6 +39,11 @@
     padding: 5rem 8rem 8rem 5rem;
     background-color: white;
     color: var(--color-dark-contrast);
+
+    @media only screen and (max-width: $large) {
+      grid-column: 1/-1;
+      padding: 3rem;
+    }
 
     &-heading {
       font-size: 5rem;
@@ -155,6 +164,14 @@
           grid-template-columns: repeat(2, 1fr);
           font-size: 1.6rem;
           padding: 1rem 0;
+
+          @media only screen and (max-width: $large) {
+            font-size: 1.2rem;
+          }
+
+          @media only screen and (max-width: $extra-small) {
+            font-size: 1rem;
+          }
         }
 
         ul li::before {

@@ -1,10 +1,10 @@
 const initialState = {
-  headline: 'adfa',
-  subheading: 'asdfsa',
-  button: 'asdfas',
-  buttonLink: 'asdfas',
-  captionOne: '1',
-  captionTwo: '2',
+  headline: '',
+  subheading: '',
+  button: '',
+  buttonLink: '',
+  captionOne: '',
+  captionTwo: '',
   imageLeftColumn: '',
   imageRightColumn: ''
 }

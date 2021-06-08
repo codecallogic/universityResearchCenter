@@ -18,6 +18,24 @@
     color: $color-scheme-5;
     width: 48rem;
 
+    @media only screen and (max-width: $large) {
+      display: none;
+    }
+
+    &-mobile {
+      display: none;
+
+      @media only screen and (max-width: $large) {
+        display: block;
+        width: 25rem;
+      }
+
+      @media only screen and (max-width: $extra-small) {
+        display: block;
+        width: 15rem;
+      }
+    }
+
     &:hover {
       cursor: pointer;
     }
