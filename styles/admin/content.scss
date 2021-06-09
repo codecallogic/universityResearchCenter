@@ -35,6 +35,8 @@
 
       @media only screen and (max-width: $large) {
         overflow-x: scroll;
+        display: flex;
+        justify-content: space-between;
 
         &::-webkit-scrollbar {
           width: 0.1rem;
@@ -51,6 +53,10 @@
         align-items: center;
         font-size: 1.8rem;
         text-transform: capitalize;
+
+        @media only screen and (max-width: $large) {
+          margin-left: 1rem;
+        }
 
         svg {
           height: 2rem;

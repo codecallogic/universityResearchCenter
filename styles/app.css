@@ -942,7 +942,9 @@ svg {
     border-bottom: 0.1rem solid #1c1c1b; }
     @media only screen and (max-width: 992px) {
       .content-table-headers {
-        overflow-x: scroll; }
+        overflow-x: scroll;
+        display: flex;
+        justify-content: space-between; }
         .content-table-headers::-webkit-scrollbar {
           width: 0.1rem;
           height: 0.5rem; }
@@ -953,6 +955,9 @@ svg {
       align-items: center;
       font-size: 1.8rem;
       text-transform: capitalize; }
+      @media only screen and (max-width: 992px) {
+        .content-table-headers-heading {
+          margin-left: 1rem; } }
       .content-table-headers-heading svg {
         height: 2rem;
         width: 2rem;
