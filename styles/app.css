@@ -115,6 +115,9 @@ svg {
   visibility: hidden;
   opacity: 0;
   transition: all 0.8s cubic-bezier(0.81, 0.13, 0.93, 1.21); }
+  @media only screen and (max-width: 992px) {
+    .nav-menu-dropdown {
+      background-color: #00b7ec; } }
   .nav-menu-dropdown li {
     padding: 0 1rem; }
   .nav-menu-dropdown li:hover {
@@ -147,6 +150,9 @@ svg {
   color: white;
   font-size: 1.6rem;
   transition: all 0.2s ease-in; }
+  @media only screen and (max-width: 992px) {
+    .submit-item {
+      grid-column: 1/-1; } }
   .submit-item:hover {
     cursor: pointer;
     border: 0.1rem solid #fbd268;
@@ -162,6 +168,9 @@ svg {
   .form-group-double {
     padding: 1.5rem 0 0 0;
     margin-right: 2rem; }
+    @media only screen and (max-width: 992px) {
+      .form-group-double {
+        grid-column: 1/-1; } }
     .form-group-double label {
       display: block;
       font-size: 1.8rem;
@@ -472,6 +481,9 @@ svg {
         display: none; } }
     .nav-logo-mobile {
       display: none; }
+      .nav-logo-mobile-admin {
+        font-size: 2.4rem;
+        color: white; }
       @media only screen and (max-width: 992px) {
         .nav-logo-mobile {
           display: block;
@@ -576,6 +588,9 @@ svg {
   display: flex;
   align-items: center;
   justify-content: space-between; }
+  @media only screen and (max-width: 400px) {
+    .adminNav {
+      width: 100%; } }
   .adminNav-container {
     display: grid;
     grid-template-columns: repeat(12, 1fr);
@@ -810,6 +825,9 @@ svg {
   grid-template-columns: repeat(12, 1fr);
   padding: 1rem 0;
   height: 100vh; }
+  @media only screen and (max-width: 992px) {
+    .dashboard {
+      height: 100%; } }
   .dashboard-control {
     padding: 1rem 2rem;
     background-color: white;
@@ -827,6 +845,9 @@ svg {
     border-right: 0.1rem solid white;
     padding: 0 5rem 3rem 5rem;
     width: 100%; }
+    @media only screen and (max-width: 992px) {
+      .dashboard-left-panel {
+        grid-column: 1/-1; } }
     .dashboard-left-panel-title {
       padding: 2rem 0;
       font-size: 2.5rem; }
@@ -839,6 +860,9 @@ svg {
     grid-column: 6/-1;
     padding: 2rem 5rem 3rem 5rem;
     width: 100%; }
+    @media only screen and (max-width: 992px) {
+      .dashboard-right-panel {
+        grid-column: 1/-1; } }
     .dashboard-right-panel-toggle {
       padding: 1rem 3rem;
       background-color: white;
@@ -893,6 +917,9 @@ svg {
 
 .content {
   padding: 5rem 10rem; }
+  @media only screen and (max-width: 992px) {
+    .content {
+      padding: 5rem 3rem; } }
   .content-header {
     font-size: 2.2rem;
     font-weight: 200;
@@ -913,6 +940,14 @@ svg {
     align-items: center;
     padding: 2rem 0;
     border-bottom: 0.1rem solid #1c1c1b; }
+    @media only screen and (max-width: 992px) {
+      .content-table-headers {
+        overflow-x: scroll; }
+        .content-table-headers::-webkit-scrollbar {
+          width: 0.1rem;
+          height: 0.5rem; }
+        .content-table-headers::-webkit-scrollbar-thumb {
+          background-color: #00b7ec; } }
     .content-table-headers-heading {
       display: flex;
       align-items: center;
@@ -970,6 +1005,17 @@ svg {
     align-items: center;
     padding: 1.5rem 1rem;
     transition: all 1s; }
+    @media only screen and (max-width: 992px) {
+      .content-table-rows {
+        overflow-x: scroll; }
+        .content-table-rows::-webkit-scrollbar {
+          width: 0.1rem;
+          height: 0.5rem; }
+        .content-table-rows::-webkit-scrollbar-thumb {
+          background-color: #00b7ec; } }
+    @media only screen and (max-width: 992px) {
+      .content-table-rows {
+        padding: 0.2rem 1rem; } }
     .content-table-rows:hover {
       background-color: rgba(60, 145, 230, 0.3); }
     .content-table-rows-content {

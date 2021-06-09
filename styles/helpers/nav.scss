@@ -11,6 +11,10 @@
   opacity: 0;
   transition: all 0.8s cubic-bezier(0.81, 0.13, 0.93, 1.21);
 
+  @media only screen and (max-width: $large) {
+    background-color: $color-scheme-2;
+  }
+
   li {
     padding: 0 1rem;
   }

@@ -24,6 +24,7 @@ const adminNav = ({data}) => {
     <div className="adminNav-container">
       <nav className="adminNav">
         <div className="nav-logo" onClick={handleNav}>Admin Panel</div>
+        <div className="nav-logo-mobile-admin" onClick={handleNav}>Admin Panel</div>
         <div className="nav-admin-menu">
           <a className="nav-admin-menu-item">{data !== undefined ? 
           <span>Hello, {data.username}</span>

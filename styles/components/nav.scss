@@ -25,6 +25,11 @@
     &-mobile {
       display: none;
 
+      &-admin {
+        font-size: 2.4rem;
+        color: white;
+      }
+
       @media only screen and (max-width: $large) {
         display: block;
         width: 25rem;
