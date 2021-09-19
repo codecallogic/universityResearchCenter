@@ -25,6 +25,29 @@ svg {
   height: 100%;
   width: 100%; }
 
+.loading span {
+  width: 0.5rem;
+  height: 0.5rem;
+  margin: 0 0.5rem;
+  background-color: white;
+  border-radius: 50%;
+  display: inline-block;
+  animation-name: dots;
+  animation-duration: 1.5s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out; }
+  .loading span:nth-child(1) {
+    animation-delay: 0.2s; }
+  .loading span:nth-child(2) {
+    animation-delay: 0.4s; }
+  .loading span:nth-child(3) {
+    animation-delay: 0.8s; }
+
+@keyframes dots {
+  50% {
+    opacity: 0;
+    transform: scale(0.7) translateY(0.1rem); } }
+
 @keyframes bounce {
   0%,
   25%,
@@ -109,7 +132,7 @@ svg {
   margin-top: 1rem;
   padding: 0.5rem 0;
   left: 0;
-  min-width: max-content;
+  min-width: 100%;
   height: max-content;
   color: #1c1c1b;
   visibility: hidden;
@@ -119,10 +142,13 @@ svg {
     .nav-menu-dropdown {
       background-color: #00b7ec; } }
   .nav-menu-dropdown li {
-    padding: 0 1rem; }
+    width: 100%;
+    padding: 0.5rem 1rem;
+    color: white;
+    background-color: #00b7ec; }
   .nav-menu-dropdown li:hover {
     cursor: pointer;
-    background-color: #00b7ec;
+    background-color: rgba(0, 183, 236, 0.7);
     pointer-events: auto;
     color: white; }
 
@@ -330,8 +356,13 @@ svg {
   display: flex;
   justify-content: center;
   align-items: baseline;
-  overflow-y: auto;
-  z-index: 10; }
+  z-index: 10;
+  overflow-y: scroll; }
+  .bg-modal::-webkit-scrollbar {
+    width: 0.5rem;
+    background-color: #757575; }
+  .bg-modal::-webkit-scrollbar-thumb {
+    background-color: #00b7ec; }
   @media only screen and (max-width: 992px) {
     .bg-modal {
       flex-direction: row-reverse; } }
@@ -357,7 +388,8 @@ svg {
   border-radius: 2rem; }
   @media only screen and (max-width: 992px) {
     .modal-content {
-      width: 100%; } }
+      width: 90%;
+      margin: 0 1rem; } }
   .modal-content-heading {
     background-color: #1c1c1b;
     border-top-right-radius: 2rem;
@@ -431,6 +463,8 @@ svg {
       .modal-content-message {
         padding: 2rem 3rem 8rem 3rem; } }
   .modal-content-source {
+    display: flex;
+    flex-wrap: wrap;
     padding: 2rem 10rem 4rem 10rem;
     font-size: 1.8rem;
     font-weight: 800; }
@@ -438,6 +472,9 @@ svg {
       .modal-content-source {
         padding: 2rem 3rem 8rem 3rem; } }
     .modal-content-source a {
+      width: 100%;
+      word-wrap: break-word;
+      display: inline-block;
       color: #1c1c1b;
       font-size: 1.6rem;
       font-weight: 400; }
@@ -529,6 +566,9 @@ svg {
       position: relative;
       color: white;
       z-index: 10; }
+      @media only screen and (max-width: 600px) {
+        .nav-admin-menu-item {
+          margin-right: 0; } }
       .nav-admin-menu-item:before {
         content: '';
         position: absolute;
@@ -1057,7 +1097,7 @@ svg {
   border-top-left-radius: 2rem;
   border-bottom-right-radius: 2rem;
   border-bottom-left-radius: 2rem;
-  margin: 2rem 0; }
+  margin: 2rem 1rem; }
   @media only screen and (max-width: 992px) {
     .home-announcements {
       grid-column: 1/-1; } }
@@ -1190,13 +1230,14 @@ svg {
   @media only screen and (max-width: 992px) {
     .home-box-left {
       grid-column: 1/-1;
-      margin: 0; } }
+      margin: 0 1rem; } }
 
 .home-box-right {
   grid-column: 7/12; }
   @media only screen and (max-width: 992px) {
     .home-box-right {
-      grid-column: 1/-1; } }
+      grid-column: 1/-1;
+      margin: 0 1rem; } }
 
 .home-meetings {
   width: 100%;
@@ -1250,6 +1291,7 @@ svg {
           font-size: 1.8rem; }
     .home-meetings-item:hover {
       background-color: #4b4f4d;
+      border-radius: 2rem;
       cursor: pointer; }
       .home-meetings-item:hover svg {
         fill: white !important; }
@@ -1325,6 +1367,7 @@ svg {
         color: black; }
   .home-opportunities-item:hover {
     background-color: #4b4f4d;
+    border-radius: 2rem;
     cursor: pointer; }
     .home-opportunities-item:hover svg {
       fill: white !important; }

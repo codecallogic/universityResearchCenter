@@ -46,6 +46,7 @@ const ViewAll = ({account, allContent, authorization, current, studentList, pure
     file: '',
     imageDescr: '',
     source: '',
+    postDate: '',
     expiration: '',
     primary: false,
     enabled: true,
@@ -67,7 +68,7 @@ const ViewAll = ({account, allContent, authorization, current, studentList, pure
     success: null
   })
   const {error, success} = messages
-  const {title, subtitle, imageURL, imageDescr, source, expiration, primary, enabled, message, headline, subheading, button, buttonLink, imageLeftColumn, imageRightColumn, imageLeftColumnURL, imageRightColumnURL,captionOne, captionTwo} = updatedRow
+  const {title, subtitle, imageURL, imageDescr, source, postDate, expiration, primary, enabled, message, headline, subheading, button, buttonLink, imageLeftColumn, imageRightColumn, imageLeftColumnURL, imageRightColumnURL,captionOne, captionTwo} = updatedRow
 
   const handleFilter = (header, key) => {
     // GET SVG XLINK:HREF ATTRITUTE BY ELEMENT BY ID 
@@ -176,6 +177,29 @@ const ViewAll = ({account, allContent, authorization, current, studentList, pure
         )
           
         break;
+
+      case 'postDate':
+        let filterPostDates = content.sort( (a, b) => {
+          return (new Date(b.postDate) - new Date(a.postDate)) > -1 ? asc : desc;
+        })
+
+        elGetAttribute.indexOf('desc') > -1 
+        ? 
+        (elGetElement.setAttribute('xlink:href', '/sprite.svg#icon-chevron-thin-asc'),
+        newArray = [...filterPostDates],
+        setContent(newArray),
+        setAsc(1),
+        setDesc(-1)
+        )
+        : 
+        (elGetElement.setAttribute('xlink:href', '/sprite.svg#icon-chevron-thin-desc'),
+        newArray = [...filterPostDates],
+        setContent(newArray),
+        setAsc(-1),
+        setDesc(1)
+        )
+          
+        break;
       
       case 'enabled':
         let filterEnabled = content.sort( (a, b) => {
@@ -276,7 +300,7 @@ const ViewAll = ({account, allContent, authorization, current, studentList, pure
       if(content[i]._id == selected[0]){
         setEditRowForm(true)
         console.log(content)
-        setUpdatedRow({...updatedRow, id: content[i]._id, title: content[i].title,  subtitle: content[i].subtitle, imageURL: content[i].imageURL, imageDescr: content[i].imageDescr, source: content[i].source, expiration: content[i].expiration, primary: content[i].primary, enabled: content[i].enabled, message: content[i].message, headline: content[i].headline, subheading: content[i].subheading, button: content[i].button, buttonLink: content[i].buttonLink, imageLeftColumnURL: content[i].imageLeftColumn, imageRightColumnURL: content[i].imageRightColumn, captionOne: content[i].captionOne, captionTwo: content[i].captionTwo})
+        setUpdatedRow({...updatedRow, id: content[i]._id, title: content[i].title,  subtitle: content[i].subtitle, imageURL: content[i].imageURL, imageDescr: content[i].imageDescr, source: content[i].source, postDate: content[i].postDate, expiration: content[i].expiration, primary: content[i].primary, enabled: content[i].enabled, message: content[i].message, headline: content[i].headline, subheading: content[i].subheading, button: content[i].button, buttonLink: content[i].buttonLink, imageLeftColumnURL: content[i].imageLeftColumn, imageRightColumnURL: content[i].imageRightColumn, captionOne: content[i].captionOne, captionTwo: content[i].captionTwo})
 
         let id = selected[0]
         let studentProfile = []
@@ -798,14 +822,14 @@ const ViewAll = ({account, allContent, authorization, current, studentList, pure
           </div>
           } */}
           {headers !== null && editRowForm == false && headers.map( (header, i) => (
-          header !== 'primary' && header !== '__v' && header !== '_id' && header !== 'buttonLink' ? 
+          header !== 'primary' && header !== '__v' && header !== '_id' && header !== 'buttonLink' && header !== 'updatedAt' ? 
             <div key={i} className="content-table-headers-heading">
               {header}
               {/* 
               TODO: Add filtering if client needs its 
               FIXME: Change which column can be filtered in ternary operator
               */}
-              {header == 'title' || header == 'subtitle' || header == 'createdAt' || header == 'expiration' || header == 'enabled'?
+              {header == 'title' || header == 'subtitle' || header == 'createdAt' || header == 'postDate' || header == 'expiration' || header == 'enabled'?
               <svg onClick={ () => handleFilter(header, i)}>
                 <use id={header + i} xlinkHref={`/sprite.svg#icon-chevron-thin-desc`}></use>
               </svg>
@@ -831,15 +855,16 @@ const ViewAll = ({account, allContent, authorization, current, studentList, pure
             </label>
           </div>
           {Object.keys(item).map( (keyName, keyIndex) => (
-          keyName !== '__v' && keyName !== 'primary' && keyName !== '_id' && keyName !== 'buttonLink' ?  
+          keyName !== '__v' && keyName !== 'primary' && keyName !== '_id' && keyName !== 'buttonLink' && keyName !== 'updatedAt'?  
             // (console.log(item),
             // console.log(keyName))
             <div key={keyIndex} className="content-table-rows-content">
               <span>
+                {/* {console.log(item[keyName])} */}
                 {keyName == 'url' ? <a target="_blank" href={item['url']}>{item['url'].toString().substring(0, 50)}</a> : 
-                item[keyName].toString().length > 50 ?
-                item[keyName].toString().substring(0, 50): 
-                item[keyName].toString()}
+                item[keyName] !== null && item[keyName].toString().length > 50 ?
+                item[keyName] !== null && item[keyName].toString().substring(0, 50): 
+                item[keyName] !== null &&  item[keyName].toString()}
             </span>
             </div>
           : null
@@ -942,8 +967,12 @@ const ViewAll = ({account, allContent, authorization, current, studentList, pure
               </div>
             </div>
             <div className="form-group-single">
+              <label htmlFor="expiration">Post Date</label>
+              <input type="date" name="postDate" value={postDate} placeholder="mm / dd / yyyy" onChange={handleChange}/>
+            </div>
+            <div className="form-group-single">
               <label htmlFor="expiration">Expiration Date</label>
-              <input type="date" name="expiration" value={expiration} placeholder="mm / dd / yyyy" onChange={handleChange} required/>
+              <input type="date" name="expiration" value={expiration} placeholder="mm / dd / yyyy" onChange={handleChange}/>
             </div>
             <div className="form-group-single">
                 <label htmlFor="message">Message</label>
@@ -989,8 +1018,12 @@ const ViewAll = ({account, allContent, authorization, current, studentList, pure
               </div>
             </div>
             <div className="form-group-single">
+              <label htmlFor="expiration">Post Date</label>
+              <input type="date" name="postDate" value={postDate} placeholder="mm / dd / yyyy" onChange={handleChange}/>
+            </div>
+            <div className="form-group-single">
               <label htmlFor="expiration">Expiration Date</label>
-              <input type="date" name="expiration" value={expiration} placeholder="mm / dd / yyyy" onChange={handleChange} required/>
+              <input type="date" name="expiration" value={expiration} placeholder="mm / dd / yyyy" onChange={handleChange}/>
             </div>
             <div className="form-group-single">
                 <label htmlFor="message">Message</label>
@@ -1034,6 +1067,10 @@ const ViewAll = ({account, allContent, authorization, current, studentList, pure
                   </label>
                   Disable
               </div>
+            </div>
+            <div className="form-group-single">
+              <label htmlFor="expiration">Post Date</label>
+              <input type="date" name="postDate" value={postDate} placeholder="mm / dd / yyyy" onChange={handleChange}/>
             </div>
             <div className="form-group-single">
               <label htmlFor="expiration">Expiration Date</label>

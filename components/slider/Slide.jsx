@@ -30,7 +30,6 @@ const Slide = ({content, slides, activeIndex, active}) => (
         color: white;
         background-color: rgba(75, 79, 77, .5);
         padding: 1rem 2rem;
-        text-transform: capitalize;
         
         span {
           font-weight: 900;
@@ -51,7 +50,6 @@ const Slide = ({content, slides, activeIndex, active}) => (
         color: white;
         background-color: rgba(75, 79, 77, .5);
         padding: 1rem 2rem;
-        text-transform: capitalize;
         
         span {
           font-weight: 900;

@@ -9,6 +9,7 @@ import axios from 'axios'
 import {setDropDowns} from '../../helpers/sort'
 import {manageTags} from '../../helpers/forms'
 import StudentProfile from '../../components/admin/forms/studentProfile'
+import Administrator from '../../components/admin/forms/administrators'
 import Webpage from '../../components/admin/forms/webpage'
 import dynamic from 'next/dynamic'
 import {nanoid} from 'nanoid'
@@ -31,16 +32,19 @@ const Dashboard = ({loggedIn, account, authorization, header, student, webpage})
     imageDescr: '',
     primary: false,
     source: '',
+    postDate: '',
     expiration: '',
     message: '',
   })
-  const {title, subtitle, imageURL, imageDescr, source, expiration, message} = content
+  const {title, subtitle, imageURL, imageDescr, source, postDate, expiration, message} = content
   const [errorMessage, setErrorMessage] = useState(null)
   const [successMessage, setSuccessMessage] = useState(null)
   const [tags, setTags] = useState('')
+  const [loading, setLoading] = useState(false)
 
   // Handle change for box forms
   const handleChange = (e) => {
+    console.log(e.target.value)
     e.target.name == 'primary' ? setContent({...content, [e.target.name]: e.target.checked}) : null
     e.target.name !== 'primary' ? setContent({...content, [e.target.name]: e.target.value}) : null
     setSuccessMessage(null)
@@ -162,6 +166,8 @@ const Dashboard = ({loggedIn, account, authorization, header, student, webpage})
 
     e.target.classList.contains('form-selection-profiles') === true ? setDropDowns('profiles', e.target.options.selectedIndex) : null
 
+    e.target.classList.contains('form-selection-admin') === true ? setDropDowns('admin', e.target.options.selectedIndex) : null
+    // console.log(e.target.value)
     setForm(e.target.value.toLowerCase())
 
     setContent({...content, title: '', subtitle: '', imageURL: '', imageDescr: '', primary: false, source: '', message: ''})
@@ -170,6 +176,7 @@ const Dashboard = ({loggedIn, account, authorization, header, student, webpage})
   // CREATE AN ANNOUNCEMENT
   const createAnnouncement = async (e) => {
     e.preventDefault()
+    setLoading(true)
     let fileID = nanoid()
     
     const data = new FormData()
@@ -186,6 +193,7 @@ const Dashboard = ({loggedIn, account, authorization, header, student, webpage})
           contentType: `multipart/form-data`
         }
       })
+      setLoading(false)
       setContent({...content, title:"", subtitle:"", imageURL:"", imageDescr:""})
       setContent({...content, message:""})
       setSuccessMessage(response.data)
@@ -378,6 +386,14 @@ const Dashboard = ({loggedIn, account, authorization, header, student, webpage})
                 <option value="student">Student Profile</option>
               </select>            
             </div>
+            <div className="dashboard-left-panel-title">Administrators</div>
+            <div className="dashboard-left-panel-group">
+              <select className="dashboard-control form-selection-admin" onChange={handleForms}>
+                <option value="Select an administrator type" disabled>Select administrator type</option>
+                <option value="admin">Administrator</option>
+                <option value="main_admin">Main Administrator</option>
+              </select>            
+            </div>
           </div>
           {form === 'announcements' &&
           <div className="dashboard-right-panel">
@@ -425,7 +441,7 @@ const Dashboard = ({loggedIn, account, authorization, header, student, webpage})
                       
                   />
               </div>
-              <button type="submit" className="submit-item">Create Anouncement</button>
+              <button type="submit" className="submit-item">{!loading && <span>Create Announcement</span>}{loading && <div className="loading"><span></span><span></span><span></span></div>}</button>
             </form>
             {errorMessage !== null && <div className="form-errorMessage">{errorMessage}</div>}
             {successMessage !== null && <div className="form-successMessage">{successMessage}</div>}
@@ -448,6 +464,10 @@ const Dashboard = ({loggedIn, account, authorization, header, student, webpage})
                 <input type="text" name="source" value={source} onChange={handleChange} required/>
               </div>
               <div className="form-group-double">
+                <label htmlFor="postDate">Post Date (Optional)</label>
+                <input type="date" name="postDate" value={postDate} placeholder="mm / dd / yyyy" onChange={handleChange}/>
+              </div>
+              <div className="form-group-single">
                 <label htmlFor="expiration">Expiration Date (Optional)</label>
                 <input type="date" name="expiration" value={expiration} placeholder="mm / dd / yyyy" onChange={handleChange}/>
               </div>
@@ -486,6 +506,10 @@ const Dashboard = ({loggedIn, account, authorization, header, student, webpage})
                 <input type="text" name="source" value={source} onChange={handleChange} required/>
               </div>
               <div className="form-group-double">
+                <label htmlFor="postDate">Post Date (Optional)</label>
+                <input type="date" name="postDate" value={postDate} placeholder="mm / dd / yyyy" onChange={handleChange}/>
+              </div>
+              <div className="form-group-single">
                 <label htmlFor="expiration">Expiration Date (Optional)</label>
                 <input type="date" name="expiration" value={expiration} placeholder="mm / dd / yyyy" onChange={handleChange}/>
               </div>
@@ -524,6 +548,10 @@ const Dashboard = ({loggedIn, account, authorization, header, student, webpage})
                 <input type="text" name="source" value={source} onChange={handleChange} required/>
               </div>
               <div className="form-group-double">
+                <label htmlFor="postDate">Post Date (Optional)</label>
+                <input type="date" name="postDate" value={postDate} placeholder="mm / dd / yyyy" onChange={handleChange}/>
+              </div>
+              <div className="form-group-single">
                 <label htmlFor="expiration">Expiration Date (Optional)</label>
                 <input type="date" name="expiration" value={expiration} placeholder="mm / dd / yyyy" onChange={handleChange}/>
               </div>
@@ -608,6 +636,9 @@ const Dashboard = ({loggedIn, account, authorization, header, student, webpage})
           {form === 'student' &&
             <StudentProfile viewAll={viewAll} createStudentProfile={createStudentProfile} errorMessage={errorMessage} successMessage={successMessage} student={student} handleKeyPress={handleKeyPress} handleChangeStudentProfile={handleChangeStudentProfile} handleStudentProfileBoxes={handleStudentProfileBoxes} tags={tags}/>
           }
+          {form === 'admin' &&
+            <Administrator viewAll={viewAll} errorMessage={errorMessage} successMessage={successMessage}/>
+          }
         </div>
       </div>
     }
@@ -619,7 +650,7 @@ const mapStateToProps = state => {
   return {
       header: state.header,
       student: state.studentProfile,
-      webpage: state.webpage
+      webpage: state.webpage,
   }
 }
 

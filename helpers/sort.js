@@ -85,6 +85,9 @@ export const setDropDowns = (value, i) => {
   components[0].selectedIndex = 0
   const profiles = document.querySelectorAll('.form-selection-profiles')
   profiles[0].selectedIndex = 0
+
+  const administrators = document.querySelectorAll('.form-selection-admin')
+  administrators[0].selectedIndex = 0
   
   if(i){
     const el = document.querySelectorAll(`.form-selection-${value}`)

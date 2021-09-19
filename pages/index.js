@@ -294,7 +294,6 @@ const Home = ({announcements, meetings, facultyOpportunities, studentOpportuniti
             <h1 className="modal-content-heading-title">{generalModal.title}</h1>
             <div className="modal-content-heading-date">Posted: <span>{generalModal.createdAt}</span></div>
           </div>
-          <div className="modal-content-constant">Message from the Director:</div>
           <div className="modal-content-message small-padding" dangerouslySetInnerHTML={ { __html: generalModal.message} }></div>
           <div className="modal-content-source">Source: <a href={generalModal.source}>{generalModal.source}</a></div>
         </div>

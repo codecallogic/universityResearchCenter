@@ -5,6 +5,7 @@ import {headerReducer} from './header'
 import {studentProfileReducer} from './studentProfile'
 import {editRow} from './editRow'
 import {webpageReducer} from './webpage'
+import { administratorReducer } from './administrators'
 
 const rootReducer = combineReducers({
   slider: sliderReducer,
@@ -12,7 +13,8 @@ const rootReducer = combineReducers({
   header: headerReducer,
   studentProfile: studentProfileReducer,
   editRow: editRow,
-  webpage: webpageReducer
+  webpage: webpageReducer,
+  administrator: administratorReducer
 })
 
 export default rootReducer

@@ -4,7 +4,7 @@
   margin-top: 1rem;
   padding: 0.5rem 0;
   left: 0;
-  min-width: max-content;
+  min-width: 100%;
   height: max-content;
   color: $color-scheme-1;
   visibility: hidden;
@@ -16,12 +16,15 @@
   }
 
   li {
-    padding: 0 1rem;
+    width: 100%;
+    padding: 0.5rem 1rem;
+    color: white;
+    background-color: $color-scheme-2;
   }
 
   li:hover {
     cursor: pointer;
-    background-color: $color-scheme-2;
+    background-color: rgba($color-scheme-2, 0.7);
     pointer-events: auto;
     color: $color-scheme-5;
   }

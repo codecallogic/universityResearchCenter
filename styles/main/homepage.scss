@@ -23,7 +23,7 @@
     border-top-left-radius: 2rem;
     border-bottom-right-radius: 2rem;
     border-bottom-left-radius: 2rem;
-    margin: 2rem 0;
+    margin: 2rem 1rem;
 
     @media only screen and (max-width: $large) {
       grid-column: 1/-1;
@@ -225,7 +225,7 @@
 
       @media only screen and (max-width: $large) {
         grid-column: 1/-1;
-        margin: 0;
+        margin: 0 1rem;
       }
     }
 
@@ -234,6 +234,7 @@
 
       @media only screen and (max-width: $large) {
         grid-column: 1/-1;
+        margin: 0 1rem;
       }
     }
   }
@@ -309,6 +310,7 @@
 
       &:hover {
         background-color: $color-shade-dark-gray;
+        border-radius: 2rem;
         cursor: pointer;
 
         svg {
@@ -419,6 +421,7 @@
 
       &:hover {
         background-color: $color-shade-dark-gray;
+        border-radius: 2rem;
         cursor: pointer;
 
         svg {
