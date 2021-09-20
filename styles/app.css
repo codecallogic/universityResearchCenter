@@ -172,7 +172,7 @@ svg {
   background-color: #f0ae21;
   outline: none;
   border: 0.1rem solid #f0ae21;
-  margin: 1rem 0;
+  margin: 2rem 0 0 0;
   color: white;
   font-size: 1.6rem;
   transition: all 0.2s ease-in; }
@@ -225,7 +225,18 @@ svg {
     .form-group-single label {
       display: block;
       font-size: 1.8rem;
-      padding: 0.5rem 0; }
+      padding: 0.5rem 0;
+      margin: 0.5rem 0; }
+    .form-group-single-label-button {
+      margin-left: 1rem;
+      padding: 1rem 2rem;
+      background-color: #1c1c1b;
+      color: white;
+      border-radius: 1.2rem;
+      transition: all 0.5s; }
+      .form-group-single-label-button:hover {
+        cursor: pointer;
+        background-color: #00b7ec; }
     .form-group-single input {
       padding: 0.8rem 0;
       width: 100%;

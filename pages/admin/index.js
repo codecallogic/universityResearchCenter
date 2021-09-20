@@ -353,7 +353,7 @@ const Dashboard = ({loggedIn, account, authorization, header, student, webpage})
   useEffect( () => {
     setDropDowns(null, null)
   }, [])
-  
+
   return (
     <>
     {loggedIn && <div>
@@ -637,7 +637,7 @@ const Dashboard = ({loggedIn, account, authorization, header, student, webpage})
             <StudentProfile viewAll={viewAll} createStudentProfile={createStudentProfile} errorMessage={errorMessage} successMessage={successMessage} student={student} handleKeyPress={handleKeyPress} handleChangeStudentProfile={handleChangeStudentProfile} handleStudentProfileBoxes={handleStudentProfileBoxes} tags={tags}/>
           }
           {form === 'admin' &&
-            <Administrator viewAll={viewAll} errorMessage={errorMessage} successMessage={successMessage}/>
+            <Administrator authorization={authorization} viewAll={viewAll} errorMessage={errorMessage} successMessage={successMessage}/>
           }
         </div>
       </div>

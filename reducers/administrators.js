@@ -6,6 +6,7 @@ const initialState = {
   lastName: '',
   urlID: '',
   tempPassword: '',
+  role: ''
 }
 
 export const administratorReducer = (state = initialState, action) =>  {
