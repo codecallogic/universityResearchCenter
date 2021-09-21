@@ -1469,9 +1469,15 @@ svg {
       display: grid;
       grid-template-columns: 15rem 1fr;
       justify-content: center; }
+      @media only screen and (max-width: 600px) {
+        .home-student-spotlight-item-group {
+          grid-template-columns: 1fr; } }
       .home-student-spotlight-item-group-image {
         width: 15rem;
         height: 15rem; }
+        @media only screen and (max-width: 600px) {
+          .home-student-spotlight-item-group-image {
+            margin: 0 0 2rem 0; } }
         .home-student-spotlight-item-group-image img {
           width: 100%;
           height: 100%;
@@ -1498,6 +1504,9 @@ svg {
             display: flex;
             align-items: center; }
             .home-student-spotlight-item-group-info-details div div {
+              width: 100%;
+              display: flex;
+              flex-wrap: wrap;
               margin-left: 1rem;
               font-size: 1.6rem;
               color: #1c1c1b; }
@@ -1505,6 +1514,13 @@ svg {
                 margin-left: 0.5rem;
                 text-decoration: none;
                 color: #f0ae21; }
+                @media only screen and (max-width: 768px) {
+                  .home-student-spotlight-item-group-info-details div div a {
+                    width: 100%;
+                    word-break: break-all; } }
+                @media only screen and (max-width: 600px) {
+                  .home-student-spotlight-item-group-info-details div div a {
+                    margin: 0; } }
           .home-student-spotlight-item-group-info-details svg {
             margin-left: 3rem;
             width: 2rem;
@@ -1549,11 +1565,21 @@ svg {
   .student-profile-container {
     display: grid;
     grid-template-columns: repeat(12, 1fr); }
+  @media only screen and (max-width: 768px) {
+    .student-profile {
+      grid-column: 1/-1; } }
   .student-profile-record {
-    background-color: #fbd268;
+    background-color: #00b7ec;
     color: white;
     padding: 2rem;
     border-radius: 1rem; }
+    @media only screen and (max-width: 1450px) {
+      .student-profile-record {
+        display: flex;
+        flex-direction: column; } }
+    @media only screen and (max-width: 400px) {
+      .student-profile-record {
+        padding: 0 1rem; } }
     .student-profile-record-image {
       float: left;
       width: auto;
@@ -1562,6 +1588,11 @@ svg {
       shape-outside: circle(50% at 50% 50%);
       -webkit-clip-path: circle(50% at 50% 50%);
       clip-path: circle(50% at 50% 50%); }
+      @media only screen and (max-width: 1450px) {
+        .student-profile-record-image {
+          float: none;
+          clear: both;
+          clip-path: circle(100% at 50% 100%); } }
       .student-profile-record-image img {
         width: 30rem;
         height: 30rem;
@@ -1577,6 +1608,9 @@ svg {
       padding: 0rem 2rem;
       font-size: 3.6rem;
       font-weight: 200; }
+      @media only screen and (max-width: 1450px) {
+        .student-profile-record-details h1 {
+          padding: 0; } }
     .student-profile-record-details h2 {
       font-size: 2.4rem;
       font-weight: 200; }
@@ -1585,20 +1619,30 @@ svg {
       font-weight: 200; }
     .student-profile-record-details-info {
       padding: 3rem; }
+      @media only screen and (max-width: 992px) {
+        .student-profile-record-details-info {
+          padding: 1rem 0; } }
       .student-profile-record-details-info div {
         display: flex;
         align-items: center; }
         .student-profile-record-details-info div div {
+          width: 100%;
+          display: flex;
+          flex-wrap: wrap;
           margin-left: 1rem;
           font-size: 1.6rem; }
           .student-profile-record-details-info div div a {
             margin-left: 0.5rem;
             text-decoration: none;
-            color: #f0ae21; }
+            color: #1c1c1b; }
+            @media only screen and (max-width: 768px) {
+              .student-profile-record-details-info div div a {
+                width: 100%;
+                word-break: break-all; } }
         .student-profile-record-details-info div svg {
           margin-left: 3rem;
-          width: 3rem;
-          height: 3rem;
+          width: 30px;
+          height: 30px;
           fill: white; }
   .student-profile-toggle {
     margin-top: 10rem; }

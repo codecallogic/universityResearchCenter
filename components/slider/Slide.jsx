@@ -55,6 +55,10 @@ const Slide = ({content, slides, activeIndex, active}) => (
           font-weight: 900;
           margin-right: 2rem;
         }
+
+        @media only screen and (max-width: 600px) {
+          bottom: 80%;
+        }
       `)}>
       {content.captionTwo}
       </div>

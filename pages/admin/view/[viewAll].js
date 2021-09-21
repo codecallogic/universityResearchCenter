@@ -32,7 +32,7 @@ const ViewAll = ({account, allContent, authorization, current, studentList, pure
     allContent ? allContent : studentList 
   )
   const [headers, setHeaders] = useState(
-    allContent && allContent.length > 0 ? allContent[0] ? Object.keys(allContent[0]) : studentList ? Object.keys(studentList[0]) : null : null
+    allContent && allContent.length > 0 ? allContent[0] ? Object.keys(allContent[0]) : studentList ? Object.keys(studentList[0]) : null : studentList ? Object.keys(studentList[0]) : null
   )
   const [selected, setSelected] = useState([])
   const [asc, setAsc] = useState(-1)
@@ -69,6 +69,10 @@ const ViewAll = ({account, allContent, authorization, current, studentList, pure
   })
   const {error, success} = messages
   const {title, subtitle, imageURL, imageDescr, source, postDate, expiration, primary, enabled, message, headline, subheading, button, buttonLink, imageLeftColumn, imageRightColumn, imageLeftColumnURL, imageRightColumnURL,captionOne, captionTwo} = updatedRow
+
+  useEffect(() => {
+
+  }, [])
 
   const handleFilter = (header, key) => {
     // GET SVG XLINK:HREF ATTRITUTE BY ELEMENT BY ID 
