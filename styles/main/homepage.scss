@@ -610,6 +610,11 @@
                   text-decoration: none;
                   color: $color-scheme-3;
 
+                  @media only screen and (max-width: $extra-large) {
+                    width: 100%;
+                    word-break: break-all;
+                  }
+
                   @media only screen and (max-width: $medium) {
                     width: 100%;
                     word-break: break-all;

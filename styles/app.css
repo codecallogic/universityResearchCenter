@@ -1514,6 +1514,10 @@ svg {
                 margin-left: 0.5rem;
                 text-decoration: none;
                 color: #f0ae21; }
+                @media only screen and (max-width: 1250px) {
+                  .home-student-spotlight-item-group-info-details div div a {
+                    width: 100%;
+                    word-break: break-all; } }
                 @media only screen and (max-width: 768px) {
                   .home-student-spotlight-item-group-info-details div div a {
                     width: 100%;
