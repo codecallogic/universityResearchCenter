@@ -7,7 +7,7 @@ import dynamic from 'next/dynamic'
 const ReactQuill = dynamic(() => import('react-quill'), {ssr: false, loading: () => <p>Loading ...</p>})
 import 'react-quill/dist/quill.snow.css'
 
-const Administrators = ({viewAll, authorization, errorMessage, successMessage, administrator, createAdministrator}) => {
+const Administrators = ({viewAll, authorization, errorMessage, successMessage, administrator, createAdministrator, resetAdministrator}) => {
   const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState('')
   const [error, setError] = useState('')
@@ -66,6 +66,7 @@ const Administrators = ({viewAll, authorization, errorMessage, successMessage, a
   const submitAdministrator = async (e) => {
     e.preventDefault()
     setLoading(true)
+    setError('')
     try {
       const responseRegister = await axios.post(`${API}/register`, administrator, {
         headers: {
@@ -75,6 +76,7 @@ const Administrators = ({viewAll, authorization, errorMessage, successMessage, a
       })
       console.log(responseRegister)
       setLoading(false)
+      resetAdministrator()
       setSuccess(responseRegister.data)
     } catch (error) {
       console.log(error)
@@ -124,7 +126,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    createAdministrator: (name, value) => dispatch({type: 'CREATE_ADMIN', name: name, value: value})
+    createAdministrator: (name, value) => dispatch({type: 'CREATE_ADMIN', name: name, value: value}),
+    resetAdministrator: () => dispatch({type: 'RESET_STATE'})
   }
 }
 

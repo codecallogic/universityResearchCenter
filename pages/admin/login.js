@@ -17,6 +17,7 @@ const adminLogin = () => {
     error: null,
     success: null
   })
+  const [loading, setLoading] = useState(false)
 
   const {loginCred, password} = user
   const [toggle, setToggle] = useState({showToggle: false})
@@ -36,12 +37,15 @@ const adminLogin = () => {
 
   const loginAdmin = async (e) => {
     e.preventDefault()
+    setLoading(true)
     try {
       const response = await axios.post(`${API}/admin/login`, {loginCred, password})
+      setLoading(false)
       window.location.href = '/admin'
     } catch (error) {
-      console.log(error)
-      if(error.response.data) setMessage({...messages, error: error.response.data})
+      console.log(error.response)
+      setLoading(false)
+      if(error) error.response ? setMessage({...messages, error: error.response.data}) : setMessage({...messages, error: 'Error login you in, please try again later'})
     }
   }
   
@@ -91,7 +95,7 @@ const adminLogin = () => {
                     </ul>
                 </div>
               </div>
-              <button type="submit" className="admin-form-button">Login</button>
+              <button type="submit" className="admin-form-button">{!loading && <span>Login</span>}{loading && <div className="loading"><span></span><span></span><span></span></div>}</button>
           </div>
         </form>
         {error !== null && <div className="form-errorMessage">{error}</div>}

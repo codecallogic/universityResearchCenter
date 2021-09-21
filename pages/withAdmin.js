@@ -34,6 +34,7 @@ const withAdmin = Page => {
       authorization = accessToken
 
     } catch(err){
+      console.log(err)
       if(err){
         message = err.response ? err.response.data : err
         account = null

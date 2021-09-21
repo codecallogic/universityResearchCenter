@@ -19,7 +19,6 @@ import 'react-quill/dist/quill.snow.css'
 // TODO: Create front end protected url routes using SSR for Admin
 
 const Dashboard = ({loggedIn, account, authorization, header, student, webpage}) => {
-
   const dispatch = useDispatch()
   const router = useRouter()
 
@@ -41,6 +40,11 @@ const Dashboard = ({loggedIn, account, authorization, header, student, webpage})
   const [successMessage, setSuccessMessage] = useState(null)
   const [tags, setTags] = useState('')
   const [loading, setLoading] = useState(false)
+
+  useEffect( () => {
+    console.log(user)
+    setDropDowns(null, null)
+  }, [])
 
   // Handle change for box forms
   const handleChange = (e) => {
@@ -350,10 +354,6 @@ const Dashboard = ({loggedIn, account, authorization, header, student, webpage})
     }
   }
 
-  useEffect( () => {
-    setDropDowns(null, null)
-  }, [])
-
   return (
     <>
     {loggedIn && <div>
@@ -386,6 +386,7 @@ const Dashboard = ({loggedIn, account, authorization, header, student, webpage})
                 <option value="student">Student Profile</option>
               </select>            
             </div>
+            {user.role == 'admin' && <>
             <div className="dashboard-left-panel-title">Administrators</div>
             <div className="dashboard-left-panel-group">
               <select className="dashboard-control form-selection-admin" onChange={handleForms}>
@@ -394,7 +395,9 @@ const Dashboard = ({loggedIn, account, authorization, header, student, webpage})
                 <option value="main_admin">Main Administrator</option>
               </select>            
             </div>
-          </div>
+            </>
+            }
+            </div>
           {form === 'announcements' &&
           <div className="dashboard-right-panel">
             <div className="dashboard-right-panel-toggle" onClick={viewAll}>View All Announcements</div>
