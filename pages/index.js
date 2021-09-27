@@ -193,7 +193,6 @@ const Home = ({announcements, meetings, facultyOpportunities, studentOpportuniti
         </div>
       }
       </div>
-
       <div className="home-box-right">
         <div className="home-opportunities-faculty">
           <div className="home-opportunities-faculty-header">

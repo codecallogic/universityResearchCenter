@@ -10,6 +10,7 @@ import {setDropDowns} from '../../helpers/sort'
 import {manageTags} from '../../helpers/forms'
 import StudentProfile from '../../components/admin/forms/studentProfile'
 import Administrator from '../../components/admin/forms/administrators'
+import AdministratorMain from '../../components/admin/forms/administratorsMain'
 import Webpage from '../../components/admin/forms/webpage'
 import dynamic from 'next/dynamic'
 import {nanoid} from 'nanoid'
@@ -386,17 +387,15 @@ const Dashboard = ({loggedIn, account, authorization, header, student, webpage})
                 <option value="student">Student Profile</option>
               </select>            
             </div>
-            {user.role == 'admin' && <>
+            
             <div className="dashboard-left-panel-title">Administrators</div>
             <div className="dashboard-left-panel-group">
               <select className="dashboard-control form-selection-admin" onChange={handleForms}>
                 <option value="Select an administrator type" disabled>Select administrator type</option>
                 <option value="admin">Administrator</option>
-                <option value="main_admin">Main Administrator</option>
+                {user.role == 'admin' &&<option value="main_admin">Main Administrator</option>}
               </select>            
             </div>
-            </>
-            }
             </div>
           {form === 'announcements' &&
           <div className="dashboard-right-panel">
@@ -641,6 +640,9 @@ const Dashboard = ({loggedIn, account, authorization, header, student, webpage})
           }
           {form === 'admin' &&
             <Administrator authorization={authorization} viewAll={viewAll} errorMessage={errorMessage} successMessage={successMessage}/>
+          }
+          {form === 'main_admin' &&
+            <AdministratorMain authorization={authorization} viewAll={viewAll} errorMessage={errorMessage} successMessage={successMessage}/>
           }
         </div>
       </div>

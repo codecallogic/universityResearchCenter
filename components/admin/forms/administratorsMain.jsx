@@ -13,7 +13,7 @@ const Administrators = ({viewAll, authorization, errorMessage, successMessage, a
   const [error, setError] = useState('')
 
   useEffect(() => {
-   createAdministrator('role', 'admin_restricted')
+   createAdministrator('role', 'admin')
   }, [])
 
   // BROWSER CHARACTER SET https://net-comber.com/charset.html
@@ -67,6 +67,9 @@ const Administrators = ({viewAll, authorization, errorMessage, successMessage, a
     e.preventDefault()
     setLoading(true)
     setError('')
+    if(!administrator.firstName) return setError('First name field cannot be empty')
+    if(!administrator.lastName) return setError('Last name field cannot be empty')
+  
     try {
       const responseRegister = await axios.post(`${API}/register`, administrator, {
         headers: {

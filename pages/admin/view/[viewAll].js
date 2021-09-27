@@ -11,7 +11,6 @@ const ReactQuill = dynamic(() => import('react-quill'), {ssr: false, loading: ()
 import 'react-quill/dist/quill.snow.css'
 axios.defaults.withCredentials = true
 
-
 // HELPERS
 import {getToken} from '../../../helpers/auth'
 import {parseCreatedAtDates, parseUpdatedAtDates, parseExpirationDates, removeHeadersSliderComponent, removeHeadersStudentProfile, generateURL} from '../../../helpers/sort'
@@ -69,10 +68,6 @@ const ViewAll = ({account, allContent, authorization, current, studentList, pure
   })
   const {error, success} = messages
   const {title, subtitle, imageURL, imageDescr, source, postDate, expiration, primary, enabled, message, headline, subheading, button, buttonLink, imageLeftColumn, imageRightColumn, imageLeftColumnURL, imageRightColumnURL,captionOne, captionTwo} = updatedRow
-
-  useEffect(() => {
-
-  }, [])
 
   const handleFilter = (header, key) => {
     // GET SVG XLINK:HREF ATTRITUTE BY ELEMENT BY ID 
@@ -303,7 +298,6 @@ const ViewAll = ({account, allContent, authorization, current, studentList, pure
     for(let i = 0; i < content.length; i++){
       if(content[i]._id == selected[0]){
         setEditRowForm(true)
-        console.log(content)
         setUpdatedRow({...updatedRow, id: content[i]._id, title: content[i].title,  subtitle: content[i].subtitle, imageURL: content[i].imageURL, imageDescr: content[i].imageDescr, source: content[i].source, postDate: content[i].postDate, expiration: content[i].expiration, primary: content[i].primary, enabled: content[i].enabled, message: content[i].message, headline: content[i].headline, subheading: content[i].subheading, button: content[i].button, buttonLink: content[i].buttonLink, imageLeftColumnURL: content[i].imageLeftColumn, imageRightColumnURL: content[i].imageRightColumn, captionOne: content[i].captionOne, captionTwo: content[i].captionTwo})
 
         let id = selected[0]
@@ -599,11 +593,13 @@ const ViewAll = ({account, allContent, authorization, current, studentList, pure
   const submitUpdateStudentProfile = async (e) => {
     e.preventDefault()
     const data = new FormData()
-    console.log(edit)
+
     edit.file ? data.append('file', edit.file, edit.photo) : null
     for( let key in edit){
+      // if(key == 'researchInterests') data.append(key, edit[key])
       if(key !== 'file') data.append(key, edit[key])
     }
+
     try {
       const response = await axios.post(`${API}/student-profile/update`, data, {
         headers: {
@@ -751,9 +747,23 @@ const ViewAll = ({account, allContent, authorization, current, studentList, pure
         generateURL(webpageResponse.data)
         setContent(webpageResponse.data)
         break;
+
+      case 'administrators':
+        const adminResponse = await axios.post(`${API}/admin/delete`, selected, {
+          headers: {
+            Authorization: `Bearer ${authorization}`,
+            contentType: `application/json`
+          }
+        })
+
+        // CHANGE CREATEDAT AND UPDATEDAT FORMAT TO YYYY-MM-DD
+        parseCreatedAtDates(adminResponse.data)
+        parseUpdatedAtDates(adminResponse.data)
+        setContent(adminResponse.data)
+        break;
       
         default:
-          break;
+          break;   
       }
 
       
@@ -800,8 +810,8 @@ const ViewAll = ({account, allContent, authorization, current, studentList, pure
       <div className="content-table">
         {editRowForm == false && 
           <div className="content-table-buttons">
-            <button className={ selected.length >= 1 ? 'enabled ' : null} disabled={selected.length >= 1 ? false: true}onClick={deleteRow}>Delete</button>
-            <button className={ selected.length == 1 ? 'enabled ' : null} disabled={selected.length == 1 ? false: true} onClick={editRow}>Edit</button>
+            <button className={ selected.length >= 1 ? 'enabled ' : null} disabled={selected.length >= 1 ? false: true} onClick={deleteRow}>Delete</button>
+            {user.role !== 'admin' ? user.role !== 'admin_restricted' ? <button className={ selected.length == 1 ? 'enabled ' : null} disabled={selected.length == 1 ? false: true} onClick={editRow}>Edit</button> : null  : null}
           </div>
         }
 
@@ -826,15 +836,15 @@ const ViewAll = ({account, allContent, authorization, current, studentList, pure
           </div>
           } */}
           {headers !== null && editRowForm == false && headers.map( (header, i) => (
-          header !== 'primary' && header !== '__v' && header !== '_id' && header !== 'buttonLink' && header !== 'updatedAt' ? 
+          header !== 'primary' && header !== '__v' && header !== '_id' && header !== 'buttonLink' && header !== 'updatedAt' && header !== 'password' ? 
             <div key={i} className="content-table-headers-heading">
               {header}
               {/* 
               TODO: Add filtering if client needs its 
               FIXME: Change which column can be filtered in ternary operator
               */}
-              {header == 'title' || header == 'subtitle' || header == 'createdAt' || header == 'postDate' || header == 'expiration' || header == 'enabled'?
-              <svg onClick={ () => handleFilter(header, i)}>
+              {header == 'title' || header == 'subtitle' || header == 'createdAt' || header == 'postDate' || header == 'expiration' || header == 'enabled' || header == 'username'?
+              <svg className="content-table-headers-heading-svg" onClick={ () => handleFilter(header, i)}>
                 <use id={header + i} xlinkHref={`/sprite.svg#icon-chevron-thin-desc`}></use>
               </svg>
               : null
@@ -859,7 +869,7 @@ const ViewAll = ({account, allContent, authorization, current, studentList, pure
             </label>
           </div>
           {Object.keys(item).map( (keyName, keyIndex) => (
-          keyName !== '__v' && keyName !== 'primary' && keyName !== '_id' && keyName !== 'buttonLink' && keyName !== 'updatedAt'?  
+          keyName !== '__v' && keyName !== 'primary' && keyName !== '_id' && keyName !== 'buttonLink' && keyName !== 'updatedAt' && keyName !== 'password'?  
             // (console.log(item),
             // console.log(keyName))
             <div key={keyIndex} className="content-table-rows-content">
@@ -1314,6 +1324,25 @@ ViewAll.getInitialProps = async ({query, req}) => {
       
       return {
         allContent: webpageResponse.data,
+        current: query.viewAll
+      }
+
+      break;
+
+    case 'administrators':
+      let administratorsResponse = await axios.get(`${API}/admin/list`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          contentType: `application/json`
+        }
+      })
+
+      // CHANGE CREATEDAT AND UPDATEDAT FORMAT TO YYYY-MM-DD
+      parseCreatedAtDates(administratorsResponse.data)
+      parseUpdatedAtDates(administratorsResponse.data)
+      
+      return {
+        allContent: administratorsResponse.data,
         current: query.viewAll
       }
 
