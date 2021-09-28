@@ -33,6 +33,7 @@ const adminNav = ({data}) => {
           }
             <ul className="nav-menu-dropdown">
               <li onClick={() => window.location.href = "/"}>Home</li>
+              <li onClick={() => window.location.href = "/admin/account"}>Account</li>
               <li onClick={logout}>Logout</li>
             </ul>
           </a>

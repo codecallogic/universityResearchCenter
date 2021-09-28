@@ -1,0 +1,68 @@
+.account {
+  width: 100%;
+  padding: 8rem;
+
+  &-breadcrumbs {
+    display: flex;
+
+    &-item {
+      display: flex;
+      align-items: center;
+      font-size: 1.8rem;
+
+      span {
+        &:hover {
+          cursor: pointer;
+          text-decoration: underline;
+        }
+      }
+
+      svg {
+        width: 2rem;
+        height: 2rem;
+        fill: $color-scheme-1;
+      }
+
+      div {
+        color: $color-scheme-2;
+      }
+    }
+  }
+
+  &-dashboard {
+    display: flex;
+    width: 100%;
+    margin: 3rem 1rem;
+
+    &-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 15rem;
+      height: 15rem;
+      border-radius: 1.2rem;
+      font-size: 1.8rem;
+      font-weight: 300;
+      margin-right: 5rem;
+      background-color: $color-scheme-2;
+      color: white;
+      flex-wrap: wrap;
+      text-align: center;
+      box-shadow: 0.2rem 0.5rem 0.5rem 0.2rem rgba(0, 0, 0, 0.2);
+      transition: all 0.5s;
+
+      svg {
+        width: 4rem;
+        height: 4rem;
+        margin: 1rem;
+        fill: white;
+      }
+
+      &:hover {
+        cursor: pointer;
+        background-color: $color-scheme-1;
+      }
+    }
+  }
+}

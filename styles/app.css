@@ -1102,6 +1102,54 @@ svg {
         .content-table-rows-content svg:hover {
           cursor: pointer; }
 
+.account {
+  width: 100%;
+  padding: 8rem; }
+  .account-breadcrumbs {
+    display: flex; }
+    .account-breadcrumbs-item {
+      display: flex;
+      align-items: center;
+      font-size: 1.8rem; }
+      .account-breadcrumbs-item span:hover {
+        cursor: pointer;
+        text-decoration: underline; }
+      .account-breadcrumbs-item svg {
+        width: 2rem;
+        height: 2rem;
+        fill: #1c1c1b; }
+      .account-breadcrumbs-item div {
+        color: #00b7ec; }
+  .account-dashboard {
+    display: flex;
+    width: 100%;
+    margin: 3rem 1rem; }
+    .account-dashboard-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 15rem;
+      height: 15rem;
+      border-radius: 1.2rem;
+      font-size: 1.8rem;
+      font-weight: 300;
+      margin-right: 5rem;
+      background-color: #00b7ec;
+      color: white;
+      flex-wrap: wrap;
+      text-align: center;
+      box-shadow: 0.2rem 0.5rem 0.5rem 0.2rem rgba(0, 0, 0, 0.2);
+      transition: all 0.5s; }
+      .account-dashboard-item svg {
+        width: 4rem;
+        height: 4rem;
+        margin: 1rem;
+        fill: white; }
+      .account-dashboard-item:hover {
+        cursor: pointer;
+        background-color: #1c1c1b; }
+
 .home-container {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
