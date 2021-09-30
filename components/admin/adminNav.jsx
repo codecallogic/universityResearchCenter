@@ -4,7 +4,6 @@ import {API} from '../../config'
 import axios from 'axios'
 
 const adminNav = ({data}) => {
-
   const router = useRouter()
   
   const handleNav = (e) => {

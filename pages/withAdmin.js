@@ -42,6 +42,18 @@ const withAdmin = Page => {
         authorization = null
       }
     }
+
+    let userInfo = null
+
+    if(account){
+      try {
+        const response = await axios.post(`${API}/user-info`, {user: JSON.parse(decodeURIComponent(account))})
+        userInfo = response.data
+      } catch (err) {
+        console.log(err.response)
+      }
+    }
+    
   
     if(account === null){
       context.res.writeHead(302, {
@@ -54,7 +66,8 @@ const withAdmin = Page => {
         authorization,
         account,
         loggedIn,
-        message
+        message,
+        userInfo
       }
     }
   }
