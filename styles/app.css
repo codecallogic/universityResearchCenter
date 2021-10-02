@@ -682,6 +682,40 @@ svg {
     .activate-button:active {
       transform: translateY(-0.2rem); }
 
+.change_password {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  padding: 5rem; }
+  .change_password-title {
+    font-size: 2.4rem;
+    font-weight: 700; }
+  .change_password-form {
+    width: 35%; }
+    @media only screen and (max-width: 992px) {
+      .change_password-form {
+        width: 100%; } }
+    .change_password-form button {
+      width: 50%; }
+      @media only screen and (max-width: 992px) {
+        .change_password-form button {
+          width: 100%; } }
+  .change_password-error_handling {
+    margin: 3rem 0;
+    width: 35%; }
+    @media only screen and (max-width: 992px) {
+      .change_password-error_handling {
+        width: 100%; } }
+
+.changeEmail {
+  display: flex;
+  justify-content: center;
+  padding: 10rem; }
+  .changeEmail-message {
+    font-size: 3.8rem;
+    color: #f0ae21; }
+
 .adminNav {
   grid-column: 1/-1;
   padding: 3rem;
@@ -1131,18 +1165,25 @@ svg {
     .content-table-rows-content {
       display: flex;
       align-items: center;
-      font-size: 1.8rem; }
+      min-width: 13rem;
+      max-width: 13rem;
+      font-size: 1.8rem;
+      overflow-x: scroll; }
+      .content-table-rows-content::-webkit-scrollbar {
+        width: 0.1rem;
+        height: 0.3rem; }
+      .content-table-rows-content::-webkit-scrollbar-thumb {
+        background-color: #1c1c1b; }
+      @media only screen and (max-width: 1250px) {
+        .content-table-rows-content {
+          max-width: 8rem; } }
       .content-table-rows-content:last-child span {
         max-width: max-content !important; }
       .content-table-rows-content span {
-        max-width: 8rem;
-        padding: 0 1rem 0 0;
-        overflow-x: scroll; }
-        .content-table-rows-content span::-webkit-scrollbar {
-          width: 0.1rem;
-          height: 0.3rem; }
-        .content-table-rows-content span::-webkit-scrollbar-thumb {
-          background-color: #1c1c1b; }
+        display: flex;
+        min-width: max-content;
+        max-width: 50rem;
+        padding: 0 1rem 0 0; }
         @media only screen and (max-width: 1250px) {
           .content-table-rows-content span {
             max-width: 8rem; } }

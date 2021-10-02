@@ -45,3 +45,52 @@
     }
   }
 }
+
+.change_password {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  padding: 5rem;
+
+  &-title {
+    font-size: 2.4rem;
+    font-weight: 700;
+  }
+
+  &-form {
+    width: 35%;
+
+    @media only screen and (max-width: $large) {
+      width: 100%;
+    }
+
+    button {
+      width: 50%;
+
+      @media only screen and (max-width: $large) {
+        width: 100%;
+      }
+    }
+  }
+
+  &-error_handling {
+    margin: 3rem 0;
+    width: 35%;
+
+    @media only screen and (max-width: $large) {
+      width: 100%;
+    }
+  }
+}
+
+.changeEmail {
+  display: flex;
+  justify-content: center;
+  padding: 10rem;
+
+  &-message {
+    font-size: 3.8rem;
+    color: $color-scheme-3;
+  }
+}

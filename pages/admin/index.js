@@ -385,13 +385,6 @@ const Dashboard = ({loggedIn, account, authorization, header, student, webpage})
               <select className="dashboard-control form-selection-profiles" onChange={handleForms}>
                 <option value="select a profile" disabled>Select a profile</option>
                 <option value="student">Student Profile</option>
-              </select>            
-            </div>
-            
-            <div className="dashboard-left-panel-title">Administrators</div>
-            <div className="dashboard-left-panel-group">
-              <select className="dashboard-control form-selection-admin" onChange={handleForms}>
-                <option value="Select an administrator type" disabled>Select administrator type</option>
                 <option value="admin">Administrator</option>
                 {user.role == 'admin' &&<option value="main_admin">Main Administrator</option>}
               </select>            

@@ -61,12 +61,16 @@ const Administrators = ({viewAll, authorization, errorMessage, successMessage, a
     }
     createAdministrator('tempPassword', password)
     createAdministrator('password', password)
+    return password
   }
 
   const submitAdministrator = async (e) => {
     e.preventDefault()
     setLoading(true)
     setError('')
+    let password = generatePassword()
+    administrator.tempPassword = password
+    administrator.password = password
     try {
       const responseRegister = await axios.post(`${API}/register`, administrator, {
         headers: {
@@ -74,7 +78,7 @@ const Administrators = ({viewAll, authorization, errorMessage, successMessage, a
             contentType: `application/json`
         }
       })
-      console.log(responseRegister)
+      // console.log(responseRegister)
       setLoading(false)
       resetAdministrator()
       setSuccess(responseRegister.data)
@@ -106,10 +110,10 @@ const Administrators = ({viewAll, authorization, errorMessage, successMessage, a
           <label htmlFor="last_name">Last Name</label>
           <input type="text" name="last_name" value={administrator.last_name} onChange={(e) => createAdministrator('lastName', e.target.value)} required/>
         </div>
-        <div className="form-group-single">
+        {/* <div className="form-group-single">
           <label htmlFor="password">Temporary Password <span className="form-group-single-label-button" onClick={() => generatePassword()}>Generate Password</span></label>
           <input type="text" name="password" value={administrator.tempPassword} readOnly required/>
-        </div>
+        </div> */}
         <button type="submit" className="submit-item">{!loading && <span>Create Administrator</span>}{loading && <div className="loading"><span></span><span></span><span></span></div>}</button>
       </form>
       {error && <div className="form-errorMessage">{error}</div>}

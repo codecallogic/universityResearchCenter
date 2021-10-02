@@ -12,6 +12,7 @@ const Account = ({account, administrator, createAdministrator, userInfo}) => {
   const [error, setError] = useState('')
   const [message, setMessage] = useState('')
   const [loading, setLoading] = useState(false)
+  const [newEmail, setNewEmail] = useState('')
 
   useEffect(() => {
     if(userInfo){
@@ -53,13 +54,27 @@ const Account = ({account, administrator, createAdministrator, userInfo}) => {
       if(error) error.response ? setError(error.response.data) : setError('Error sending reset password email')
     }
   }
+
+  const sendChangeEmailConfirmation = async (e) => {
+    e.preventDefault()
+    setLoading(true)
+    try {
+      const responseEmail = await axios.post(`${API}/user-change-email`, {email: newEmail, user: JSON.parse(decodeURIComponent(account))})
+      setLoading(false)
+      setError('')
+      setMessage(responseEmail.data)
+    } catch (error) {
+      setLoading(false)
+      if(error) error.response ? setError(error.response.data) : setError('Error sending confirmation email')
+    }
+  }
   
   return (
     <>
     <Nav data={administrator}></Nav>
     <div className="account">
       <div className="account-breadcrumbs">
-        <div className="account-breadcrumbs-item"><span onClick={() => window.location.href = '/admin'}>Home</span><SVG svg={'keyboard-right'}></SVG> <div>Account</div></div>
+        <div className="account-breadcrumbs-item"><span onClick={() => window.location.href = '/admin'}>Dashboard</span><SVG svg={'keyboard-right'}></SVG> <div>Account</div></div>
       </div>
       <div className="account-dashboard">
         <div className="account-dashboard-item" onClick={() => setModal('profile')}>
@@ -70,7 +85,7 @@ const Account = ({account, administrator, createAdministrator, userInfo}) => {
           <SVG svg={'password'}></SVG>
           <span>Change Password</span>
         </div>
-        <div className="account-dashboard-item">
+        <div className="account-dashboard-item" onClick={() => setModal('change_email')}>
           <SVG svg={'email'}></SVG>
           <span>Change Email</span>
         </div>
@@ -80,7 +95,7 @@ const Account = ({account, administrator, createAdministrator, userInfo}) => {
           <div className="accountUpdateProfile-modal-box">
             <div className="accountUpdateProfile-modal-box-header">
               <div className="accountUpdateProfile-modal-form-title">Update Profile</div>
-              <div onClick={() => (setModal(''), setError(''))}><SVG svg={'close'}></SVG></div>
+              <div onClick={() => (setModal(''), setError(''), setMessage(''))}><SVG svg={'close'}></SVG></div>
             </div>
             <form action="" className="accountUpdateProfile-modal-box-form" onSubmit={(e) => updateProfile(e)}>
               <div className="form-group-single">
@@ -95,7 +110,7 @@ const Account = ({account, administrator, createAdministrator, userInfo}) => {
                 <label htmlFor="last_name">Last Name</label>
                 <input type="text" name="last_name" value={administrator.lastName} onChange={(e) => createAdministrator('lastName', e.target.value)} required/>
               </div>
-              <button type="submit" className="submit-item">{!loading && <span>Update Profile</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>
+              <button type="submit" className="submit-item">{!loading && <span>Save</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>
               {error && <span className="form-errorMessage">{error}</span>}
             </form>
           </div>
@@ -106,14 +121,37 @@ const Account = ({account, administrator, createAdministrator, userInfo}) => {
           <div className="accountUpdateProfile-modal-box">
             <div className="accountUpdateProfile-modal-box-header">
               <div className="accountUpdateProfile-modal-form-title">Change Password</div>
-              <div onClick={() => (setModal(''), setError(''))}><SVG svg={'close'}></SVG></div>
+              <div onClick={() => (setModal(''), setError(''), setMessage(''))}><SVG svg={'close'}></SVG></div>
             </div>
             <form action="" className="accountUpdateProfile-modal-box-form" onSubmit={(e) => sendResetPasswordLink(e)}>
               <div className="form-group-single">
                 <label htmlFor="email">Email</label>
-                <input type="text" name="email" value={administrator.email} onChange={(e) => createAdministrator('email', e.target.value)} required/>
+                <input type="text" name="email" value={administrator.email} onChange={(e) => createAdministrator('email', e.target.value)} readOnly required/>
               </div>
-              <button type="submit" className="submit-item">{!loading && <span>Send Reset Password Link</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>
+              <button type="submit" className="submit-item">{!loading && <span>Change Password</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>
+              {error && <span className="form-errorMessage">{error}</span>}
+              {message && <span className="form-successMessage">{message}</span>}
+            </form>
+          </div>
+        </div>
+      }
+      {modal == 'change_email' &&
+        <div className="accountUpdateProfile-modal">
+          <div className="accountUpdateProfile-modal-box">
+            <div className="accountUpdateProfile-modal-box-header">
+              <div className="accountUpdateProfile-modal-form-title">Change Password</div>
+              <div onClick={() => (setModal(''), setError(''), setMessage(''))}><SVG svg={'close'}></SVG></div>
+            </div>
+            <form action="" className="accountUpdateProfile-modal-box-form" onSubmit={(e) => sendChangeEmailConfirmation(e)}>
+              <div className="form-group-single">
+                <label htmlFor="email">Email</label>
+                <input type="email" name="email" value={administrator.email} readOnly required/>
+              </div>
+              <div className="form-group-single">
+                <label htmlFor="email">New Email</label>
+                <input type="email" name="email" value={newEmail} onChange={(e) => setNewEmail(e.target.value)} required/>
+              </div>
+              <button type="submit" className="submit-item">{!loading && <span>Save</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>
               {error && <span className="form-errorMessage">{error}</span>}
               {message && <span className="form-successMessage">{message}</span>}
             </form>

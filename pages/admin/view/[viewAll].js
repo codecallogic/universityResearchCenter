@@ -20,7 +20,8 @@ import {manageTags} from '../../../helpers/forms'
 import StudentProfile from '../../../components/admin/forms/edit/editStudentProfile'
 import Webpage from '../../../components/admin/forms/edit/editWebpage'
 
-const ViewAll = ({account, allContent, authorization, current, studentList, pureStudentList, edit}) => {
+const ViewAll = ({account, allContent, authorization, current, studentList, pureStudentList, edit, adminList}) => {
+  console.log(adminList)
 
   const router = useRouter()
   const dispatch = useDispatch()
@@ -811,7 +812,7 @@ const ViewAll = ({account, allContent, authorization, current, studentList, pure
         {editRowForm == false && 
           <div className="content-table-buttons">
             <button className={ selected.length >= 1 ? 'enabled ' : null} disabled={selected.length >= 1 ? false: true} onClick={deleteRow}>Delete</button>
-            {user.role !== 'admin' ? user.role !== 'admin_restricted' ? <button className={ selected.length == 1 ? 'enabled ' : null} disabled={selected.length == 1 ? false: true} onClick={editRow}>Edit</button> : null  : null}
+            {adminList == true ? null : <button className={ selected.length == 1 ? 'enabled ' : null} disabled={selected.length == 1 ? false: true} onClick={editRow}>Edit</button>  }
           </div>
         }
 
@@ -879,7 +880,7 @@ const ViewAll = ({account, allContent, authorization, current, studentList, pure
                 item[keyName] !== null && item[keyName].toString().length > 50 ?
                 item[keyName] !== null && item[keyName].toString().substring(0, 50): 
                 item[keyName] !== null &&  item[keyName].toString()}
-            </span>
+              </span>
             </div>
           : null
           ))}
@@ -1343,7 +1344,8 @@ ViewAll.getInitialProps = async ({query, req}) => {
       
       return {
         allContent: administratorsResponse.data,
-        current: query.viewAll
+        current: query.viewAll,
+        adminList: true
       }
 
       break;
