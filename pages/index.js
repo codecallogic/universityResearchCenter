@@ -2,6 +2,7 @@ import React, {useState, useEffect, useRef} from 'react'
 import {useRouter} from 'next/router'
 import Head from 'next/head'
 import Nav from '../components/nav'
+import Footer from '../components/footer'
 import Slider from '../components/slider/slider'
 import axios from 'axios'
 import {API, PUBLIC_FILES} from '../config'
@@ -255,7 +256,6 @@ const Home = ({announcements, meetings, facultyOpportunities, studentOpportuniti
           </div>
         </div>
       </div>
-
       {announcementModal !== null && 
       <div className="bg-modal" onClick={handleClickOutside}>
         <div className="modal-content" ref={ref}>
@@ -302,6 +302,7 @@ const Home = ({announcements, meetings, facultyOpportunities, studentOpportuniti
       </div>
       }
     </div>
+    <Footer></Footer>
     </>
   )
 }

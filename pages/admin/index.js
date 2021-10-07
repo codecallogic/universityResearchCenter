@@ -12,6 +12,8 @@ import StudentProfile from '../../components/admin/forms/studentProfile'
 import Administrator from '../../components/admin/forms/administrators'
 import AdministratorMain from '../../components/admin/forms/administratorsMain'
 import Webpage from '../../components/admin/forms/webpage'
+import Navigation from '../../components/admin/forms/navigation'
+import NavigationItem from '../../components/admin/forms/navigationItem'
 import dynamic from 'next/dynamic'
 import {nanoid} from 'nanoid'
 const ReactQuill = dynamic(() => import('react-quill'), {ssr: false, loading: () => <p>Loading ...</p>})
@@ -23,7 +25,7 @@ const Dashboard = ({loggedIn, account, authorization, header, student, webpage})
   const dispatch = useDispatch()
   const router = useRouter()
 
-  const [form, setForm] = useState('announcements')
+  const [form, setForm] = useState('nav-menu')
   const [user, setUser] = useState(JSON.parse(decodeURIComponent(account)))
   const [content, setContent] = useState({
     title: '',
@@ -378,6 +380,8 @@ const Dashboard = ({loggedIn, account, authorization, header, student, webpage})
                 <option value="select a component" disabled>Select a component</option>
                 <option value="header">Header</option>
                 <option value="webpage">Webpage</option>
+                <option value="nav-menu">Navigation Menu</option>
+                <option value="webpage">Navigation Item</option>
               </select>             
             </div>
             <div className="dashboard-left-panel-title">Profiles</div>
@@ -627,6 +631,13 @@ const Dashboard = ({loggedIn, account, authorization, header, student, webpage})
           }
           {form === 'webpage' &&
             <Webpage viewAll={viewAll} createWebpage={createWebpage} errorMessage={errorMessage} successMessage={successMessage} webpage={webpage} handleWebpage={handleWebpage}/>
+          }
+
+          {form === 'nav-menu' &&
+            <Navigation viewAll={viewAll}  errorMessage={errorMessage} successMessage={successMessage}></Navigation>
+          }
+          {form === 'nav-item' &&
+            <NavigationItem viewAll={viewAll}  errorMessage={errorMessage} successMessage={successMessage}></NavigationItem>
           }
           {form === 'student' &&
             <StudentProfile viewAll={viewAll} createStudentProfile={createStudentProfile} errorMessage={errorMessage} successMessage={successMessage} student={student} handleKeyPress={handleKeyPress} handleChangeStudentProfile={handleChangeStudentProfile} handleStudentProfileBoxes={handleStudentProfileBoxes} tags={tags}/>
