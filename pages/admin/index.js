@@ -21,7 +21,7 @@ import 'react-quill/dist/quill.snow.css'
 
 // TODO: Create front end protected url routes using SSR for Admin
 
-const Dashboard = ({loggedIn, account, authorization, header, student, webpage}) => {
+const Dashboard = ({loggedIn, account, authorization, header, student, webpage, navItems}) => {
   const dispatch = useDispatch()
   const router = useRouter()
 
@@ -43,9 +43,10 @@ const Dashboard = ({loggedIn, account, authorization, header, student, webpage})
   const [successMessage, setSuccessMessage] = useState(null)
   const [tags, setTags] = useState('')
   const [loading, setLoading] = useState(false)
+  const [allNavItems, setAllNavItems] = useState(navItems)
 
   useEffect( () => {
-    console.log(user)
+    // console.log(user)
     setDropDowns(null, null)
   }, [])
 
@@ -175,6 +176,8 @@ const Dashboard = ({loggedIn, account, authorization, header, student, webpage})
 
     e.target.classList.contains('form-selection-admin') === true ? setDropDowns('admin', e.target.options.selectedIndex) : null
     // console.log(e.target.value)
+    setErrorMessage('')
+    setSuccessMessage('')
     setForm(e.target.value.toLowerCase())
 
     setContent({...content, title: '', subtitle: '', imageURL: '', imageDescr: '', primary: false, source: '', message: ''})
@@ -381,7 +384,7 @@ const Dashboard = ({loggedIn, account, authorization, header, student, webpage})
                 <option value="header">Header</option>
                 <option value="webpage">Webpage</option>
                 <option value="nav-menu">Navigation Menu</option>
-                <option value="webpage">Navigation Item</option>
+                <option value="nav-item">Navigation Item</option>
               </select>             
             </div>
             <div className="dashboard-left-panel-title">Profiles</div>
@@ -634,10 +637,10 @@ const Dashboard = ({loggedIn, account, authorization, header, student, webpage})
           }
 
           {form === 'nav-menu' &&
-            <Navigation viewAll={viewAll}  errorMessage={errorMessage} successMessage={successMessage}></Navigation>
+            <Navigation viewAll={viewAll}  errorMessage={errorMessage} successMessage={successMessage} navItems={allNavItems}></Navigation>
           }
           {form === 'nav-item' &&
-            <NavigationItem viewAll={viewAll}  errorMessage={errorMessage} successMessage={successMessage}></NavigationItem>
+            <NavigationItem viewAll={viewAll}  errorMessage={errorMessage} successMessage={successMessage} setsuccessmessage={setSuccessMessage} seterrormessage={setErrorMessage} setallnavitems={setAllNavItems}></NavigationItem>
           }
           {form === 'student' &&
             <StudentProfile viewAll={viewAll} createStudentProfile={createStudentProfile} errorMessage={errorMessage} successMessage={successMessage} student={student} handleKeyPress={handleKeyPress} handleChangeStudentProfile={handleChangeStudentProfile} handleStudentProfileBoxes={handleStudentProfileBoxes} tags={tags}/>
@@ -660,6 +663,21 @@ const mapStateToProps = state => {
       header: state.header,
       student: state.studentProfile,
       webpage: state.webpage,
+  }
+}
+
+Dashboard.getInitialProps = async () => {
+  let navItems = null 
+
+  try {
+    const responseNavItems = await axios.get(`${API}/menu/get-nav-items`)
+    navItems = responseNavItems.data
+  } catch (error) {
+    console.log(error)
+  }
+  
+  return {
+    navItems: navItems
   }
 }
 

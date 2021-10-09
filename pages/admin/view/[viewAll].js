@@ -4,6 +4,7 @@ import {API, PUBLIC_FILES} from '../../../config'
 import withAdmin from '../../withAdmin'
 import {useRouter} from 'next/router'
 import AdminNav from '../../../components/admin/adminNav'
+import NavItem from '../../../components/admin/forms/edit/editNavItem'
 import {connect} from 'react-redux'
 import { useDispatch } from 'react-redux';
 import dynamic from 'next/dynamic'
@@ -299,7 +300,7 @@ const ViewAll = ({account, allContent, authorization, current, studentList, pure
     for(let i = 0; i < content.length; i++){
       if(content[i]._id == selected[0]){
         setEditRowForm(true)
-        setUpdatedRow({...updatedRow, id: content[i]._id, title: content[i].title,  subtitle: content[i].subtitle, imageURL: content[i].imageURL, imageDescr: content[i].imageDescr, source: content[i].source, postDate: content[i].postDate, expiration: content[i].expiration, primary: content[i].primary, enabled: content[i].enabled, message: content[i].message, headline: content[i].headline, subheading: content[i].subheading, button: content[i].button, buttonLink: content[i].buttonLink, imageLeftColumnURL: content[i].imageLeftColumn, imageRightColumnURL: content[i].imageRightColumn, captionOne: content[i].captionOne, captionTwo: content[i].captionTwo})
+        setUpdatedRow({...updatedRow, id: content[i]._id, title: content[i].title,  subtitle: content[i].subtitle, name: content[i].name, link: content[i].link, item: content[i].item, imageURL: content[i].imageURL, imageDescr: content[i].imageDescr, source: content[i].source, postDate: content[i].postDate, expiration: content[i].expiration, primary: content[i].primary, enabled: content[i].enabled, message: content[i].message, headline: content[i].headline, subheading: content[i].subheading, button: content[i].button, buttonLink: content[i].buttonLink, imageLeftColumnURL: content[i].imageLeftColumn, imageRightColumnURL: content[i].imageRightColumn, captionOne: content[i].captionOne, captionTwo: content[i].captionTwo})
 
         let id = selected[0]
         let studentProfile = []
@@ -334,6 +335,14 @@ const ViewAll = ({account, allContent, authorization, current, studentList, pure
         current === 'webpage' ? 
           dispatch({
             type: 'SET_EDIT_WEBPAGE',
+            payload: {content: content[i], selected: selected[0]}
+          })
+          :
+          null
+
+        current === 'nav-items' ? 
+          dispatch({
+            type: 'EDIT_NAVITEM',
             payload: {content: content[i], selected: selected[0]}
           })
           :
@@ -762,12 +771,24 @@ const ViewAll = ({account, allContent, authorization, current, studentList, pure
         parseUpdatedAtDates(adminResponse.data)
         setContent(adminResponse.data)
         break;
+
+      case 'nav-items':
+        const navItemsResponse = await axios.post(`${API}/menu/delete-nav-item`, selected, {
+          headers: {
+            Authorization: `Bearer ${authorization}`,
+            contentType: `application/json`
+          }
+        })
+
+        // CHANGE CREATEDAT AND UPDATEDAT FORMAT TO YYYY-MM-DD
+        parseCreatedAtDates(navItemsResponse.data)
+        parseUpdatedAtDates(navItemsResponse.data)
+        setContent(navItemsResponse.data)
+        break;
       
         default:
           break;   
       }
-
-      
       
       setSelected([])
       const allCheckBoxes = document.querySelectorAll('input[type="checkbox"]')
@@ -822,7 +843,7 @@ const ViewAll = ({account, allContent, authorization, current, studentList, pure
           </div>
         }
         
-        <div className="content-table-headers">
+        {!editRowForm && <div className="content-table-headers">
           {/* {editRowForm == false && 
           <div className="content-table-group">
             <label htmlFor="selectAll" onClick={selectAll}>
@@ -855,6 +876,7 @@ const ViewAll = ({account, allContent, authorization, current, studentList, pure
           ))
           }
         </div>
+        }
 
         {content !== null && editRowForm == false && content.map( (item, i) => (
         <div key={i} className="content-table-rows">
@@ -1172,6 +1194,10 @@ const ViewAll = ({account, allContent, authorization, current, studentList, pure
           <Webpage submitUpdateWebpage={submitUpdateWebpage} webpage={edit} handleWebpage={handleWebpage}/>
         }
 
+        {editRowForm == true && current == 'nav-items' && 
+          <NavItem navitem={edit} setcontent={setContent}/>
+        }
+
         {success !== null && editRowForm == true && <div className="form-successMessage">{success}</div>}
         {error !== null && editRowForm == true && <div className="form-errorMessage">{error}</div>}
         
@@ -1346,6 +1372,23 @@ ViewAll.getInitialProps = async ({query, req}) => {
         allContent: administratorsResponse.data,
         current: query.viewAll,
         adminList: true
+      }
+
+    case 'nav-items':
+      let navItemsResponse = await axios.get(`${API}/menu/get-nav-items`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          contentType: `application/json`
+        }
+      })
+
+      // CHANGE CREATEDAT AND UPDATEDAT FORMAT TO YYYY-MM-DD
+      parseCreatedAtDates(navItemsResponse.data)
+      parseUpdatedAtDates(navItemsResponse.data)
+      
+      return {
+        allContent: navItemsResponse.data,
+        current: query.viewAll,
       }
 
       break;

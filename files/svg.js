@@ -45,6 +45,20 @@ const SVGs = ({svg, classprop}) => {
         </svg>  
         break;
 
+      case 'arrow-up':
+        return <svg version="1.1" className={classprop} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <title>Close</title>
+          <path d="M7.406 15.422l-1.406-1.406 6-6 6 6-1.406 1.406-4.594-4.594z"></path>
+        </svg>  
+        break;
+
+      case 'checkmark':
+        return <svg version="1.1" className={classprop} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+          <title>Close</title>
+          <path d="M6 12l-6 6 12 12 20-20-6-6-14 14z"></path>
+        </svg>  
+        break;
+
       default:
         break;
     }

@@ -17,7 +17,10 @@ const initialState = {
   publication: '',
   tagsToRemove: [],
   heading: '',
-  content: ''
+  content: '',
+  name: '',
+  link: '',
+  item: ''
 }
 
 export const editRow = (state = initialState, action)  => { 
@@ -32,11 +35,18 @@ export const editRow = (state = initialState, action)  => {
       }
       break;
 
+    case 'EDIT_NAVITEM':
+      if(action.payload.content._id == action.payload.selected){
+        return action.payload.content
+      }
+      break;
+
     case 'SET_EDIT_WEBPAGE':
       if(action.payload.content._id == action.payload.selected){
         return action.payload.content
       }
       break;
+    
     
     case 'EDIT_STATE_STUDENT':
       return {
@@ -67,9 +77,9 @@ export const editRow = (state = initialState, action)  => {
       break;
 
     case 'REMOVE_TAG_FROM_TAGS_TO_REMOVE_ARRAY':
-      console.log(action.payload)
+      // console.log(action.payload)
       const newArray = [...state.tagsToRemove]
-      console.log(newArray.indexOf(action.payload))
+      // console.log(newArray.indexOf(action.payload))
       if(newArray.indexOf(action.payload) !== -1){
         newArray.splice(newArray.indexOf(action.payload), 1)
       }
@@ -91,6 +101,13 @@ export const editRow = (state = initialState, action)  => {
       return {
         ...state,
         content: action.payload.value
+      }
+      break;
+
+    case 'EDIT_STATE_NAVITEM':
+      return {
+        ...state,
+        [action.name]: action.value
       }
       break;
       
