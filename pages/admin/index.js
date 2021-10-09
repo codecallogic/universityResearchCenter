@@ -637,10 +637,10 @@ const Dashboard = ({loggedIn, account, authorization, header, student, webpage, 
           }
 
           {form === 'nav-menu' &&
-            <Navigation viewAll={viewAll}  errorMessage={errorMessage} successMessage={successMessage} navItems={allNavItems}></Navigation>
+            <Navigation viewAll={viewAll} errorMessage={errorMessage} successMessage={successMessage} seterrormessage={setErrorMessage}  setsuccessmessage={setSuccessMessage} navItems={allNavItems}></Navigation>
           }
           {form === 'nav-item' &&
-            <NavigationItem viewAll={viewAll}  errorMessage={errorMessage} successMessage={successMessage} setsuccessmessage={setSuccessMessage} seterrormessage={setErrorMessage} setallnavitems={setAllNavItems}></NavigationItem>
+            <NavigationItem viewAll={viewAll} errorMessage={errorMessage} successMessage={successMessage} setsuccessmessage={setSuccessMessage} seterrormessage={setErrorMessage} setallnavitems={setAllNavItems}></NavigationItem>
           }
           {form === 'student' &&
             <StudentProfile viewAll={viewAll} createStudentProfile={createStudentProfile} errorMessage={errorMessage} successMessage={successMessage} student={student} handleKeyPress={handleKeyPress} handleChangeStudentProfile={handleChangeStudentProfile} handleStudentProfileBoxes={handleStudentProfileBoxes} tags={tags}/>

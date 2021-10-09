@@ -898,10 +898,19 @@ const ViewAll = ({account, allContent, authorization, current, studentList, pure
             <div key={keyIndex} className="content-table-rows-content">
               <span>
                 {/* {console.log(item[keyName])} */}
-                {keyName == 'url' ? <a target="_blank" href={item['url']}>{item['url'].toString().substring(0, 50)}</a> : 
-                item[keyName] !== null && item[keyName].toString().length > 50 ?
-                item[keyName] !== null && item[keyName].toString().substring(0, 50): 
-                item[keyName] !== null &&  item[keyName].toString()}
+                {
+                keyName == 'item' ?
+                <span className="content-editToView">Edit to view</span>
+                :
+                keyName == 'url' 
+                ? <a target="_blank" href={item['url']}>{item['url'].toString().substring(0, 50)}</a> 
+                :
+                item[keyName] !== null && item[keyName].toString().length > 50 
+                ?
+                item[keyName] !== null && item[keyName].toString().substring(0, 50) 
+                : 
+                item[keyName] !== null &&  item[keyName].toString()
+                }
               </span>
             </div>
           : null
@@ -1198,6 +1207,10 @@ const ViewAll = ({account, allContent, authorization, current, studentList, pure
           <NavItem navitem={edit} setcontent={setContent}/>
         }
 
+        {editRowForm == true && current == 'nav-menus' && 
+          <NavItem navitem={edit} setcontent={setContent}/>
+        } 
+
         {success !== null && editRowForm == true && <div className="form-successMessage">{success}</div>}
         {error !== null && editRowForm == true && <div className="form-errorMessage">{error}</div>}
         
@@ -1388,6 +1401,23 @@ ViewAll.getInitialProps = async ({query, req}) => {
       
       return {
         allContent: navItemsResponse.data,
+        current: query.viewAll,
+      }
+
+    case 'nav-menu':
+      let navMenusResponse = await axios.get(`${API}/menu/get-nav-menus`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          contentType: `application/json`
+        }
+      })
+
+      // CHANGE CREATEDAT AND UPDATEDAT FORMAT TO YYYY-MM-DD
+      parseCreatedAtDates(navMenusResponse.data)
+      parseUpdatedAtDates(navMenusResponse.data)
+      
+      return {
+        allContent: navMenusResponse.data,
         current: query.viewAll,
       }
 

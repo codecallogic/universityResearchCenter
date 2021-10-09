@@ -1318,6 +1318,11 @@ svg {
         margin-left: 1rem; }
         .content-table-rows-content svg:hover {
           cursor: pointer; }
+  .content-editToView {
+    font-size: 1.6rem;
+    color: #f0ae21;
+    font-style: italic;
+    font-weight: 700; }
 
 .account {
   width: 100%;

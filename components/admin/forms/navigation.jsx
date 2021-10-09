@@ -4,7 +4,7 @@ import {API} from '../../../config'
 import axios from 'axios'
 import SVGs from '../../../files/svg'
 
-const NavigationForm = ({errorMessage, successMessage, nav, createNavMenu, resetNavigation, resetNavItems, navItems, createNavMenuItem}) => {
+const NavigationForm = ({errorMessage, successMessage, setsuccessmessage, seterrormessage, nav, createNavMenu, resetNavigation, resetNavItems, navItems, createNavMenuItem}) => {
   // console.log(navItems)
   const myRefs = useRef(null)
   const [typeField, setTypeField] = useState('input')
@@ -26,11 +26,28 @@ const NavigationForm = ({errorMessage, successMessage, nav, createNavMenu, reset
       document.removeEventListener("click", handleClickOutside, true);
     };
   }, [])
+
+  const submitNavMenu = async (e) => {
+    e.preventDefault()
+    setLoading(true)
+    try {
+      const navMenuResponse = await axios.post(`${API}/menu/create-nav-menu`, nav)
+      setLoading(false)
+      resetNavigation()
+      seterrormessage('')
+      setsuccessmessage(navMenuResponse.data)
+    } catch (error) {
+      console.log(error)
+      setsuccessmessage('')
+      setLoading(false)
+      if(error) return error.response ? seterrormessage(error.response.data) : seterrormessage('Could not save item, please try again later')
+    }
+  }
   
   return (
     <div className="dashboard-right-panel">
-    <div className="dashboard-right-panel-toggle" onClick={() => viewAll()}>View Navigation Items</div>
-    <form className="form" action="POST" onSubmit={(e) => createWebpage(e)}>
+    <div className="dashboard-right-panel-toggle" onClick={() => window.location.href = `/admin/view/nav-menu`}>View Navigation Menus</div>
+    <form className="form" action="POST" onSubmit={(e) => submitNavMenu(e)}>
       <div className="form-group-single">
         <label htmlFor="name">Name</label>
         <input type="text" name="name" value={nav.name} onChange={(e) => createNavMenu('name', e.target.value)} required/>
