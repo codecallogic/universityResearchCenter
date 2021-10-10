@@ -142,6 +142,7 @@ svg {
     .nav-menu-dropdown {
       background-color: #00b7ec; } }
   .nav-menu-dropdown a {
+    display: block;
     width: 100%;
     padding: 0.5rem 1rem;
     color: white;
@@ -930,11 +931,47 @@ svg {
       text-align: center;
       margin-right: 2rem;
       font-size: 1.8rem;
-      transition: all 0.2s; }
+      transition: all 0.2s;
+      text-decoration: none;
+      color: white;
+      position: relative; }
       .footer-menu-item:hover {
         cursor: pointer;
         text-decoration: underline;
         color: white; }
+      .footer-menu-item:hover > ul {
+        background-color: white;
+        color: black;
+        visibility: visible;
+        opacity: 1; }
+  .footer-menu-dropdown {
+    list-style: none;
+    position: absolute;
+    margin-top: 1rem;
+    padding: 0.5rem 0;
+    bottom: 100%;
+    left: 0;
+    width: max-content;
+    height: max-content;
+    color: #1c1c1b;
+    visibility: hidden;
+    opacity: 0;
+    transition: all 0.8s cubic-bezier(0.81, 0.13, 0.93, 1.21); }
+    @media only screen and (max-width: 992px) {
+      .footer-menu-dropdown {
+        background-color: #00b7ec; } }
+    .footer-menu-dropdown a {
+      display: block;
+      width: 100%;
+      padding: 0.5rem 1rem;
+      color: black;
+      background-color: white;
+      text-decoration: none; }
+    .footer-menu-dropdown a:hover {
+      cursor: pointer;
+      background-color: #1c1c1b;
+      pointer-events: auto;
+      color: white; }
 
 .admin {
   background-image: linear-gradient(40deg, #1c1c1b, #00b7ec);

@@ -30,7 +30,7 @@ const Nav = ({navMenu}) => {
             <a href={ item.link ? item.link : ''} key={idx} className="nav-menu-item">{item.name}
               <ul className="nav-menu-dropdown">
               {item.item.length > 0 && item.item.map((list, idx2) => 
-                <a key={idx2} href={`${list.link}`}>{list.name}</a>
+                <a key={idx2} href={`${list.link}`} target="_blank">{list.name}</a>
               )
               }
               </ul>

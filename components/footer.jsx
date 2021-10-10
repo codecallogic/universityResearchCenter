@@ -1,5 +1,5 @@
 
-const Footer = ({navItem}) => {
+const Footer = ({navMenu}) => {
   
   return (
     <div className="footer">
@@ -13,9 +13,16 @@ const Footer = ({navItem}) => {
         </div>
       </div>
       <div className="footer-menu">
-        <div className="footer-menu-item">Home</div>
-        <div className="footer-menu-item">About</div>
-        <div className="footer-menu-item">Students</div>
+        {navMenu.length > 0 && navMenu.map((item, idx) => 
+          <a href={ item.link ? item.link : ''} key={idx} className="footer-menu-item">{item.name}
+            <ul className="footer-menu-dropdown">
+            {item.item.length > 0 && item.item.map((list, idx2) => 
+              <a key={idx2} href={`${list.link}`} target="_blank">{list.name}</a>
+            )
+            }
+            </ul>
+          </a>
+        )}
       </div>
     </div>
   )

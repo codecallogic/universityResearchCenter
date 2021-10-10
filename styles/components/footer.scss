@@ -45,12 +45,57 @@
       font-size: 1.8rem;
       // font-weight: 400;
       transition: all 0.2s;
+      text-decoration: none;
+      color: white;
+      position: relative;
 
       &:hover {
         cursor: pointer;
         text-decoration: underline;
         color: white;
       }
+
+      &:hover > ul {
+        background-color: white;
+        color: black;
+        visibility: visible;
+        opacity: 1;
+      }
+    }
+  }
+
+  &-menu-dropdown {
+    list-style: none;
+    position: absolute;
+    margin-top: 1rem;
+    padding: 0.5rem 0;
+    bottom: 100%;
+    left: 0;
+    width: max-content;
+    height: max-content;
+    color: $color-scheme-1;
+    visibility: hidden;
+    opacity: 0;
+    transition: all 0.8s cubic-bezier(0.81, 0.13, 0.93, 1.21);
+
+    @media only screen and (max-width: $large) {
+      background-color: $color-scheme-2;
+    }
+
+    a {
+      display: block;
+      width: 100%;
+      padding: 0.5rem 1rem;
+      color: black;
+      background-color: white;
+      text-decoration: none;
+    }
+
+    a:hover {
+      cursor: pointer;
+      background-color: $color-scheme-1;
+      pointer-events: auto;
+      color: white;
     }
   }
 }
