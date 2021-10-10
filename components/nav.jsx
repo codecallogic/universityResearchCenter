@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useRef} from 'react'
 import {useRouter} from 'next/router'
 
-const Nav = ({}) => {
+const Nav = ({navMenu}) => {
   const router = useRouter()
 
   const [search, setSearch] = useState('')
@@ -23,44 +23,19 @@ const Nav = ({}) => {
     <>
     <div className="nav-container">
       <nav className="nav">
-        <img src="/media/logo-colorido.png" className="nav-logo"/>
-        <img src="/media/logoHorizontal_cropped.png" className="nav-logo-mobile"/>
+        <img src="/media/logo-colorido.png" className="nav-logo" onClick={() => window.location.href = '/'}/>
+        <img src="/media/logoHorizontal_cropped.png" className="nav-logo-mobile" onClick={() => window.location.href = '/'}/>
         <div className="nav-menu">
-          {/* <a className="nav-menu-item">About
-            <ul className="nav-menu-dropdown">
-              <li>About Item 1</li>
-              <li>About Item 2</li>
-              <li>About Item 3</li>
-            </ul>
-          </a>
-          <a className="nav-menu-item">Research
-            <ul className="nav-menu-dropdown">
-              <li>Research Item 1</li>
-              <li>Research Item 2</li>
-              <li>Research Item 3</li>
-            </ul>
-          </a>
-          <a className="nav-menu-item">Education
-            <ul className="nav-menu-dropdown">
-              <li>Education Item 1</li>
-              <li>Education Item 2</li>
-              <li>Education Item 3</li>
-            </ul>
-          </a>
-          <a className="nav-menu-item">Resources
-            <ul className="nav-menu-dropdown">
-              <li>Resources Item 1</li>
-              <li>Resources Item 2</li>
-              <li>Resources Item 3</li>
-            </ul>
-          </a>
-          <a className="nav-menu-item">Accounts
-            <ul className="nav-menu-dropdown">
-              <li onClick={handleNav}>Admin</li>
-              <li>Student</li>
-              <li>Researcher</li>
-            </ul>
-          </a> */}
+          {navMenu.length > 0 && navMenu.map((item, idx) => 
+            <a href={ item.link ? item.link : ''} key={idx} className="nav-menu-item">{item.name}
+              <ul className="nav-menu-dropdown">
+              {item.item.length > 0 && item.item.map((list, idx2) => 
+                <a key={idx2} href={`${list.link}`}>{list.name}</a>
+              )
+              }
+              </ul>
+            </a>
+          )}
           <div className="form-group-search">
             <input type="text" name="search" placeholder="Search" onKeyDown={(e) => searchGoogle(e)} onChange={(e) => setSearch(e.target.value)} value={search}/>
             <svg name="icon" onClick={() => searchGoogle('icon')}>

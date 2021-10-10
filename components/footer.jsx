@@ -1,5 +1,5 @@
 
-const Footer = ({}) => {
+const Footer = ({navItem}) => {
   
   return (
     <div className="footer">

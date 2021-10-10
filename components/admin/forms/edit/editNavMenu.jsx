@@ -71,7 +71,7 @@ const NavigationItemForm = ({navitem, editNavItem, setcontent, nav, editMenuItem
         {typeField == 'input' && 
           <input type="text" name="heading" value={navitem.link} onChange={(e) => editNavItem('link', e.target.value)} placeholder="Paste link"/>
         }
-        {typeField == 'dropdown' && 
+        {typeField == 'dropdown' && <>
           <div className="form-group-single-dropdown-input">
           <textarea id="menu_item" rows="2" name="menu_item" placeholder="(Select Menu Item)" onClick={() => setInputDropdown('menu_item')} readOnly></textarea>
           {input_dropdown == '' && <span onClick={() => setInputDropdown('menu_item')}><SVGs svg={'arrow-down'}></SVGs></span>}
@@ -83,6 +83,12 @@ const NavigationItemForm = ({navitem, editNavItem, setcontent, nav, editMenuItem
           </div>
           }
           </div>
+          {navItems.map((item, idx) => 
+            nav.item.map((list) => 
+              list._id == item._id ? <a href={`${item.link}`} target="_blank" className="form-group-single-dropdown-selected" key={idx}>{item.name}</a> : null
+            )
+          )}
+          </>
         }
       </div>
 

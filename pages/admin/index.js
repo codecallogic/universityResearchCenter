@@ -25,7 +25,7 @@ const Dashboard = ({loggedIn, account, authorization, header, student, webpage, 
   const dispatch = useDispatch()
   const router = useRouter()
 
-  const [form, setForm] = useState('nav-menu')
+  const [form, setForm] = useState('announcements')
   const [user, setUser] = useState(JSON.parse(decodeURIComponent(account)))
   const [content, setContent] = useState({
     title: '',

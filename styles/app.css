@@ -132,7 +132,7 @@ svg {
   margin-top: 1rem;
   padding: 0.5rem 0;
   left: 0;
-  min-width: 100%;
+  width: max-content;
   height: max-content;
   color: #1c1c1b;
   visibility: hidden;
@@ -141,12 +141,13 @@ svg {
   @media only screen and (max-width: 992px) {
     .nav-menu-dropdown {
       background-color: #00b7ec; } }
-  .nav-menu-dropdown li {
+  .nav-menu-dropdown a {
     width: 100%;
     padding: 0.5rem 1rem;
     color: white;
-    background-color: #00b7ec; }
-  .nav-menu-dropdown li:hover {
+    background-color: #00b7ec;
+    text-decoration: none; }
+  .nav-menu-dropdown a:hover {
     cursor: pointer;
     background-color: rgba(0, 183, 236, 0.7);
     pointer-events: auto;
@@ -685,6 +686,7 @@ svg {
       margin-right: 2rem;
       position: relative;
       color: #1c1c1b;
+      text-decoration: none;
       z-index: 10; }
       .nav-menu-item:before {
         content: '';

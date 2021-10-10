@@ -8,8 +8,8 @@ import axios from 'axios'
 import {API, PUBLIC_FILES} from '../config'
 import {parseCreatedAtDates, parseExpirationDates, sortByCreationDate, sortByExpirationDate, sortByEnableAndCreationDate, selectOne} from '../helpers/sort'
 
-const Home = ({announcements, meetings, facultyOpportunities, studentOpportunities, headerData, studentProfiles}) => {
-  
+const Home = ({announcements, meetings, facultyOpportunities, studentOpportunities, headerData, studentProfiles, navMenu}) => {
+  // console.log(navMenu)
   const [announcementsList, setAnnouncementsList] = useState(announcements)
   const [meetingsList, setList] = useState(meetings)
   const [facultyOpportunitiesList, setFacultyOpportunities] = useState(facultyOpportunities)
@@ -46,7 +46,7 @@ const Home = ({announcements, meetings, facultyOpportunities, studentOpportuniti
 
   return (
     <>
-    <Nav></Nav>
+    <Nav navMenu={navMenu}></Nav>
     <div className="home-container">
       <div className="home-header">
         <Slider header={headerData}></Slider>
@@ -302,7 +302,7 @@ const Home = ({announcements, meetings, facultyOpportunities, studentOpportuniti
       </div>
       }
     </div>
-    <Footer></Footer>
+    <Footer navMenu={navMenu}></Footer>
     </>
   )
 }
@@ -340,13 +340,23 @@ Home.getInitialProps = async () => {
   const student = await axios.post(`${API}/student-profile/find/public`, {id})
   let studentArray = new Array(student.data)
 
+  // NAV DATA
+  // let navItemsForMenuResponse = await axios.get(`${API}/menu/get-nav-items`, {
+  //   headers: {
+  //     Authorization: `Bearer ${accessToken}`,
+  //     contentType: `application/json`
+  // }})
+  
+  let navMenusResponse = await axios.get(`${API}/menu/get-nav-menus`)
+
   return {
     announcements: newAnnouncements,
     meetings: newMeetings,
     facultyOpportunities: newFacultyOpportunties,
     studentOpportunities: newStudentOpportunties,
     headerData: newHeaderComponent,
-    studentProfiles: studentArray
+    studentProfiles: studentArray,
+    navMenu: navMenusResponse.data
   }
 }
 
