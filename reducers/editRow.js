@@ -20,7 +20,7 @@ const initialState = {
   content: '',
   name: '',
   link: '',
-  item: ''
+  item: [],
 }
 
 export const editRow = (state = initialState, action)  => { 
@@ -40,7 +40,7 @@ export const editRow = (state = initialState, action)  => {
         return action.payload.content
       }
       break;
-
+      
     case 'SET_EDIT_WEBPAGE':
       if(action.payload.content._id == action.payload.selected){
         return action.payload.content
@@ -110,6 +110,35 @@ export const editRow = (state = initialState, action)  => {
         [action.name]: action.value
       }
       break;
+
+    case 'EDIT_MENU_ITEM':
+      // console.log(state.item)
+      // console.log(action.value)
+      if(state.item.some((item) => item._id == action.value._id)){
+        let array = []
+        
+        state.item.filter((listItem) => {
+          if(listItem._id !== action.value._id) array.push(listItem)
+        })
+
+        return {
+          ...state,
+          item: array
+        }
+      }
+
+      return {
+        ...state,
+        item: [...state.item, action.value]
+      }
+      break;
+
+    case 'RESET_EDIT_MENU':
+      return {
+        ...state,
+        item: []
+      }
+
       
     default:
       return state

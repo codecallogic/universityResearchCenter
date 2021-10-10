@@ -70,7 +70,7 @@ const NavigationForm = ({errorMessage, successMessage, setsuccessmessage, seterr
                 <div key={idx} className="form-group-single-dropdown-input-list-item" onClick={() => (createNavMenuItem(item._id), setInputDropdown(''))}>{item.name} {nav.item.some((list) => list == item._id) ? <SVGs svg={'checkmark'}></SVGs> : ''}</div>
               )}
             </div>
-            }
+          }
           </div>
           {navItems.map((item, idx) => 
             nav.item.map((id) => 

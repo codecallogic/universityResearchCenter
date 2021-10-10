@@ -32,7 +32,7 @@ const NavigationItemForm = ({navitem, editNavItem, setcontent}) => {
     <>
     <form className="form editing" onSubmit={(e) => updateNavItem(e)}>
       <div className="form-group-single">
-        <label htmlFor="name">Name</label>
+        <label htmlFor="name">Name Item</label>
         <input type="text" name="name" value={navitem.name} onChange={(e) => editNavItem('name', e.target.value)} required/>
       </div>
       <div className="form-group-single">
@@ -44,24 +44,6 @@ const NavigationItemForm = ({navitem, editNavItem, setcontent}) => {
     {error && <div className="form-errorMessage">{error}</div>}
     {message && <div className="form-successMessage">{message}</div>}
     </>
-    // <div className="dashboard-right-panel">
-    // <div className="dashboard-right-panel-toggle" onClick={() => window.location.href = `/admin/view/nav-items`}>View Navigation Items</div>
-    // <form className="form" onSubmit={(e) => createNavItem(e)}>
-    //   <div className="form-group-single">
-    //     <label htmlFor="name">Name</label>
-    //     <input type="text" name="name" value={nav.name} onChange={(e) => createNavMenu('name', e.target.value)} required/>
-    //   </div>
-    //   <div className="form-group-single">
-    //     <label htmlFor="type" className="form-group-single-label-toggle">Link</label>
-    //     {typeField == 'input' &&
-    //       <input type="text" name="heading" value={nav.link} onChange={(e) => createNavMenu('link', e.target.value)} placeholder="Paste link"/>
-    //     }
-    //   </div>
-    //   <button className="submit-item">{!loading && <span>Create Nav Item</span>}{loading && <div className="loading"><span></span><span></span><span></span></div>}</button>
-    //   </form>
-    //   {errorMessage && <div className="form-errorMessage">{errorMessage}</div>}
-    //   {successMessage && <div className="form-successMessage">{successMessage}</div>}
-    // </div>
   )
 }
 

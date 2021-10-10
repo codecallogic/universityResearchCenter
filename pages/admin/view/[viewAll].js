@@ -5,6 +5,7 @@ import withAdmin from '../../withAdmin'
 import {useRouter} from 'next/router'
 import AdminNav from '../../../components/admin/adminNav'
 import NavItem from '../../../components/admin/forms/edit/editNavItem'
+import NavMenu from '../../../components/admin/forms/edit/editNavMenu'
 import {connect} from 'react-redux'
 import { useDispatch } from 'react-redux';
 import dynamic from 'next/dynamic'
@@ -21,8 +22,8 @@ import {manageTags} from '../../../helpers/forms'
 import StudentProfile from '../../../components/admin/forms/edit/editStudentProfile'
 import Webpage from '../../../components/admin/forms/edit/editWebpage'
 
-const ViewAll = ({account, allContent, authorization, current, studentList, pureStudentList, edit, adminList}) => {
-  console.log(adminList)
+const ViewAll = ({account, allContent, authorization, current, studentList, pureStudentList, edit, adminList, editNavItem, editMenuItem, navItems}) => {
+  // console.log(adminList)
 
   const router = useRouter()
   const dispatch = useDispatch()
@@ -347,6 +348,16 @@ const ViewAll = ({account, allContent, authorization, current, studentList, pure
           })
           :
           null
+
+        current === 'nav-menu' ? 
+          (
+          dispatch({
+            type: 'EDIT_NAVITEM',
+            payload: {content: content[i], selected: selected[0]}
+          })
+          )
+        :
+        null
       }
     }
   }
@@ -1207,8 +1218,8 @@ const ViewAll = ({account, allContent, authorization, current, studentList, pure
           <NavItem navitem={edit} setcontent={setContent}/>
         }
 
-        {editRowForm == true && current == 'nav-menus' && 
-          <NavItem navitem={edit} setcontent={setContent}/>
+        {editRowForm == true && current == 'nav-menu' && 
+          <NavMenu navitem={edit} setcontent={setContent} navItems={navItems}/>
         } 
 
         {success !== null && editRowForm == true && <div className="form-successMessage">{success}</div>}
@@ -1223,6 +1234,13 @@ const ViewAll = ({account, allContent, authorization, current, studentList, pure
 const mapStateToProps = state => {
   return {
       edit: state.editRow
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    editNavItem: (name, value) => dispatch({type: 'EDIT_STATE_NAVITEM', name: name, value: value}),
+    editMenuItem: (id) => dispatch({type: 'EDIT_MENU_ITEM', value: id})
   }
 }
 
@@ -1405,6 +1423,12 @@ ViewAll.getInitialProps = async ({query, req}) => {
       }
 
     case 'nav-menu':
+      let navItemsForMenuResponse = await axios.get(`${API}/menu/get-nav-items`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          contentType: `application/json`
+      }})
+      
       let navMenusResponse = await axios.get(`${API}/menu/get-nav-menus`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -1418,6 +1442,7 @@ ViewAll.getInitialProps = async ({query, req}) => {
       
       return {
         allContent: navMenusResponse.data,
+        navItems: navItemsForMenuResponse.data,
         current: query.viewAll,
       }
 
@@ -1428,4 +1453,4 @@ ViewAll.getInitialProps = async ({query, req}) => {
   }
 }
 
-export default connect(mapStateToProps)(withAdmin(ViewAll))
+export default connect(mapStateToProps, mapDispatchToProps)(withAdmin(ViewAll))
