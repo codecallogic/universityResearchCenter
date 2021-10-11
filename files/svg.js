@@ -59,6 +59,20 @@ const SVGs = ({svg, classprop}) => {
         </svg>  
         break;
 
+      case 'arrow-right-thick':
+        return <svg version="1.1" className={classprop} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <title>Arrow Right Thick</title>
+          <path d="M10.586 6.586c-0.781 0.779-0.781 2.047 0 2.828l1.586 1.586h-7.244c-1.104 0-2 0.895-2 2s0.896 2 2 2h7.244l-1.586 1.586c-0.781 0.779-0.781 2.047 0 2.828 0.391 0.391 0.902 0.586 1.414 0.586s1.023-0.195 1.414-0.586l6.414-6.414-6.414-6.414c-0.781-0.781-2.047-0.781-2.828 0z"></path>
+        </svg>  
+        break;
+
+      case 'arrow-left-thick':
+        return <svg version="1.1" className={classprop} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <title>Arrow Left Thick</title>
+          <path d="M18 11h-7.244l1.586-1.586c0.781-0.781 0.781-2.049 0-2.828-0.781-0.781-2.047-0.781-2.828 0l-6.414 6.414 6.414 6.414c0.39 0.391 0.902 0.586 1.414 0.586s1.023-0.195 1.414-0.586c0.781-0.781 0.781-2.049 0-2.828l-1.586-1.586h7.244c1.104 0 2-0.896 2-2 0-1.105-0.896-2-2-2z"></path>
+        </svg>  
+        break;
+
       default:
         break;
     }

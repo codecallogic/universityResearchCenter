@@ -73,6 +73,16 @@
   }
 }
 
+@keyframes slideFromRight {
+  0% {
+    transform: perspective(400px) translateX(100%);
+  }
+
+  100% {
+    transform: perspective(400px) translateX(0);
+  }
+}
+
 @keyframes fadeIn {
   0% {
     opacity: 0;

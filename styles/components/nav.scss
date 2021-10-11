@@ -18,6 +18,16 @@
     color: $color-scheme-5;
     width: 48rem;
 
+    &:hover {
+      cursor: pointer;
+    }
+
+    &-mobile {
+      &:hover {
+        cursor: pointer;
+      }
+    }
+
     @media only screen and (max-width: $large) {
       display: none;
     }
@@ -32,12 +42,12 @@
 
       @media only screen and (max-width: $large) {
         display: block;
-        width: 25rem;
+        width: 10rem;
       }
 
-      @media only screen and (max-width: $extra-small) {
+      @media only screen and (max-width: $small) {
         display: block;
-        width: 15rem;
+        width: 8rem;
       }
     }
 
@@ -49,6 +59,10 @@
   &-menu {
     display: flex;
     align-items: center;
+
+    @media only screen and (max-width: $large) {
+      display: none;
+    }
 
     &-item {
       font-size: 2rem;
@@ -83,6 +97,257 @@
         visibility: visible;
         opacity: 1;
       }
+    }
+  }
+
+  &-menu-mobile {
+    width: 100%;
+    height: 100%;
+    display: none;
+
+    @media only screen and (max-width: $large) {
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    &-checkbox {
+      display: none;
+    }
+
+    &-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: white;
+      height: 6rem;
+      width: 6rem;
+      // position: fixed;
+      // top: 1rem;
+      // right: 2rem;
+      border-radius: 50%;
+      z-index: 1000 !important;
+      // box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2);
+      cursor: pointer;
+    }
+
+    &-icon {
+      position: relative;
+      // margin-top: 3.5rem;
+
+      &,
+      &::before,
+      &::after {
+        width: 3rem;
+        height: 0.2rem;
+        background-color: $color-scheme-1;
+        display: inline-block;
+      }
+
+      &::before,
+      &::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        transition: all 0.2s;
+      }
+
+      &::before {
+        top: -0.8rem;
+      }
+      &::after {
+        top: 0.8rem;
+      }
+    }
+
+    &-button:hover &-icon::before {
+      top: -1rem;
+    }
+
+    &-button:hover &-icon::after {
+      top: 1rem;
+    }
+
+    &-checkbox:checked + &-button &-icon {
+      background-color: transparent;
+    }
+
+    &-checkbox:checked + &-button &-icon::before {
+      top: 0;
+      transform: rotate(135deg);
+    }
+
+    &-checkbox:checked + &-button &-icon::after {
+      top: 0;
+      transform: rotate(-135deg);
+    }
+
+    &-background {
+      width: 6rem;
+      height: 6rem;
+      border-radius: 50%;
+      position: fixed;
+      top: 1rem;
+      right: -0.5rem;
+      z-index: -1;
+      transition: transform 0.8s cubic-bezier(0.83, 0, 0.17, 1);
+    }
+
+    &-background-2 {
+      width: 8.5rem;
+      height: 8.5rem;
+      border-radius: 50%;
+      position: fixed;
+      top: 3rem;
+      right: -2rem;
+      z-index: -1;
+      transition: transform 0.8s cubic-bezier(0.83, 0, 0.17, 1);
+    }
+
+    &-checkbox:checked ~ &-background {
+      width: 25rem;
+      height: 25rem;
+      box-shadow: 0.2rem 0.2rem 0.3rem 0.5rem rgba(0, 0, 0, 0.2);
+      background-image: linear-gradient(
+        $color-scheme-1 10%,
+        $color-scheme-2 80%
+      );
+      transform: scale(3);
+      box-sizing: content-box;
+      z-index: 1500 !important;
+    }
+
+    &-checkbox:checked ~ &-background-2 {
+      width: 23.5rem;
+      height: 23.5rem;
+      box-shadow: 0.3rem 0.5rem 0.5rem 0.2rem rgba(0, 0, 0, 0.1);
+      background-image: linear-gradient(
+        $color-scheme-1 10%,
+        $color-scheme-2 95%
+      );
+      transform: scale(3);
+      box-sizing: content-box;
+      z-index: 1500 !important;
+    }
+
+    &-nav {
+      position: fixed;
+      top: 2rem;
+      left: 1rem;
+      display: flex;
+      justify-content: flex-end;
+      width: 70%;
+      height: 30rem;
+      // border-radius: 50%;
+      z-index: 2500 !important;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.8s cubic-bezier(0.68, -0.6, 0.32, 1.6);
+
+      &-container {
+        display: flex;
+        flex-direction: column;
+        transition: all 0.5s cubic-bezier(0.68, -0.6, 0.32, 1.6);
+      }
+
+      &-item {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        text-decoration: none;
+        text-align: left;
+        color: white;
+        font-size: 2.4rem;
+        font-weight: 500;
+        font-family: Arial, Helvetica, sans-serif;
+        background-image: linear-gradient(
+          120deg,
+          transparent 0%,
+          transparent 50%,
+          white 50%
+        );
+        background-size: 230%;
+        padding: 1rem 1rem;
+        transition: all 0.5s;
+
+        &:hover,
+        &:active {
+          background-position: 100%;
+          color: black;
+          // transform: translateX(1rem);
+        }
+
+        &:hover > svg {
+          fill: $color-scheme-3;
+        }
+
+        svg {
+          margin-left: 0.5rem;
+          width: 2rem;
+          height: 2rem;
+          fill: white;
+        }
+
+        &-back {
+          font-size: 2.4rem;
+          border-bottom: 0.1rem solid white;
+          margin-bottom: 1rem;
+
+          svg {
+            margin-right: 0.5rem;
+            width: 2rem;
+            height: 2rem;
+            fill: white;
+          }
+
+          &:hover {
+            cursor: pointer;
+          }
+        }
+      }
+    }
+
+    &-checkbox:checked ~ &-nav {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    &-checkbox:checked ~ &-close {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+
+  &-close {
+    position: fixed;
+    bottom: 3%;
+    left: 47.5%;
+    z-index: 3000;
+    // width: 100%;
+    display: flex;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    animation: slide-from-bottom 0.5s cubic-bezier(0.83, 0, 0.17, 1);
+
+    span {
+      background-color: $color-scheme-2;
+      width: 7rem;
+      height: 7rem;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0.3rem 0.4rem 0.6rem 0.3rem rgba(0, 0, 0, 0.2);
+
+      svg {
+        width: 3rem;
+        height: 3rem;
+        fill: white;
+      }
+    }
+
+    &:hover {
+      cursor: pointer;
     }
   }
 
@@ -128,4 +393,14 @@
       }
     }
   }
+}
+
+.show {
+  opacity: 1;
+  animation: slideFromRight 0.2s ease-in-out;
+}
+
+.hide {
+  opacity: 0;
+  transform: translateX(-200%);
 }

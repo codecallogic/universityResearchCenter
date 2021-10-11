@@ -5,7 +5,7 @@ import {API, PUBLIC_FILES} from '../../config'
 // COMPONENTS
 import Nav from '../../components/nav'
 
-const StudentProfile = ({studentProfile}) => {
+const StudentProfile = ({studentProfile, navMenu}) => {
 
   const [activeBox, setActiveBox] = useState('')
   
@@ -15,7 +15,7 @@ const StudentProfile = ({studentProfile}) => {
   
   return (
     <>
-    <Nav></Nav>
+    <Nav navMenu={navMenu}></Nav>
     <div className="student-profile-container">
       <div className="student-profile">
         <div className="student-profile-record">
@@ -84,10 +84,12 @@ const StudentProfile = ({studentProfile}) => {
 StudentProfile.getInitialProps = async ({query, req}) => {
 
   const studentProfileResponse = await axios.get(`${API}/student-profile/${query.profile}`)
-  console.log(studentProfileResponse)
+
+  let navMenusResponse = await axios.get(`${API}/menu/get-nav-menus`)
 
   return {
-    studentProfile: studentProfileResponse.data
+    studentProfile: studentProfileResponse.data,
+    navMenu: navMenusResponse.data
   }
   
 }
