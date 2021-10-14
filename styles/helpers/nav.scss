@@ -32,6 +32,40 @@
   }
 }
 
+.admin-nav-menu-dropdown {
+  list-style: none;
+  position: absolute;
+  margin-top: 1rem;
+  padding: 0.5rem 0;
+  left: 0;
+  width: max-content;
+  height: max-content;
+  color: $color-scheme-1;
+  visibility: hidden;
+  opacity: 0;
+  transition: all 0.8s cubic-bezier(0.81, 0.13, 0.93, 1.21);
+
+  @media only screen and (max-width: $large) {
+    background-color: $color-scheme-2;
+  }
+
+  li {
+    display: block;
+    width: 100%;
+    padding: 0.5rem 1rem;
+    color: white;
+    background-color: $color-scheme-2;
+    text-decoration: none;
+  }
+
+  li:hover {
+    cursor: pointer;
+    background-color: rgba($color-scheme-2, 0.7);
+    pointer-events: auto;
+    color: $color-scheme-5;
+  }
+}
+
 .nav-sticky {
   position: fixed;
   top: 0;

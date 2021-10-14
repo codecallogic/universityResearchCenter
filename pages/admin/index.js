@@ -25,7 +25,7 @@ const Dashboard = ({loggedIn, account, authorization, header, student, webpage, 
   const dispatch = useDispatch()
   const router = useRouter()
 
-  const [form, setForm] = useState('announcements')
+  const [form, setForm] = useState('student')
   const [user, setUser] = useState(JSON.parse(decodeURIComponent(account)))
   const [content, setContent] = useState({
     title: '',
@@ -303,44 +303,6 @@ const Dashboard = ({loggedIn, account, authorization, header, student, webpage, 
     } catch (error) {
       console.log(error.response.data)
       if(error.response ? error.response.status == 500 : false) setErrorMessage(error.response.data ? `${error.response.data.message}` : null)
-    }
-  }
-
-  // CREATE STUDENT PROFILE
-  const createStudentProfile = async (e) => {
-    e.preventDefault()
-    let fileID = nanoid()
-    console.log(student)
-    const data = new FormData()
-    student.file ? data.append('file', student.file, `student-${fileID}.${student.file.name.split('.')[1]}`) : dispatch({
-      type: 'RESET_STATE',
-    })
-    data.append('nanoid',fileID)
-
-    for( let key in student){
-      if(key !== 'file') data.append(key, student[key])
-    }
-    
-    try {
-      const response = await axios.post(`${API}/student-profile/create`, data, {
-        headers: {
-          Authorization: `Bearer ${authorization}`,
-          contentType: `multipart/form-data`
-        }
-      })
-      dispatch({
-        type: 'RESET_STATE'
-      })
-
-      let closeIcon = document.querySelectorAll('.tag')
-      closeIcon.forEach( (e) => {
-        e.remove()
-      })
-
-      setSuccessMessage(response.data)
-    } catch (error) {
-      console.log(error)
-      setErrorMessage(error.response.data)
     }
   }
 
@@ -643,7 +605,7 @@ const Dashboard = ({loggedIn, account, authorization, header, student, webpage, 
             <NavigationItem viewAll={viewAll} errorMessage={errorMessage} successMessage={successMessage} setsuccessmessage={setSuccessMessage} seterrormessage={setErrorMessage} setallnavitems={setAllNavItems}></NavigationItem>
           }
           {form === 'student' &&
-            <StudentProfile viewAll={viewAll} createStudentProfile={createStudentProfile} errorMessage={errorMessage} successMessage={successMessage} student={student} handleKeyPress={handleKeyPress} handleChangeStudentProfile={handleChangeStudentProfile} handleStudentProfileBoxes={handleStudentProfileBoxes} tags={tags}/>
+            <StudentProfile viewAll={viewAll} errorMessage={errorMessage} successMessage={successMessage} student={student} handleKeyPress={handleKeyPress} handleChangeStudentProfile={handleChangeStudentProfile} handleStudentProfileBoxes={handleStudentProfileBoxes} tags={tags} loading={loading} setLoading={setLoading} setErrorMessage={setErrorMessage} setSuccessMessage={setSuccessMessage} authorization={authorization}/>
           }
           {form === 'admin' &&
             <Administrator authorization={authorization} viewAll={viewAll} errorMessage={errorMessage} successMessage={successMessage}/>

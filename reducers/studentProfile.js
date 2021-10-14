@@ -1,18 +1,20 @@
 const initialState = {
   file: '',
-  firstName: '',
-  lastName: '',
-  linkedIn: '',
+  firstName: 'a',
+  lastName: 'a',
+  linkedIn: 'a',
   researchInterests: '',
-  institution: '',
-  department: '',
-  areaOfStudy: '',
-  email: '',
-  activity: '',
-  biography: '',
-  education: '',
-  research: '',
-  publication: '',
+  institution: 'a',
+  department: 'a',
+  areaOfStudy: 'a',
+  email: 'j.fabricio.au@gmail.com',
+  activity: 'a',
+  biography: 'a',
+  education: 'a',
+  research: 'a',
+  publication: 'a',
+  username: 'abc',
+  password: ''
 }
 
 export const studentProfileReducer = (state = initialState, action)  => {

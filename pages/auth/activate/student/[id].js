@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import {withRouter} from 'next/router'
-import {API} from '../../../config'
+import {API} from '../../../../config'
 import jwt from 'jsonwebtoken'
 import axios from 'axios'
 
@@ -27,13 +27,13 @@ const Activate = ({router}) => {
   const activateAccount = async () => {
     setActivate({...activate, activating: true})
     try {
-      const response = await axios.post(`${API}/register/activate`, {token}, {withCredentials: true})
+      const response = await axios.post(`${API}/register/student/activate`, {token}, {withCredentials: true})
       console.log(response)
       setActivate({...activate, activating: false})
-      window.location.href = '/admin'
+      window.location.href = '/'
     } catch (error) {
       setActivate({...activate, activating: false})
-      console.log(error.response.data)
+      console.log(error)
       if(error) return error.response ? setError(error.response.data) : setError('This url has expired, please submit another invite request.')
     }
   }

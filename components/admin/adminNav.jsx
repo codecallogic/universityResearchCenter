@@ -30,7 +30,7 @@ const adminNav = ({data}) => {
           :
           <span>Login first</span>
           }
-            <ul className="nav-menu-dropdown">
+            <ul className="admin-nav-menu-dropdown">
               <li onClick={() => window.location.href = "/"}>Home</li>
               <li onClick={() => window.location.href = "/admin/account"}>Account</li>
               <li onClick={logout}>Logout</li>

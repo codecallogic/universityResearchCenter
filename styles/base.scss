@@ -44,6 +44,15 @@ html {
 html,
 body {
   overflow-x: hidden;
+  overflow-y: auto;
+  &::-webkit-scrollbar {
+    width: 0.5rem;
+    height: 0.3rem;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: $color-scheme-2;
+  }
 }
 
 body {

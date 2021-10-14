@@ -869,7 +869,7 @@ const ViewAll = ({account, allContent, authorization, current, studentList, pure
           </div>
           } */}
           {headers !== null && editRowForm == false && headers.map( (header, i) => (
-          header !== 'primary' && header !== '__v' && header !== '_id' && header !== 'buttonLink' && header !== 'updatedAt' && header !== 'password' ? 
+          header !== 'primary' && header !== '__v' && header !== '_id' && header !== 'buttonLink' && header !== 'updatedAt' && header !== 'password' && header !== 'activate' ? 
             <div key={i} className="content-table-headers-heading">
               {header}
               {/* 
@@ -903,7 +903,7 @@ const ViewAll = ({account, allContent, authorization, current, studentList, pure
             </label>
           </div>
           {Object.keys(item).map( (keyName, keyIndex) => (
-          keyName !== '__v' && keyName !== 'primary' && keyName !== '_id' && keyName !== 'buttonLink' && keyName !== 'updatedAt' && keyName !== 'password'?  
+          keyName !== '__v' && keyName !== 'primary' && keyName !== '_id' && keyName !== 'buttonLink' && keyName !== 'updatedAt' && keyName !== 'password' && keyName !== 'activate' && keyName !== 'username' && keyName !== 'urlId' ?  
             // (console.log(item),
             // console.log(keyName))
             <div key={keyIndex} className="content-table-rows-content">

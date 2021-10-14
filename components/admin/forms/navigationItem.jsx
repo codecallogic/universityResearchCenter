@@ -39,7 +39,7 @@ const NavigationItemForm = ({errorMessage, successMessage, setsuccessmessage, se
       <div className="form-group-single">
         <label htmlFor="type" className="form-group-single-label-toggle">Link</label>
         {typeField == 'input' &&
-          <input type="text" name="heading" value={nav.link} onChange={(e) => createNavMenu('link', e.target.value)} placeholder="Paste link"/>
+          <input type="text" name="heading" value={nav.link} onChange={(e) => createNavMenu('link', e.target.value)} placeholder="Paste link" required/>
         }
       </div>
       <button className="submit-item">{!loading && <span>Create Nav Item</span>}{loading && <div className="loading"><span></span><span></span><span></span></div>}</button>
