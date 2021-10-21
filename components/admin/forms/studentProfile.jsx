@@ -59,6 +59,8 @@ const StudentProfile = ({viewAll, errorMessage, setErrorMessage, setSuccessMessa
   const createStudentProfile = async (e) => {
     e.preventDefault()
     setLoading(true)
+    setErrorMessage('')
+    setSuccessMessage('')
     let fileID = nanoid()
     // console.log(student)
     const data = new FormData()

@@ -1,6 +1,6 @@
 import axios from 'axios'
 import {API} from '../config'
-import {getToken, getUser} from '../helpers/auth'
+import {getStudentToken, getStudentUser} from '../helpers/auth'
 axios.defaults.withCredentials = true
 
 const withAdmin = Page => {
@@ -8,8 +8,10 @@ const withAdmin = Page => {
   
   WithAdminUser.getInitialProps = async context => {
     
-    const token = getToken('accessToken', context.req)
-    const user = getUser('user', context.req)
+    const token = getStudentToken('studentAccessToken', context.req)
+    const user = getStudentUser('student', context.req)
+    console.log(user)
+    console.log(token)
     let accessToken = null
     let account = null
     let loggedIn = false
@@ -21,7 +23,7 @@ const withAdmin = Page => {
     }
     
     try {
-      const response = await axios.get(`${API}/admin`, {
+      const response = await axios.get(`${API}/student`, {
           headers: {
               Authorization: `Bearer ${accessToken}`,
               contentType: `application/json`
@@ -53,11 +55,14 @@ const withAdmin = Page => {
         console.log(err.response)
       }
     }
-    
+
+    let navMenuResponse = await axios.get(`${API}/menu/get-nav-menus`)
+
+    let navMenu = navMenuResponse.data
   
     if(account === null){
       context.res.writeHead(302, {
-        Location: '/admin/login'
+        Location: '/student/login'
       });
       context.res.end();
     }else{
@@ -67,7 +72,8 @@ const withAdmin = Page => {
         account,
         loggedIn,
         message,
-        userInfo
+        userInfo,
+        navMenu
       }
     }
   }
