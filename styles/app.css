@@ -1628,14 +1628,18 @@ svg {
         color: #00b7ec; }
   .account-dashboard {
     display: flex;
+    flex-wrap: wrap;
     width: 100%;
     margin: 3rem 1rem; }
+    @media only screen and (max-width: 768px) {
+      .account-dashboard {
+        justify-content: center; } }
     .account-dashboard-item {
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      width: 15rem;
+      width: 18rem;
       height: 15rem;
       border-radius: 1.2rem;
       font-size: 1.8rem;
@@ -1647,6 +1651,9 @@ svg {
       text-align: center;
       box-shadow: 0.2rem 0.5rem 0.5rem 0.2rem rgba(0, 0, 0, 0.2);
       transition: all 0.5s; }
+      @media only screen and (max-width: 768px) {
+        .account-dashboard-item {
+          margin-bottom: 2rem; } }
       .account-dashboard-item svg {
         width: 4rem;
         height: 4rem;
@@ -1677,14 +1684,18 @@ svg {
         color: #00b7ec; }
   .account-student-dashboard {
     display: flex;
+    flex-wrap: wrap;
     width: 100%;
     margin: 3rem 1rem; }
+    @media only screen and (max-width: 768px) {
+      .account-student-dashboard {
+        justify-content: center; } }
     .account-student-dashboard-item {
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      width: 15rem;
+      width: 18rem;
       height: 15rem;
       border-radius: 1.2rem;
       font-size: 1.8rem;
@@ -1696,6 +1707,9 @@ svg {
       text-align: center;
       box-shadow: 0.2rem 0.5rem 0.5rem 0.2rem rgba(0, 0, 0, 0.2);
       transition: all 0.5s; }
+      @media only screen and (max-width: 768px) {
+        .account-student-dashboard-item {
+          margin-bottom: 2rem; } }
       .account-student-dashboard-item svg {
         width: 4rem;
         height: 4rem;

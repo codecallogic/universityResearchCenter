@@ -47,7 +47,7 @@ const withAdmin = Page => {
 
     if(account){
       try {
-        const response = await axios.post(`${API}/student-user-info`, {user: JSON.parse(decodeURIComponent(account))})
+        const response = await axios.post(`${API}/user-info`, {user: JSON.parse(decodeURIComponent(account))})
         userInfo = response.data
       } catch (err) {
         console.log(err.response)
