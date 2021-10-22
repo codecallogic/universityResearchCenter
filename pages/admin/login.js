@@ -39,7 +39,7 @@ const adminLogin = () => {
     e.preventDefault()
     setLoading(true)
     try {
-      const response = await axios.post(`${API}/admin/login`, {loginCred, password})
+      const response = await axios.post(`${API}/admin/login`, {loginCred, password}, {withCredentials: true})
       setLoading(false)
       window.location.href = '/admin'
     } catch (error) {

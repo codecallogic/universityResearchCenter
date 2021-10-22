@@ -22,7 +22,7 @@ const Login = ({navMenu}) => {
     e.preventDefault()
     setLoading(true)
     try {
-      const response = await axios.post(`${API}/student/login`, {username, password})
+      const response = await axios.post(`${API}/student/login`, {username, password}, {withCredentials: true})
       setLoading(false)
       window.location.href = '/student'
     } catch (error) {

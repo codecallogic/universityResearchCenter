@@ -915,10 +915,11 @@ svg {
   .nav-close {
     position: fixed;
     bottom: 3%;
-    left: 47.5%;
+    left: 0;
     z-index: 3000;
     display: flex;
     justify-content: center;
+    width: 100%;
     opacity: 0;
     visibility: hidden;
     animation: slide-from-bottom 0.5s cubic-bezier(0.83, 0, 0.17, 1); }
