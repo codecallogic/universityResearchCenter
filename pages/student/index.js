@@ -8,7 +8,7 @@ import axios from 'axios'
 import {API} from '../../config'
 
 const Dashboard = ({account, userInfo, navMenu, student, updateStudentProfile}) => {
-
+  // console.log(JSON.parse(decodeURIComponent(account)))
   const [user, setUser] = useState(userInfo)
   const [modal, setModal] = useState('')
   const [error, setError] = useState('')
@@ -39,7 +39,7 @@ const Dashboard = ({account, userInfo, navMenu, student, updateStudentProfile}) 
   
   return (
     <>
-      <Nav navMenu={navMenu}></Nav>
+      <Nav navMenu={navMenu} account={account}></Nav>
       <div className="account-student">
         <div className="account-student-breadcrumbs">
           <div className="account-student-breadcrumbs-item"><span onClick={() => window.location.href = '/'}>Home</span><SVG svg={'keyboard-right'}></SVG> <div>Account</div></div>

@@ -5,7 +5,6 @@ import jwt from 'jsonwebtoken'
 import axios from 'axios'
 
 const ResetPassword = ({user, token, navMenu}) => {
-  
   const [currentPassword, setCurrentPassword] = useState('')
   const [newPassword, setNewPassword] = useState('')
   const [retypeNewPassword, setRetypeNewPassword] = useState('')
@@ -19,13 +18,17 @@ const ResetPassword = ({user, token, navMenu}) => {
     setLoading(true)
     if(user){
       try {
-        const responsePassword = await axios.post(`${API}/user-change-password`, {currentPassword: currentPassword, password: newPassword, user: user, token: token})
+        const responsePassword = await axios.post(`${API}/student-change-password`, {password: newPassword, user: user, token: token})
         setLoading(false)
         setError('')
+        setNewPassword('')
+        setRetypeNewPassword('')
         setMessage(responsePassword.data)
       } catch (error) {
         console.log(error)
         // console.log(error.response)
+        setNewPassword('')
+        setRetypeNewPassword('')
         setLoading(false)
         if(error.response.data.error) return error.response.data.error ? setError(error.response.data.error) : null
         if(error) return error.response ? setError(error.response.data) : setError('There was an error changing your password')
@@ -39,10 +42,10 @@ const ResetPassword = ({user, token, navMenu}) => {
       <div className="change_password">
         <div className="change_password-title">Update Password</div>
         <form action="" className="change_password-form" onSubmit={(e) => changePassword(e)}>
-          <div className="form-group-single">
+          {/* <div className="form-group-single">
             <label htmlFor="username">Current Password</label>
             <input type="password" name="username" value={currentPassword} onChange={(e) => setCurrentPassword(e.target.value)} required/>
-          </div>
+          </div> */}
           <div className="form-group-single">
             <label htmlFor="first_name">New Password</label>
             <input type="password" name="first_name" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} required/>
@@ -55,7 +58,7 @@ const ResetPassword = ({user, token, navMenu}) => {
         </form>
         <div className="change_password-error_handling">
           {error && <span className="form-errorMessage">{error}</span>}
-          {message && <span className="form-successMessage">{message}, <a href='/admin'>Login</a></span>}
+          {message && <span className="form-successMessage">{message}, <a href='/student'>Login</a></span>}
         </div>
       </div>
     </>

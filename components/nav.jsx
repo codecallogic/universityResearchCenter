@@ -1,8 +1,10 @@
 import React, {useState, useEffect, useRef} from 'react'
 import {useRouter} from 'next/router'
 import SVG from '../files/svg'
+import axios from 'axios'
+import {API} from '../config'
 
-const Nav = ({navMenu}) => {
+const Nav = ({account, navMenu}) => {
   const router = useRouter()
 
   const [search, setSearch] = useState('')
@@ -19,6 +21,15 @@ const Nav = ({navMenu}) => {
   const searchGoogle = (e) => {
     if(e.key == 'Enter') window.open(`https://www.google.com/search?q=${e.target.value}&as_rq=http://csms.calstatela.edu/`, '_blank')
     if(e == 'icon') window.open(`https://www.google.com/search?q=${search}&aas_rq=http://csms.calstatela.edu/`, '_blank')
+  }
+
+  const logout = async () => {
+    try {
+      const studentLogoutResponse = await axios.post(`${API}/student/logout`)
+      window.location.reload()
+    } catch (error) {
+      console.log(error)
+    }
   }
   
   return (
@@ -38,6 +49,7 @@ const Nav = ({navMenu}) => {
               </ul>
             </a>
           )}
+          {account && <a className="nav-menu-item" onClick={() => logout()}>Logout</a>}
           <div className="form-group-search">
             <input type="text" name="search" placeholder="Search" onKeyDown={(e) => searchGoogle(e)} onChange={(e) => setSearch(e.target.value)} value={search}/>
             <svg name="icon" onClick={() => searchGoogle('icon')}>
@@ -65,6 +77,7 @@ const Nav = ({navMenu}) => {
                 </ul> */}
               </a>
             )}
+            {account && <a className="nav-menu-mobile-nav-item" onClick={() => logout()}>Logout</a>}
             </div>
             {show && navMenu.map((list, idx) => 
               list._id == show ? 
