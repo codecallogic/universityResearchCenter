@@ -62,7 +62,7 @@ const StudentProfile = ({submitUpdateStudentProfile, student, handleKeyPress, ha
         })
       })
     })
-    }, [])
+  }, [])
   
   return (
       <form className="form editing" action="POST" onSubmit={(e) => submitUpdateStudentProfile(e)}>

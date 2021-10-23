@@ -503,6 +503,11 @@ svg {
   width: 100rem;
   height: 100%; }
 
+.giphy-loading-profile-image {
+  width: 16rem;
+  height: 16rem;
+  margin: 0 0 1rem 0; }
+
 .bg-modal {
   grid-column: 1/-1;
   width: 100%;
@@ -1668,6 +1673,9 @@ svg {
   width: 100%;
   min-height: 60rem;
   padding: 8rem; }
+  @media only screen and (max-width: 768px) {
+    .account-student {
+      padding: 8rem 2rem; } }
   .account-student-breadcrumbs {
     display: flex; }
     .account-student-breadcrumbs-item {
@@ -1719,6 +1727,77 @@ svg {
       .account-student-dashboard-item:hover {
         cursor: pointer;
         background-color: #1c1c1b; }
+  .account-student-title {
+    font-size: 3.2rem;
+    font-weight: 400; }
+  .account-student-profile {
+    display: flex;
+    margin: 2rem 0; }
+    @media only screen and (max-width: 992px) {
+      .account-student-profile {
+        display: block; } }
+    .account-student-profile-left {
+      width: 50%;
+      height: max-content;
+      padding: 5rem 0;
+      border: 0.1rem solid #f5f5f5;
+      border-radius: 1.2rem; }
+      @media only screen and (max-width: 992px) {
+        .account-student-profile-left {
+          width: 100%;
+          border: none; } }
+      .account-student-profile-left-image {
+        display: flex;
+        align-items: center;
+        flex-direction: column; }
+        .account-student-profile-left-image svg {
+          width: 60%;
+          fill: #515151; }
+          @media only screen and (max-width: 992px) {
+            .account-student-profile-left-image svg {
+              width: min-content; } }
+        .account-student-profile-left-image img {
+          object-fit: cover;
+          width: 16rem;
+          height: 16rem;
+          border-radius: 50%;
+          margin: 0 0 1rem 0; }
+        .account-student-profile-left-image a {
+          font-size: 1.4rem;
+          text-decoration: underline; }
+          .account-student-profile-left-image a:hover {
+            cursor: pointer; }
+      .account-student-profile-left input {
+        display: none; }
+    .account-student-profile-right {
+      width: 100%;
+      padding: 0rem 0 0 5rem; }
+      .account-student-profile-right-image {
+        display: flex;
+        align-items: center; }
+        .account-student-profile-right-image svg {
+          width: 10rem;
+          height: 10rem;
+          fill: #515151; }
+          @media only screen and (max-width: 992px) {
+            .account-student-profile-right-image svg {
+              width: min-content; } }
+        .account-student-profile-right-image img {
+          object-fit: cover;
+          width: 16rem;
+          height: 16rem;
+          border-radius: 50%;
+          margin: 0 1rem 1rem 0; }
+        .account-student-profile-right-image a {
+          font-size: 1.4rem;
+          text-decoration: underline; }
+          .account-student-profile-right-image a:hover {
+            cursor: pointer; }
+        .account-student-profile-right-image-input {
+          display: none; }
+      .account-student-profile-right-title {
+        font-size: 3.2rem;
+        font-weight: 700; }
 
 .home-container {
   display: grid;

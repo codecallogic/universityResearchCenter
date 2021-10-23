@@ -38,7 +38,7 @@ const Login = ({navMenu}) => {
     <div className="student-login">
     <div className="admin">
       <div className="admin-side">
-        <div className="admin-side-background" style={{backgroundImage: "url(" + `https://images.unsplash.com/photo-1519452635265-7b1fbfd1e4e0?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1234&q=80` + ")"}}></div>
+        <div className="admin-side-background" style={{backgroundImage: "url(" + `https://images.unsplash.com/photo-1546410531-bb4caa6b424d?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2371&q=80` + ")"}}></div>
         </div>
         <div className="admin-form">
           <div className="admin-form-heading">Welcome Back</div>
