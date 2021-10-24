@@ -10,10 +10,12 @@ import {manageTags} from '../../helpers/forms'
 import dynamic from 'next/dynamic'
 const ReactQuill = dynamic(() => import('react-quill'), {ssr: false, loading: () => <p>Loading ...</p>})
 import 'react-quill/dist/quill.snow.css'
+import {useRouter} from 'next/router'
 
-const Dashboard = ({authorization, account, userInfo, navMenu, student, updateStudentProfile, updateInterests}) => {
+const Dashboard = ({params, authorization, account, userInfo, navMenu, student, updateStudentProfile, updateInterests, resetStudentProfile}) => {
   // console.log(JSON.parse(decodeURIComponent(account)))
-  console.log(userInfo)
+  // console.log(userInfo)
+  const router = useRouter()
   const [user, setUser] = useState(userInfo)
   const [modal, setModal] = useState('')
   const [error, setError] = useState('')
@@ -23,13 +25,14 @@ const Dashboard = ({authorization, account, userInfo, navMenu, student, updateSt
   const [tags, setTags] = useState('')
 
   useEffect(() => {
+    if(params) params.view ? setDash(params.view) : null
     for(let key in userInfo){
-      updateStudentProfile(key, userInfo[key])
+      if(key !== 'password') updateStudentProfile(key, userInfo[key])
     }
-  }, [])
+  }, [router.query.change])
 
   useEffect(() => {
-    if(student.file) submitStudentProfile()
+    if(student.file)( setLoading('user_photo'), submitStudentProfile())
   }, [student.file])
 
   const modules = {
@@ -95,7 +98,6 @@ const Dashboard = ({authorization, account, userInfo, navMenu, student, updateSt
   }
 
   useEffect(() => {
-
     if(dash == 'profile'){
       manageTags('interests', userInfo.researchInterests)
       let closeIcon = document.querySelectorAll('.form-tag')
@@ -119,54 +121,47 @@ const Dashboard = ({authorization, account, userInfo, navMenu, student, updateSt
     }
   }, [dash])
 
-  const submitStudentProfile = async () => {
-    const data = new FormData()
+  const submitStudentProfile = async (e) => {
+    if(e) e.preventDefault()
+    let array = []
+    if(student.researchInterests[0]){
+      if(student.researchInterests[0]._id){
+        student.researchInterests.forEach((item) => {
+          if(item.tag) array.push(item.tag)
+        })
+        student.researchInterests = array
+      }
+    }
+    
+    if(student.researchInterests.length > 0){
+      let filter = student.researchInterests.filter((item) => {
+        if(item) return item
+      })
+      student.researchInterests = filter
+    }
+
+    let data = new FormData()
 
     student.file ? data.append('file', student.file, student.photo) : null
     for( let key in student){
-      if(key !== 'photo') data.append(key, student[key])
+      if(key !== 'file') data.append(key, student[key])
     }
-
+  
     try {
       const studentUpdateResponse = await axios.post(`${API}/student-update-profile`, data, {
         headers: {
           Authorization: `Bearer ${authorization}`,
-          contentType: `application/json`
+          contentType: `multipart/form-data`
         }
       })
 
-      console.log(studentUpdateResponse)
-
-      // let updatedContent = content.map( (item, i) => {
-      //   if(item._id == response.data._id) item = response.data
-      //   return item
-      // })
-      // setContent(updatedContent)
-
-      // let id = edit._id
-
-      // // DATA WITHOUT JSON KEY PROPERTIES REMOVED
-      // const pureResponse = await axios.post(`${API}/student-profile/find`, {id}, {
-      //   headers: {
-      //     Authorization: `Bearer ${authorization}`,
-      //     contentType: `application/json`
-      //   }
-      // })
-
-      // let updatedPureContent = newContent.map( (item, i) => {
-      //   if(item._id == pureResponse.data._id) item['researchInterests'] = pureResponse.data.researchInterests
-      //   return item
-      // })
-      
-      // setNewContent(updatedPureContent)
-      // setMessage({...messages, success: 'Update was made successfully'})
-      // window.location.href = '/admin/view/student'
+      window.location.href = `/student?view=profile`
     } catch (error) {
       console.log(error)
-      if(error) error.response ? setMessage(error.response.data) : setMessage('Error ocurred updating profile.')
+      if(error) error.response ? setError(error.response.data) : setError('Error ocurred updating profile.')
     }
   }
-  
+
   return (
     <>
     <Nav navMenu={navMenu} account={account}></Nav>
@@ -198,7 +193,7 @@ const Dashboard = ({authorization, account, userInfo, navMenu, student, updateSt
             <div className="account-student-breadcrumbs-item">
               <span onClick={() => window.location.href = '/'}>Home</span>
               <SVG svg={'keyboard-right'}></SVG> 
-              <span onClick={() => setDash('')}>Dashboard</span>
+              <span onClick={() => (setDash(''), setLoading(''))}>Dashboard</span>
               <SVG svg={'keyboard-right'}></SVG> 
               <div>Profile</div>
             </div>
@@ -206,16 +201,16 @@ const Dashboard = ({authorization, account, userInfo, navMenu, student, updateSt
           <div className="account-student-title">Profile Info</div>
           <div className="account-student-profile">
           <div className="account-student-profile-left">
-            <label htmlFor="profile_image" className="account-student-profile-left-image">
+            <label htmlFor="file" className="account-student-profile-left-image">
               {loading !== 'user_photo' && userInfo.photo ? userInfo.photo.length > 0 ? <img src={`${PUBLIC_FILES}/${userInfo.photo}`}></img> : null : null}
               {loading == 'user_photo' ? <iframe src="https://giphy.com/embed/sSgvbe1m3n93G" width="30" height="30" frameBorder="0" className="giphy-loading-profile-image" allowFullScreen></iframe> : userInfo.photo ? userInfo.photo.length < 1 ? <SVG svg={'account-circle'}></SVG> : null : <SVG svg={'account-circle'}></SVG>}
               <a>Update profile photo</a>
             </label>
-            <input type="file" name="profile_image" id="profile_image" accept="image/*" onChange={(e) => (updateStudentProfile('file', e.target.files[0]))}/>
+            <input type="file" name="file" id="file" accept="image/*" onChange={(e) => (updateStudentProfile('file', e.target.files[0]))}/>
           </div>
           <div className="account-student-profile-right">
               <div className="account-student-profile-right-title">Hi, I'm {userInfo ? userInfo.username : 'Unknown'}</div>
-              <form action="" className="form" onSubmit={(e) => handleProfileUpdate(e)}>
+              <form className="form" onSubmit={(e) => (submitStudentProfile(e), setLoading('user_profile'))}>
                 <div className="form-group-single">
                   <label htmlFor="Username" >Username</label>
                   <input type="text" name="username" value={student.username} onChange={(e) => updateStudentProfile('username', e.target.value)}/>
@@ -270,7 +265,7 @@ const Dashboard = ({authorization, account, userInfo, navMenu, student, updateSt
                         className="form-group-quill"
                         theme="snow"
                         name="biography"
-                        onChange={(e) => updateStudentProfile(e, 'biography')}
+                        onChange={(e) => updateStudentProfile('biography', e)}
                         value={student.biography}
                         modules={modules}
                         formats={formats}
@@ -284,7 +279,7 @@ const Dashboard = ({authorization, account, userInfo, navMenu, student, updateSt
                         className="form-group-quill"
                         theme="snow"
                         name="education"
-                        onChange={(e) => updateStudentProfile(e, 'education')}
+                        onChange={(e) => updateStudentProfile('education', e)}
                         value={student.education}
                         modules={modules}
                         formats={formats}
@@ -298,7 +293,7 @@ const Dashboard = ({authorization, account, userInfo, navMenu, student, updateSt
                         className="form-group-quill"
                         theme="snow"
                         name="research"
-                        onChange={(e) => updateStudentProfile(e, 'research')}
+                        onChange={(e) => updateStudentProfile('research', e)}
                         value={student.research}
                         modules={modules}
                         formats={formats}
@@ -312,7 +307,7 @@ const Dashboard = ({authorization, account, userInfo, navMenu, student, updateSt
                         className="form-group-quill"
                         theme="snow"
                         name="publication"
-                        onChange={(e) => updateStudentProfile(e, 'publication')}
+                        onChange={(e) => updateStudentProfile('publication', e)}
                         value={student.publication}
                         modules={modules}
                         formats={formats}
@@ -320,10 +315,11 @@ const Dashboard = ({authorization, account, userInfo, navMenu, student, updateSt
                     />
                 </div>
                 <div className="form-group-single">
-                  {loading == 'user_photo' ? null :  <button className="submit-item">{loading == '' && <span onClick={() => submitStudentProfile()}>Update Profile</span>}{loading == 'user_profile' && <div className="loading"><span></span><span></span><span></span></div>}</button>}
+                  {loading == 'user_photo' ? null :  <button  type="submit" className="submit-item">{loading == '' && <span>Update Profile</span>}{loading == 'user_profile' && <div className="loading"><span></span><span></span><span></span></div>}</button>}
                 </div>
               </form>
-              {message ? <div className="form-error-message">{message}</div> : null}
+              {error && <span className="form-errorMessage">{error}</span>}
+              {message ? <div className="form-successMessage">{message}</div> : null}
             </div>
           </div>
         </div>
@@ -362,7 +358,13 @@ const mapDispatchToProps = dispatch => {
   return {
     updateStudentProfile: (name, value) => dispatch({type: 'EDIT_STATE_STUDENT', payload: {name: name, value: value}}),
     updateInterests: (value) => dispatch({type: 'EDIT_RESEARCH_INTERESTS', payload: value}),
-    resetState: () => dispatch({type: 'RESET_STATE'})
+    resetStudentProfile: () => dispatch({type: 'RESET_STATE_EDIT'})
+  }
+}
+
+Dashboard.getInitialProps = ({query}) => {
+  return {
+    params: query
   }
 }
 

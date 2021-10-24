@@ -29,6 +29,9 @@ export const editRow = (state = initialState, action)  => {
     case 'RESET_STATE':
     return initialState
 
+    case 'RESET_STATE_EDIT':
+    return initialState
+
     case 'SET_EDIT_STUDENT':
       if(action.payload.content._id == action.payload.selected){
         return action.payload.content
