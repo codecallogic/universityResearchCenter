@@ -12,7 +12,7 @@ const ReactQuill = dynamic(() => import('react-quill'), {ssr: false, loading: ()
 import 'react-quill/dist/quill.snow.css'
 import {useRouter} from 'next/router'
 
-const Dashboard = ({params, authorization, account, userInfo, navMenu, student, updateStudentProfile, updateInterests, resetStudentProfile}) => {
+const Dashboard = ({params, authorization, account, userInfo, navMenu, student, updateStudentProfile, updateInterests, updateTagsToRemove, resetStudentProfile}) => {
   // console.log(JSON.parse(decodeURIComponent(account)))
   // console.log(userInfo)
   const router = useRouter()
@@ -110,16 +110,24 @@ const Dashboard = ({params, authorization, account, userInfo, navMenu, student, 
 
           let tagValues = document.querySelectorAll(".tag > span")
           let newValues = []
+
+          let tagsToDelete = new Array(parent.getAttribute('data-item'))
           
           tagValues.forEach( e => {
             newValues.push(e.innerHTML)
           })
+
+          updateTagsToRemove(tagsToDelete)
           
           updateInterests(newValues)
         })
       })
     }
   }, [dash])
+
+  useEffect(() => {
+    console.log(student)
+  }, [student])
 
   const submitStudentProfile = async (e) => {
     if(e) e.preventDefault()
@@ -358,6 +366,7 @@ const mapDispatchToProps = dispatch => {
   return {
     updateStudentProfile: (name, value) => dispatch({type: 'EDIT_STATE_STUDENT', payload: {name: name, value: value}}),
     updateInterests: (value) => dispatch({type: 'EDIT_RESEARCH_INTERESTS', payload: value}),
+    updateTagsToRemove: (value) => dispatch({type: 'RESEARCH_INTERESTS_TO_BE_REMOVED', payload: value}),
     resetStudentProfile: () => dispatch({type: 'RESET_STATE_EDIT'})
   }
 }
