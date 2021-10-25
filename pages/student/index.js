@@ -125,10 +125,6 @@ const Dashboard = ({params, authorization, account, userInfo, navMenu, student, 
     }
   }, [dash])
 
-  useEffect(() => {
-    console.log(student)
-  }, [student])
-
   const submitStudentProfile = async (e) => {
     if(e) e.preventDefault()
     let array = []
