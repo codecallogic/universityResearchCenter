@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import Nav from '../../components/nav'
+import Footer from '../../components/footer'
 import axios from 'axios'
 import {API} from '../../config'
 
@@ -11,6 +12,7 @@ const Webpage = ({webpage, navMenu}) => {
       <div className="webpage-container">
         <div className="webpage" dangerouslySetInnerHTML={ { __html: webpage ? webpage.content : null } }></div>
       </div>
+      <Footer navMenu={navMenu}></Footer>
     </>
   )
 }
